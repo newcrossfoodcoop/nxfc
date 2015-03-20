@@ -23,6 +23,7 @@ module.exports = function(karmaConfig) {
 
 		// Web server port
 		port: 9876,
+		hostname: process.env.HOSTNAME || 'localhost',
 
 		// Enable / disable colors in the output (reporters and logs)
 		colors: true,
