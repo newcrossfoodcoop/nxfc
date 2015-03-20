@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/mean-dev',
+	db: 'mongodb://' + (process.env.MONGO_PORT_27017_TCP_ADDR || 'localhost') + '/mean-dev',
 	app: {
-		title: 'MEAN.JS - Development Environment'
+		title: 'NXFC - Development Environment'
 	},
 	facebook: {
         clientID: process.env.FACEBOOK_ID || 'APP_ID',
