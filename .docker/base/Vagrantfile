@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
     app.vm.provider "docker" do |d|
       d.build_dir = "../../"
       d.build_args = ["--file=Dockerfile"]
-      d.name = "nxgfc_base"
+      d.name = "nxfc_base"
       d.remains_running = false
     end
   end

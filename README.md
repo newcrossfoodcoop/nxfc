@@ -1,7 +1,7 @@
 # New Cross Food Coop & Eat A Rainbow Website
 
-[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badge/github.com/newcrossfoodcoop/website/status.svg?branch=master)](http://drone.newcrossfoodcoop.org.uk/github.com/newcrossfoodcoop/website)
-[![Dependency Status](https://david-dm.org/newcrossfoodcoop/website.svg)](https://david-dm.org/newcrossfoodcoop/website)
+[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badge/github.com/newcrossfoodcoop/website/status.svg?branch=master)](http://drone.newcrossfoodcoop.org.uk/github.com/newcrossfoodcoop/nxfc)
+[![Dependency Status](https://david-dm.org/newcrossfoodcoop/nxfc.svg)](https://david-dm.org/newcrossfoodcoop/nxfc)
 
 The website is based on: 
 * [MEAN.JS 0.4.0](https://github.com/meanjs/mean/tree/0.4.0) a Node.js development framework.
@@ -18,9 +18,9 @@ These allow our application to run happily and consistently on Linux, MacOSX and
 
 ### 2. Clone The GitHub Repository
 ```
-$ git clone https://github.com/newcrossfoodcoop/website.git website
+$ git clone https://github.com/newcrossfoodcoop/nxfc.git nxfc
 ```
-This will clone the latest version of the repository to a **website** folder.
+This will clone the latest version of the repository to a **nxfc** folder.
 
 ### 3. Start The App
 ```
@@ -32,7 +32,7 @@ The website should now be running on the 3000 port so in your browser just go to
                             
 That's it! You should now have two containers running one running mongodb and one running the website
 
-Head to the [wiki](https://github.com/newcrossfoodcoop/nxgfc/wiki/Home) to find out how to work with the app
+Head to the [wiki](https://github.com/newcrossfoodcoop/nxfc/wiki/Home) to find out how to work with the app
 
 ## License
 (The MIT License)
