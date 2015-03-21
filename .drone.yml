@@ -1,12 +1,11 @@
-image: bsimpson53/nxfc_base:latest
+image: bsimpson53/nxfc_base
 services:
   - bsimpson53/nxfc_mongo
 script:
-  - set -e
+  - set -e 
   - env
-  - wrapdocker&
-  - sleep 5
-  - docker build -t bsimpson53/nxfc_web .
-  - docker run bsimpson53/nxfc_web gulp env:test mocha
-  - docker run bsimpson53/nxfc_web gulp env:test karma
-  
+  - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/
+  - ln -s /home/app/public/lib /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/public/
+  - npm install
+  - bower install --config.interactive=false --allow-root
+  - gulp test
