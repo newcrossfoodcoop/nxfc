@@ -1,6 +1,6 @@
 image: bsimpson53/nxfc_base
 services:
-  - mongo
+  - bsimpson53/nxfc_mongo
 script:
   - env
   - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/

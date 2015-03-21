@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "mongo" do |app|
     app.vm.provider "docker" do |d|
-      d.image = "mongo"
+      d.image = "bsimpson53/nxfc_mongo"
       d.name = "nxfc_mongo"
       d.ports = ["27017:27017"]
     end
