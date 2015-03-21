@@ -8,12 +8,6 @@ WORKDIR /home/app
 RUN apt-get update
 RUN apt-get install -y libfontconfig libfreetype6
 
-# install docker
-RUN apt-get install -y apparmor  
-RUN curl -s https://get.docker.io/ubuntu/ | sudo sh
-ADD bin/wrapdocker /usr/local/bin/wrapdocker  
-RUN chmod +x /usr/local/bin/wrapdocker 
-
 # Install Mean.JS Prerequisites
 RUN npm install -g gulp
 RUN npm install -g bower
