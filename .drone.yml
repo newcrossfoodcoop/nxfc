@@ -5,6 +5,7 @@ script:
   - set -e
   - env
   - wrapdocker&
+  - sleep 5
   - docker ps
   - docker build -t bsimpson53/nxfc_web .
   - docker run bsimpson53/nxfc_web gulp test
