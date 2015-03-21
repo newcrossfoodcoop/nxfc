@@ -1,0 +1,9 @@
+image: bsimpson53/nxfc_base
+services:
+  - mongodb
+script:
+  - pwd
+  - env
+  - npm install
+  - bower install --config.interactive=false --allow-root
+  - gulp test
