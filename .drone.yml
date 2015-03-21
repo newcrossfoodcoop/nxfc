@@ -9,3 +9,4 @@ script:
   - npm install
   - bower install --config.interactive=false --allow-root
   - gulp test
+  - curl --data "build=true" -X POST https://registry.hub.docker.com/u/bsimpson53/nxfc_web/trigger/${TRIGGER_TOKEN}/
