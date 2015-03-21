@@ -4,7 +4,8 @@ services:
 script:
   - set -e
   - env
-  - docker -H DIND-1A6EDE53:2375 ps
+  - wrapdocker&
+  - docker ps
   - docker build -t bsimpson53/nxfc_web .
   - docker run bsimpson53/nxfc_web gulp test
   
