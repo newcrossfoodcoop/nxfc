@@ -4,12 +4,15 @@
 [![Dependency Status](https://david-dm.org/newcrossfoodcoop/nxfc.svg)](https://david-dm.org/newcrossfoodcoop/nxfc)
 
 The website is based on: 
+
 * [MEAN.JS 0.4.0](https://github.com/meanjs/mean/tree/0.4.0) a Node.js development framework.
 
 ## Getting started
 To make getting started as easy as possible we are using: 
+
 * [Vagrant](https://www.vagrantup.com/) to provide a virtual machine to run the app in
 * [Docker](https://www.docker.com/) to provide "containers" to run our app and its dependant services in
+
 These allow our application to run happily and consistently on Linux, MacOSX and Windows in only a few commands.
 
 ### 1. Install Vagrant & Docker
