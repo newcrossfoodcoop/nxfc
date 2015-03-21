@@ -1,4 +1,4 @@
-image: tutum/dind
+image: bsimpson53/nxfc_base
 services:
   - bsimpson53/nxfc_mongo
 script:
