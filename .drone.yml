@@ -1,7 +1,6 @@
 image: tutum/dind
 docker:
   net: host
-  privileged: true
 services:
   - bsimpson53/nxfc_mongo
 script:
