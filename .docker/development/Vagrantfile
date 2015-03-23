@@ -1,0 +1,11 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.define "base" do |app|
+    app.vm.provider "docker" do |d|
+      d.build_dir = "../../"
+      d.build_args = ["--file=Dockerfile"]
+      d.name = "nxfc_base_dev"
+      d.remains_running = false
+    end
+  end
+end
