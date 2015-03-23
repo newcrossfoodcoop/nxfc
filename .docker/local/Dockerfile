@@ -25,5 +25,6 @@ VOLUME /home/app/modules/users/client/img/profie/uploads
 
 # Port 3000 for server
 # Port 35729 for livereload
-EXPOSE 3000 35729
+# Port 5858 for debug
+EXPOSE 3000 35729 5858
 CMD ["gulp"]
