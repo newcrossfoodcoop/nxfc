@@ -1,4 +1,4 @@
-FROM bsimpson53/nxfc_base
+FROM bsimpson53/nxfc_base_dev
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
@@ -18,7 +18,6 @@ ADD . /home/app
 
 # default to development
 ENV NODE_ENV development
-ENV PORT 80
 
 # Define upload directories as volumes
 VOLUME /home/app/uploads
