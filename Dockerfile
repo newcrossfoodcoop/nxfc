@@ -1,4 +1,4 @@
-FROM bsimpson53/nxfc_base_dev
+FROM bsimpson53/nxfc_base
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
@@ -6,7 +6,7 @@ WORKDIR /home/app
 
 # Install Mean.JS packages
 ADD package.json /home/app/package.json
-RUN npm install
+RUN npm install --production
 
 # Manually trigger bower. Why doesnt this work via npm install?
 ADD .bowerrc /home/app/.bowerrc
@@ -16,14 +16,14 @@ RUN bower install --config.interactive=false --allow-root
 # Make everything available for start
 ADD . /home/app
 
-# default to development
-ENV NODE_ENV development
-
 # Define upload directories as volumes
 VOLUME /home/app/uploads
 VOLUME /home/app/modules/users/client/img/profie/uploads
 
-# Port 3000 for server
-# Port 35729 for livereload
-EXPOSE 3000 35729
-CMD ["gulp"]
+COPY .docker/production/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Open port 80
+ENV PORT 80
+EXPOSE 80
+
+CMD ["/usr/bin/supervisord"]
