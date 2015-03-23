@@ -18,7 +18,6 @@ Vagrant.configure("2") do |config|
       d.env = {NODE_ENV: "development"}
       d.volumes = [
         ENV['PWD'] + "/modules:/home/app/modules", 
-        ENV['PWD'] + "/public:/home/app/public",
         ENV['PWD'] + "/uploads:/home/app/uploads"
       ]
     end
