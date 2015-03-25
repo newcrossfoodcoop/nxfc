@@ -5,8 +5,9 @@ MAINTAINER Ben Simpson, ben@newcrossfoodcoop.org.uk
 WORKDIR /home/app
 
 # Install fonts for PhantomJS
-RUN apt-get update
-RUN apt-get install -y libfontconfig libfreetype6
+RUN apt-get update \
+    && apt-get install -y libfontconfig libfreetype6 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Mean.JS Prerequisites
 RUN npm install -g gulp
