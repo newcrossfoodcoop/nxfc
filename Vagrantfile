@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
       d.build_dir = "."
       d.ports = ["3000:3000","35729:35729", "5858:5858"]
       d.name = "nxfc_web"
-      d.link "nxfc_mongo:mongo"
+      d.link "nxfc_mongo:nxfc_mongo"
       d.env = {NODE_ENV: "development"}
       d.volumes = [
         ENV['PWD'] + "/modules:/home/app/modules", 
