@@ -11,8 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "web" do |app|
     app.vm.provider "docker" do |d|
       d.build_dir = "."
-      d.build_args = ["--file=.docker/local/Dockerfile"]
-      d.ports = ["3000:3000","35729:35729"]
+      d.ports = ["3000:3000","35729:35729", "5858:5858"]
       d.name = "nxfc_web"
       d.link "nxfc_mongo:mongo"
       d.env = {NODE_ENV: "development"}
