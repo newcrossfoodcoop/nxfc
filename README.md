@@ -1,6 +1,6 @@
 # New Cross Food Coop & Eat A Rainbow Website
 
-[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badge/github.com/newcrossfoodcoop/website/status.svg?branch=master)](http://drone.newcrossfoodcoop.org.uk/github.com/newcrossfoodcoop/nxfc)
+[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badge/github.com/newcrossfoodcoop/nxfc/status.svg?branch=master)](http://drone.newcrossfoodcoop.org.uk/github.com/newcrossfoodcoop/nxfc)
 [![Dependency Status](https://david-dm.org/newcrossfoodcoop/nxfc.svg)](https://david-dm.org/newcrossfoodcoop/nxfc)
 
 The website is based on: 
