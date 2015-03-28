@@ -33,9 +33,9 @@ Vagrant and Docker will now download a couple of container images, build them an
 
 The website should now be running on the 3000 port so in your browser just go to [http://localhost:3000](http://localhost:3000)
                             
-That's it! You should now have two containers running one running mongodb and one running the website
+That's it! You should now have two containers running one running mongodb and one running the website.
 
-Head to the [wiki](https://github.com/newcrossfoodcoop/nxfc/wiki/Home) to find out how to work with the app
+Head to the [wiki](https://github.com/newcrossfoodcoop/nxfc/wiki/Home) to find out how to work with the app.
 
 ## License
 (The MIT License)
