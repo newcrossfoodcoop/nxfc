@@ -39,6 +39,15 @@ That's it! You should now have two containers running one running mongodb and on
 
 Head to the [wiki](https://github.com/newcrossfoodcoop/nxfc/wiki/Home) to find out how to work with the app.
 
+## Contributing
+
+We intend to follow the standard open source approach for contributing to a project hosted on github that you can find [here](https://guides.github.com/activities/contributing-to-open-source/#contributing). Basically: 
+1. fork the repo
+2. clone it locally
+3. make your changes in a branch
+4. push them to your fork
+5. open a pull request
+
 ## License
 (The MIT License)
 
