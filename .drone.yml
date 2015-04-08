@@ -10,7 +10,7 @@ script:
   - gulp test
 deploy:
   bash:
-    scripts:
+    script:
       - curl --data "build=true" -X POST https://registry.hub.docker.com/u/bsimpson53/nxfc_web/trigger/${TRIGGER_TOKEN}/
     when:
       branch: master
