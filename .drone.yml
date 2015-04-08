@@ -8,4 +8,15 @@ script:
   - npm install
   - bower install --config.interactive=false --allow-root
   - gulp test
-  - curl --data "build=true" -X POST https://registry.hub.docker.com/u/bsimpson53/nxfc_web/trigger/${TRIGGER_TOKEN}/
+deploy:
+  bash:
+    scripts:
+      - curl --data "build=true" -X POST https://registry.hub.docker.com/u/bsimpson53/nxfc_web/trigger/${TRIGGER_TOKEN}/
+    when:
+      branch: master
+notify:
+  webhook:
+    urls:
+      - "https://webhooks.gitter.im/e/${GITTER_TOKEN}"
+    on_success: true
+    on_failure: true
