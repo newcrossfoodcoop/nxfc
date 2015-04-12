@@ -12,6 +12,8 @@ RUN npm install
 ADD .bowerrc /home/app/.bowerrc
 ADD bower.json /home/app/bower.json
 RUN bower install --config.interactive=false --allow-root
+RUN bower install angular-strap --config.interactive=false --save --allow-root
+ADD config/assets/default.js /home/app/config/assets/default.js
 
 # Make everything available for start
 ADD . /home/app
