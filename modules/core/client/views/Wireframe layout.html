@@ -1,8 +1,5 @@
 <!-- Some layout stuff -->
 
-
-<html>
-<head>
 <style>
 
 div#steps {
@@ -14,7 +11,7 @@ div#steps {
 
 div#image {
      float: right;
-     width: 30%
+     width: 30%;
 }
 
 
@@ -47,33 +44,51 @@ div#footer {
     background-color: yellow;
 }
 
+
 </style>
-</head>
-<body>
+
+
 <!-- 5 layout areas -->
 
 <!-- The first is maybe simplest. -->
-<div id="banner"><h1>Banner col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</h1></div>
+<div id="banner"><img src="modules/core/img/myimages/RenewableEnergySymbol.png" width="150px" height="50px"></img><h1>Banner col1 col1 col1 col</h1></div>
 
 
 <!-- Next is the menu. -->
-<div id="menu">Menu</div>
+<header id="{{poodle='magicmenu'}}" data-ng-include="'/modules/core/views/header1.client.view.html'" class="navbar navbar-static-top navbar-inverse" role="complementary" data-offset-top="-50" bs-affix></header>
+
+<!-- <nav class="navbar navbar-default" role="navigation" bs-navbar data-offset-top="-50" bs-affix>
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Brand</a>
+  </div>
+  <ul class="nav navbar-nav">
+    <li data-match-route="/$"><a href="#/">Home</a></li>
+    <li data-match-route="/page-one"><a href="#/page-one">Page One</a></li>
+    <li data-match-route="/page-two.*"><a href="#/page-two/sub-a">Page Two</a></li>
+  </ul>
+</nav> -->
+
+
+
+<!-- <div id="weird" class="navbar navbar-inverse" role="complementary" data-offset-top="-70" bs-affix>Hello All</div> -->
+
+    
+
+
 
 <!-- Next is a area containing 2 columns -->
 <div id="steps">Steps col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
-<div id="image">Image col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
+<div id="image"><img src="modules/core/img/myimages/RenewableEnergy-Water.png" width="150px" height="50px"></img>col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
 
 
 <div id="space"></div>
 <!-- Next is an area containing three equally spaced columns -->
-<div id="col1"><img src="modules/core/img/myimages/RenewableEnergy-Wind.png" width="150px" height="50px" ></img>col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
-<div id="col3"><img src="modules/core/img/myimages/RenewableEnergy-Water.png" width="150px" height="50px" ></img>col3 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
-<div id="col2"><img src="modules/core/img/myimages/RenewableEnergy-Solar.png" width="150px" height="50px" ></img>col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1</div>
+<div id="col1" ><img src="modules/core/img/myimages/RenewableEnergy-Wind.png" width="150px" height="50px" ></img>col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1</div>
+<div id="col3"><img src="modules/core/img/myimages/RenewableEnergy-Water.png" width="150px" height="50px" ></img>col3 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1</div>
+<div id="col2"><img src="modules/core/img/myimages/RenewableEnergy-Solar.png" width="150px" height="50px" ></img>col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1col2 col1 col1 col1 col1 col1 col1 col1 col1col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1 col1</div>
 
 <!-- Last is a footer -->
 <div id="footer">Footer</div>
 
-</body>
-</html>
 
 
