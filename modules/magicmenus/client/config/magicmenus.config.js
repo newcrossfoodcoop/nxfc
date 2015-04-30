@@ -35,11 +35,11 @@ menus.run([ 'Menus', function( Menus ) {
 			type: 'dropdown'
 		});
 
-		/*  Add the dropdown create item
-		Menus.addSubMenuItem('topbar', 'articles', {
-			title: 'Create Articles',
-			state: 'articles.create'
-		}); */
+		// Add submenus
+		Menus.addSubMenuItem('magicmenu', 'how', {
+			title: 'lesson',
+			state: 'how.lesson'
+		});
 		     }
 ]);
 							   

@@ -5,15 +5,14 @@ angular.module('core').controller('HeaderController', ['$scope', '$state', 'Auth
 		// Expose view variables
 		$scope.$state = $state;
 		$scope.authentication = Authentication;
-
 		
-var keys = [];
-for (var key in Menus.menus){
-    keys.push(key);
-}
-console.log(Menus.menus[keys[0]]);
-console.log(Menus.menus[keys[1]]);
+		var keys = [];
+		for (var key in Menus.menus){
+			    keys.push(key);
+			}
 
+			console.log(Menus.menus[keys[0]]);
+			console.log(Menus.menus[keys[1]]);
 		//Redesign
 		if ( Menus.count === undefined ) {
 			Menus.count = 0;
@@ -26,6 +25,11 @@ console.log(Menus.menus[keys[1]]);
 
 		//increment count
 		Menus.count += 1;
+
+		//reset count
+		if ( Menus.count === 2 ) {
+			Menus.count = 1;
+		}
 
 
 		// Toggle the menu items
