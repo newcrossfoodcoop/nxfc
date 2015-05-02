@@ -37,9 +37,80 @@ menus.run([ 'Menus', function( Menus ) {
 
 		// Add submenus
 		Menus.addSubMenuItem('magicmenu', 'how', {
-			title: 'lesson',
-			state: 'how.lesson'
+			title: 's1',
+			state: 'how.s1'
 		});
+
+		Menus.addSubMenuItem('magicmenu', 'how', {
+			title: 's2',
+			state: 'how.s2'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'how', {
+			title: 's3',
+			state: 'how.s3'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'about', {
+			title: 's1',
+			state: 'about.s1'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'about', {
+			title: 's2',
+			state: 'about.s2'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'about', {
+			title: 's3',
+			state: 'about.s3'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'communities', {
+			title: 's1',
+			state: 'communities.s1'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'communities', {
+			title: 's2',
+			state: 'communities.s2'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'communities', {
+			title: 's3',
+			state: 'communities.s3'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'recipes', {
+			title: 's1',
+			state: 'recipes.s1'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'recipes', {
+			title: 's2',
+			state: 'recipes.s2'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'recipes', {
+			title: 's3',
+			state: 'recipes.s3'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'shop', {
+			title: 's1',
+			state: 'shop.s1'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'shop', {
+			title: 's2',
+			state: 'shop.s2'
+		});
+
+		Menus.addSubMenuItem('magicmenu', 'shop', {
+			title: 's3',
+			state: 'shop.s3'
+		});
+
 		     }
 ]);
 							   
