@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Module dependencies.
+ * Module dependencies
  */
 var _ = require('lodash'),
 	defaultAssets = require('./config/assets/default'),
@@ -25,6 +25,12 @@ gulp.task('env:dev', function () {
 gulp.task('env:prod', function () {
 	process.env.NODE_ENV = 'production';
 });
+
+// Set DEBUG environment variables
+gulp.task('env:DEBUG', function () {
+    console.log('debug');
+    process.env.DEBUG = 'express:*';
+})
 
 // Nodemon task
 gulp.task('nodemon', function () {
@@ -184,7 +190,7 @@ gulp.task('default', function(done) {
 
 // Run the project in debug mode
 gulp.task('debug', function(done) {
-	runSequence('env:dev', 'lint', ['nodemon', 'watch'], done);
+	runSequence('env:dev', 'env:DEBUG', 'lint', ['nodemon', 'watch'], done);
 });
 
 // Run the project in production mode
