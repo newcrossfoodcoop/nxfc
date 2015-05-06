@@ -46,7 +46,12 @@ module.exports = function(app, db) {
         config: path.join(__dirname, '../content/config/ghost.server.content.config.js')
     }).then(function (ghostServer) {
         config.modules.ghost.ghostServer = ghostServer;
-        ghostServer.start(app);
+        if (process.env.NODE_ENV === 'test') {
+            console.log('ghost: testing: config loaded not starting.');
+        }
+        else {
+            ghostServer.start(app);
+        }
     });
     
 };

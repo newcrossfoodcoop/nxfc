@@ -77,12 +77,12 @@ var config = {
     // ### Testing
     // Used when developing Ghost to run tests and check the health of Ghost
     // Uses a different port number
-    testing: {
+    test: {
         url: 'http://127.0.0.1:2369',
         database: {
             client: 'sqlite3',
             connection: {
-                filename: path.join(__dirname, '/content/data/ghost-test.db')
+                filename: path.join(__dirname, '/../data/ghost-test.db')
             }
         },
         server: {
@@ -90,7 +90,7 @@ var config = {
             port: '2369'
         },
         paths: {
-            contentPath: path.join(__dirname, '/../content/'),
+            contentPath: path.join(__dirname, '/../'),
         },
         logging: false
     },
