@@ -31,6 +31,7 @@
     "express": "~4.10.0",
     "express-session": "~1.9.1",
     "forever": "~0.11.0",
+    "ghost": "https://github.com/newcrossfoodcoop/Ghost/raw/nxfc/.dist/release/Ghost-0.6.2.tar.gz",
     "glob": "~5.0.0",
     "helmet": "~0.4.0",
     "lodash": "~2.4.1",

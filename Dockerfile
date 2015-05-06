@@ -19,12 +19,14 @@ ADD . /home/app
 # Define upload directories as volumes
 VOLUME /home/app/uploads
 VOLUME /home/app/modules/users/client/img/profie/uploads
+VOLUME /home/app/modules/ghost/server/content/data
 
 # Port 3000 for server
 # Port 35729 for livereload
 # Port 5858 for debug
 # Port 80 for production
-EXPOSE 3000 35729 5858 80
+# Port 2368 for ghost
+EXPOSE 3000 35729 5858 80 2368
 
 # "gulp prod" for production
 CMD ["gulp"]
