@@ -18,7 +18,8 @@ module.exports = {
 				'public/lib/angular-file-upload/angular-file-upload.js',
 				'public/lib/angular-local-storage/dist/angular-local-storage.js',
 				'public/lib/ng-lodash/build/ng-lodash.js',
-				'public/lib/angular-ui-select/dist/select.js'
+				'public/lib/angular-ui-select/dist/select.js',
+                'public/lib/angular-strap/dist/angular-strap.js'
 			],
 			tests: ['public/lib/angular-mocks/angular-mocks.js']
 		},
