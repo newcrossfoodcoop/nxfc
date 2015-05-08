@@ -55,15 +55,15 @@ div#footer {
 </style>
 
 
-
 <div ng-controller="StateController">
-<a class="offscreen" href="{{$state.href($state.current)}}#main" tabindex="0">Skip to main content</a>
+<a class="offscreen" href="{{$state.href($state.current)}}#how-s1" tabindex="0">Skip to main content</a>
 </div>
 
 
 <!-- The first is maybe simplest. -->
-<div id="banner"><img alt="renewable energy" src="modules/core/img/myimages/RenewableEnergySymbol.png" width="150px" height="50px"></img><h1>About section</h1></div>
+<div id="banner"><img alt="renewable energy" src="modules/core/img/myimages/RenewableEnergySymbol.png" width="150px" height="50px"></img><h1>How section</h1></div>
+
 
 <header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-static-top navbar-inverse" role="complementary" data-offset-top="-1" bs-affix></header>
-
 <ui-view/>
+

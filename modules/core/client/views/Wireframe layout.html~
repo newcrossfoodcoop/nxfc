@@ -83,10 +83,10 @@ div#footer {
 <!-- accessibility -->
 <a data-ui-sref="authentication.signup" target="_self">Sign Up</a>
 <a data-ui-sref="authentication.signin" target="_self">Sign In</a>
-<p data-ng-controller="HeaderController">
+<div data-ng-controller="HeaderController">
+<p>{{authentication.user}}</p>
 <a data-ng-if="authentication.user;" ui-sref="how.s1">Goto next section</a>
-</p>
-
+</div>
 <!-- Last is a footer -->
 <div id="footer">Footer</div>
 

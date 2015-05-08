@@ -171,14 +171,14 @@ angular.module('core').service('Menus', [
             return this.menus[menuId];
         };
 
-        //Adding the topbar menu
-        this.addMenu('topbar', {
-            isPublic: false
-        });
-
+        
 	//Adding magic menu
 	this.addMenu('magicmenu', {
 	    isPublic: false
 	});
+	//Adding the topbar menu
+        this.addMenu('topbar', {
+            isPublic: false
+        });
     }
 ]);
