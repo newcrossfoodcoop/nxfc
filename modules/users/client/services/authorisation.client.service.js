@@ -34,11 +34,9 @@ angular.module('users').factory('Authorisation', ['Authentication', 'lodash',
         function isAllowed(resource, permission) {
             if (!_rules[resource]) { return true; }
             if (!_rules[resource][permission] && !_rules[resource]['*']) { return false; }
+            var roles = Authentication.user ? Authentication.user.roles : ['guest'];
 
-            if (
-                lodash.intersection(Authentication.user.roles, _rules[resource][permission]).length ||
-                lodash.intersection(Authentication.user.roles, _rules[resource]['*']).length
-            ) {
+            if (lodash.intersection(roles, lodash.union(_rules[resource][permission],_rules[resource]['*'])).length) {
                 return true;
             }
             else {

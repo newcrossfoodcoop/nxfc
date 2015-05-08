@@ -41,7 +41,7 @@ exports.read = function(req, res) {
 exports.update = function(req, res) {
 	var user = req._user;
 
-	user.displayName = req.body.displayName;
+	user.displayName = req.body.firstName + ' ' + req.body.lastName;
 	user.firstName = req.body.firstName;
 	user.lastName = req.body.lastName;
 	user.username = req.body.username;
