@@ -10,7 +10,7 @@ var _ = require('lodash'),
 /**
  * User middleware
  */
-exports.userByID = function(req, res, next, id) {
+exports.profileByID = function(req, res, next, id) {
 	User.findOne({
 		_id: id
 	}).exec(function(err, user) {

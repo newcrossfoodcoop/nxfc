@@ -28,3 +28,32 @@ angular.module('users').config(['$httpProvider',
 		]);
 	}
 ]);
+
+// Configuring permissions for Users
+angular.module('users').run(['Authorisation', function(Authorisation) {
+    Authorisation.allow([{
+        roles: ['admin'],
+        resources: ['users'],
+        permissions: ['*']
+    }]);
+}]);
+
+// Configuring the Articles module
+angular.module('users').run(['Menus', 'Authorisation',
+	function(Menus, Authorisation) {
+	    if (!Authorisation.isAllowed('users', 'menu')) { return; }
+	
+		// Add the users dropdown item
+		Menus.addMenuItem('topbar', {
+			title: 'Users',
+			state: 'users',
+			type: 'dropdown'
+		});
+
+		// Add the dropdown list item
+		Menus.addSubMenuItem('topbar', 'users', {
+			title: 'List Users',
+			state: 'users.list'
+		});
+	}
+]);

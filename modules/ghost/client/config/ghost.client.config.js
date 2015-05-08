@@ -1,8 +1,19 @@
 'use strict';
 
+// Configuring permissions for Users
+angular.module('ghost').run(['Authorisation', function(Authorisation) {
+    Authorisation.allow([{
+        roles: ['admin', 'ghost-admin', 'ghost-editor', 'ghost-author'],
+        resources: ['ghost'],
+        permissions: ['*']
+    }]);
+}]);
+
 // Configuring the Ghost module
-angular.module('ghost').run(['Menus',
-	function(Menus) {
+angular.module('ghost').run(['Menus', 'Authorisation',
+	function(Menus, Authorisation) {
+	    if (!Authorisation.isAllowed('ghost', 'menu')) { return; }
+	
 		// Add the articles dropdown item
 		Menus.addMenuItem('topbar', {
 			title: 'Ghost',

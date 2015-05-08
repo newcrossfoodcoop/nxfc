@@ -5,7 +5,8 @@ module.exports = {
 		lib: {
 			css: [
 				'public/lib/bootstrap/dist/css/bootstrap.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.css'
+				'public/lib/bootstrap/dist/css/bootstrap-theme.css',
+				'public/lib/angular-ui-select/dist/select.css'
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -15,7 +16,9 @@ module.exports = {
 				'public/lib/angular-ui-utils/ui-utils.js',
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-file-upload/angular-file-upload.js',
-				'public/lib/angular-local-storage/dist/angular-local-storage.js'
+				'public/lib/angular-local-storage/dist/angular-local-storage.js',
+				'public/lib/ng-lodash/build/ng-lodash.js',
+				'public/lib/angular-ui-select/dist/select.js'
 			],
 			tests: ['public/lib/angular-mocks/angular-mocks.js']
 		},

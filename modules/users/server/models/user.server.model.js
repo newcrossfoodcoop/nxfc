@@ -5,7 +5,8 @@
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
-	crypto = require('crypto');
+	crypto = require('crypto'),
+	_ = require('lodash');
 
 /**
  * A Validation function for local strategy properties
@@ -75,7 +76,7 @@ var UserSchema = new Schema({
 	roles: {
 		type: [{
 			type: String,
-			enum: ['user', 'admin']
+			enum: ['user', 'admin', 'ghost-admin', 'ghost-editor', 'ghost-author', 'disabled']
 		}],
 		default: ['user']
 	},
@@ -105,6 +106,16 @@ UserSchema.pre('save', function(next) {
 	}
 
 	next();
+});
+
+/**
+ * Hook a post init method to bless the user with the admin role if the OWNER 
+ * environment variable is set
+ */
+UserSchema.post('init', function(user) {	
+    if (process.env.OWNER && user.username === process.env.OWNER) {
+        user.roles = _.union(user.roles,['admin']);
+    }
 });
 
 /**

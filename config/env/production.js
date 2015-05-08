@@ -30,7 +30,11 @@ module.exports = {
     mailer: {
         from: process.env.MAILER_FROM || 'MAILER_FROM',
         options: {
-            service: process.env.MAILER_SERVICE_PROVIDER || 'MAILER_SERVICE_PROVIDER',
+            service: process.env.MAILER_SERVICE_PROVIDER,
+            host: process.env.MAILER_HOST,
+            port: process.env.MAILER_PORT,
+            secure: process.env.MAILER_SECURE,
+            tls: (process.env.MAILER_REJECT_UNAUTHORISED ? {rejectUnauthorized: false} : {rejectUnauthorized: true}),
             auth: {
                 user: process.env.MAILER_EMAIL_ID || 'MAILER_EMAIL_ID',
                 pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'

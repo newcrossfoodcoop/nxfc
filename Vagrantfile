@@ -14,7 +14,10 @@ Vagrant.configure("2") do |config|
       d.ports = ["3000:3000","35729:35729", "5858:5858", "2368:2368"]
       d.name = "nxfc_web"
       d.link "nxfc_mongo:nxfc_mongo"
-      d.env = {NODE_ENV: "development"}
+      d.env = {
+        NODE_ENV: "development",
+        OWNER: "admin"
+      }
       d.cmd = ["gulp"] #, "debug"]
       d.volumes = [
         ENV['PWD'] + "/modules:/home/app/modules", 
