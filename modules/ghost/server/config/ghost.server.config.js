@@ -24,7 +24,7 @@ module.exports = function(app, db) {
             ghost: {
                 subdir: '/cms',
                 salt: 'meanjsghost',
-                ownerEmail: ''
+                ownerEmail: config.ownerEmail
             }
         }
     };
@@ -35,23 +35,27 @@ module.exports = function(app, db) {
     
     config.modules.ghost.ghostServerRootApp = function (req, res, next) {
         if (config.modules.ghost.ghostServer) {
-            return config.modules.ghost.ghostServer.rootApp(req, res, next);
+            config.modules.ghost.ghostServer.then(function(ghostServer) {
+                ghostServer.rootApp(req, res, next);
+            });
         }
         else {
-            return res.status(500).send('Ghost server is not ready yet!');
+            res.status(500).send('Ghost server not setup!');
         }
     };
     
-    ghost({
-        config: path.join(__dirname, '../content/config/ghost.server.content.config.js')
-    }).then(function (ghostServer) {
-        config.modules.ghost.ghostServer = ghostServer;
-        if (process.env.NODE_ENV === 'test') {
-            console.log('ghost: testing: config loaded not starting.');
-        }
-        else {
+    var makeGhost = config.modules.ghost.makeGhost = function makeGhost() {
+        config.modules.ghost.ghostServer = ghost({
+            config: path.join(__dirname, '../content/config/ghost.server.content.config.js')
+        });
+        return config.modules.ghost.ghostServer;
+    };
+     
+    if (process.env.NODE_ENV !== 'test') {
+        makeGhost().then(function(ghostServer) {
+            console.log('starting ghost server...');
             ghostServer.start(app);
-        }
-    });
+        });
+    }
     
 };

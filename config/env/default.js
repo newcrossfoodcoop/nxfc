@@ -10,5 +10,7 @@ module.exports = {
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',
-	sessionCollection: 'sessions'
+	sessionCollection: 'sessions',
+	ownerUsername: process.env.OWNER || 'OWNER',
+	ownerEmail: process.env.OWNER_EMAIL || 'OWNER_EMAIL' + '@a.b'
 };
