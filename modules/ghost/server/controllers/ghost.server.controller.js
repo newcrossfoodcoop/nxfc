@@ -10,10 +10,6 @@ var _ = require('lodash'),
 	crypto = require('crypto'),
 	CONTEXT = {internal: true};
 
-function api() {
-    return config.ghostServer.api;
-}
-
 function hashPassword(password) {
     var hash = crypto.pbkdf2Sync(password, new Buffer(config.salt, 'base64'), 10000, 16).toString('base64');
     return hash;
