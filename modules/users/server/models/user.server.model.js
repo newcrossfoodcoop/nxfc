@@ -6,6 +6,8 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	crypto = require('crypto'),
+	path = require('path'),
+	config = require(path.resolve('./config/config')),
 	_ = require('lodash');
 
 /**
@@ -113,7 +115,7 @@ UserSchema.pre('save', function(next) {
  * environment variable is set
  */
 UserSchema.post('init', function(user) {	
-    if (process.env.OWNER && user.username === process.env.OWNER) {
+    if (config.ownerUsername && user.username === config.ownerUsername) {
         user.roles = _.union(user.roles,['admin']);
     }
 });

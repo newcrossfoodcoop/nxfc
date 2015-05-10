@@ -12,11 +12,21 @@ var _ = require('lodash');
  exports.sendError = function (err, res) {
     res.status(err.code || 500);
     
-    console.error(err.message);
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            console.error(err.stack); 
+    if (!_.isArray(err)) {
+        err = [err];
     }
     
-    res.json(_.omit(err,'stack'));
+    _.forEach(err,function(error) {
+        console.error(error.message);
+        switch (process.env.NODE_ENV) {
+            case 'development':
+            case 'test':
+                console.error(error.stack);
+                break;
+            default:
+                _.omit(error,'stack');
+        }
+    });
+    
+    res.json(err);
  };

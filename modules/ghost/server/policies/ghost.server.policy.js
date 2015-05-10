@@ -43,7 +43,7 @@ exports.isAllowed = function(req, res, next) {
 				// Access granted! Invoke next middleware
 				return next();
 			} else {
-			    console.log('403', urlPath);
+			    console.log('403', urlPath, roles, req.user);
 				return res.status(403).json({
 					message: 'User is not authorized'
 				});
