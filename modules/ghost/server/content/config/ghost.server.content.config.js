@@ -28,7 +28,8 @@ var config = {
         },
         
         paths: {
-            contentPath: path.join(__dirname, '/../')
+            contentPath: path.join(__dirname, '/../'),
+            subdir: moduleConfig.subdir
         }
     },
 
