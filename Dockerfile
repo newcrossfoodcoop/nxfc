@@ -1,4 +1,4 @@
-FROM bsimpson53/nxfc_base
+FROM bsimpson53/nxfc_base:v2
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
