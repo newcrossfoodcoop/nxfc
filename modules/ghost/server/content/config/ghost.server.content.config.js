@@ -10,7 +10,7 @@ var config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://my-ghost-blog.com',
+        url: 'http://app.newcrossfoodcoop.org.uk',
         mail: {},
         database: {
             client: 'sqlite3',
