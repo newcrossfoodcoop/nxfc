@@ -18,6 +18,8 @@ var app, agent, credentials, user, article;
  */
 describe('Article CRUD tests', function() {
 	before(function(done) {
+	    this.timeout(8000);
+	
 		// Get application
 		app = express.init(mongoose);
 		agent = request.agent(app);

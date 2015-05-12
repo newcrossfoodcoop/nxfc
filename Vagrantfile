@@ -18,7 +18,9 @@ Vagrant.configure("2") do |config|
         NODE_ENV: "development",
         OWNER: "admin"
       }
-      d.cmd = ["gulp"] #, "debug"]
+      #d.cmd = ["gulp" , "prod"]
+      #d.cmd = ["gulp" , "debug"]
+      d.cmd = ["gulp"]
       d.volumes = [
         ENV['PWD'] + "/modules:/home/app/modules", 
         ENV['PWD'] + "/uploads:/home/app/uploads"

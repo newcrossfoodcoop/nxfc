@@ -10,7 +10,7 @@ var config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://my-ghost-blog.com',
+        url: 'http://app.newcrossfoodcoop.org.uk' + moduleConfig.subdir,
         mail: {},
         database: {
             client: 'sqlite3',
@@ -28,7 +28,8 @@ var config = {
         },
         
         paths: {
-            contentPath: path.join(__dirname, '/../')
+            contentPath: path.join(__dirname, '/../'),
+            subdir: moduleConfig.subdir
         }
     },
 
