@@ -1,0 +1,47 @@
+<section>
+
+    <!-- Next is a area containing 2 columns -->
+    <div id="steps">
+        <ghost-posts slug="home-steps">
+            <div ng-repeat="post in posts">
+                <div ng-bind-html="post.html"></div>
+            </div>
+        </ghost-posts>
+    </div>
+    <div id="image">
+        <p style="text-align:center;"><img ph-img="150x150"/></p>
+    </div>
+
+    <div id="space"></div>
+
+    <!-- Next is an area containing three equally spaced columns -->
+    <div id="col1" >
+        <p style="text-align:center;"><img ph-img="150x150"/></p>
+        <ghost-posts slug="home-col1">
+            <div ng-repeat="post in posts">
+                <div ng-bind-html="post.html"></div>
+            </div>
+        </ghost-posts>
+    </div>
+    <div id="col3" >
+        <p style="text-align:center;"><img ph-img="150x150"/></p>
+        <ghost-posts slug="home-col3">
+            <div ng-repeat="post in posts">
+                <div ng-bind-html="post.html"></div>
+            </div>
+        </ghost-posts>
+    </div>
+    <div id="col2" >
+        <p style="text-align:center;"><img ph-img="150x150"/></p>
+        <ghost-posts slug="home-col2">
+            <div ng-repeat="post in posts">
+                <div ng-bind-html="post.html"></div>
+            </div>
+        </ghost-posts>
+    </div>
+
+
+    <!-- Last is a footer -->
+    <div id="footer">Footer</div>
+        
+</section>

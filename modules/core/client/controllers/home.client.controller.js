@@ -1,8 +1,10 @@
 'use strict';
 
-angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
+angular.module('home').controller('HomeController', ['$scope', '$state','Authentication',
+	function($scope, $state, Authentication) {
 		// This provides Authentication context.
 		$scope.authentication = Authentication;
+		
+		$state.transitionTo('home.home');
 	}
 ]);

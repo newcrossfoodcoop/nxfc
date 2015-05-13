@@ -175,10 +175,5 @@ angular.module('core').service('Menus', [
         this.addMenu('topbar', {
             isPublic: false
         });
-
-	//Adding magic menu
-	this.addMenu('magicmenu', {
-	    isPublic: false
-	});
     }
 ]);
