@@ -1,49 +1,26 @@
-.ui-scrollfix#magicmenu {
+.ui-scrollfix.magicmenu {
     position: fixed;
     top: 50px;
 }
 
-.ui-scrollfix#magicmain {
+.ui-scrollfix.magicmain {
     padding-top: 75px;
 }
 
-div#banner {
+.magicbanner {
     height: 100px; 
 }
 
-div#steps {
-    float: left;
-    width: 70%;
+.magicbanner h1 {
+    margin: 10px;
+    vertical-align: middle;
 }
 
-
-div#image {
-     float: right;
-     width: 30%;
+.magicmenu {
+    z-index: 2;
 }
 
-
-div#space {
-    clear: both;
-    height: 1px;
-    padding: 1px;
-}
-
-div#col1 {
-    float: left;
-    width: 33%;
-}
-
-div#col3 {
-    float: right;
-    width: 33%;
-}
-
-div#col2 {
-    padding: 0px 33% 5px 33%;
-    margin: 0px;
-}
-
-div#footer {
-    clear: both;
+.home img {
+    width: 100%;
+    padding: 10px;
 }

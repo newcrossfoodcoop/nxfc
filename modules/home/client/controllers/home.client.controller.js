@@ -17,7 +17,5 @@ angular.module('home').controller('HomeModuleController', ['$scope', '$state', '
 		$scope.$on('$stateChangeSuccess', function() {
 			$scope.isCollapsed = false;
 		});
-		
-		$state.transitionTo('home.home');
 	}
 ]);

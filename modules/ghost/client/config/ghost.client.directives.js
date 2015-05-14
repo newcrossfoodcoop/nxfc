@@ -27,11 +27,22 @@ angular.module('ghost').directive('ghostPosts',['$sce','GhostPosts', 'TextGenera
     function($sce,GhostPosts,TextGeneratorService) {
         return {
             restrict: 'E',
-            link: function(scope, element, attrs) {
+            transclude: true,
+            scope: {
+                slug: '@',
+                tag: '@'
+            },
+            link: function(scope, element, attrs, ctrl, transclude) {
                 var promise;
                 
-                function handleError (err) {
+                function handleError(err) {
+                    scope.error = 'NotFound';
+                    transclude(scope, function(clone, _scope) {
+                        _scope.showTransclude = clone.contents().length ? true : false;
+                        return;
+                    });
                     return [{
+                        error: 'NotFound',
                         title: 'Ghost content not found: ' + (attrs.slug || attrs.tag),
                         html: TextGeneratorService.createParagraphs(3,3)
                     }];
@@ -39,11 +50,13 @@ angular.module('ghost').directive('ghostPosts',['$sce','GhostPosts', 'TextGenera
                 
                 if (attrs.slug) {
                     promise = GhostPosts.read({slug: attrs.slug}).then(function(response) {
+                        scope.showTransclude = false;
                         return [response.data];
                     }).catch(handleError);
                 }
                 else if (attrs.tag) {
                     promise = GhostPosts.query({tag: attrs.tag}).then(function(response) {
+                        scope.showTransclude = false;
                         return response.data;
                     }).catch(handleError);
                 }
@@ -56,7 +69,8 @@ angular.module('ghost').directive('ghostPosts',['$sce','GhostPosts', 'TextGenera
                     });
                     scope.posts = posts;
                 });
-            }
+            },
+            templateUrl: 'modules/ghost/views/ghost-posts.client.view.html'
         };
     }
 ]);
