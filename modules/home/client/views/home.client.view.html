@@ -1,0 +1,55 @@
+<section class="home">
+
+    <!-- Next is a area containing 2 columns -->
+    <div class="row">
+        <div class="col-md-8">
+            <div>
+                <ghost-posts slug="home-steps-1"></ghost-posts>
+            </div>
+            <div>
+                <ghost-posts slug="home-steps-2"></ghost-posts>
+            </div>
+            <div>
+                <div class="col-md-4"><img class="img-circle" ph-img="150x150"/></div>
+                <div class="col-md-4"><img class="img-circle" ph-img="150x150"/></div>
+                <div class="col-md-4"><img class="img-circle" ph-img="150x150"/></div>
+            </div>
+            <div>
+                <ghost-posts slug="home-steps-3"></ghost-posts>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <img ph-img="200x300"/>
+            <ul class="nav nav-pills nav-justified" data-ng-hide="authentication.user">
+		        <li class="active">
+			        <a data-ui-sref="authentication.signup" target="_self" href="/authentication/signup">Sign Up Now!</a>
+		        </li>
+	        </ul>
+        </div>
+    </div>
+
+    <!-- Next is an area containing three equally spaced columns -->
+    <div class="row">
+        <div class="col-md-4">
+            <img ph-img="200x150"/>
+            <ghost-posts slug="home-col1"></ghost-posts>
+        </div>
+        <div class="col-md-4">
+            <img ph-img="200x150"/>
+            <ghost-posts slug="home-col2"></ghost-posts>
+        </div>
+        <div class="col-md-4">
+            <img ph-img="200x150"/>
+            <ghost-posts slug="home-col3"></ghost-posts>
+        </div>
+    </div>
+
+
+    <!-- Last is a footer -->
+    <div>
+        <ghost-posts slug="home-footer">
+            <p>This is the footer</p>
+        </ghost-posts>
+    </div>
+        
+</section>

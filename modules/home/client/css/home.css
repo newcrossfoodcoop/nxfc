@@ -1,0 +1,26 @@
+.ui-scrollfix.magicmenu {
+    position: fixed;
+    top: 50px;
+}
+
+.ui-scrollfix.magicmain {
+    padding-top: 75px;
+}
+
+.magicbanner {
+    height: 100px; 
+}
+
+.magicbanner h1 {
+    margin: 10px;
+    vertical-align: middle;
+}
+
+.magicmenu {
+    z-index: 2;
+}
+
+.home img {
+    width: 100%;
+    padding: 10px;
+}
