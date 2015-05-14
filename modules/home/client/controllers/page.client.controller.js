@@ -7,6 +7,6 @@ angular.module('home').controller('PageController', ['$scope', '$state', 'Authen
 		$scope.authentication = Authentication;
         $scope.getSlug = function() {
 	        return $state.current.name.replace(/\./g,'-');
-	    }
+	    };
 	}
 ]);
