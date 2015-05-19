@@ -8,6 +8,7 @@ script:
   - npm install
   - bower install --config.interactive=false --allow-root
   - gulp test
+  - gulp build
 deploy:
   bash:
     script:
