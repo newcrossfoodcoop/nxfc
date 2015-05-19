@@ -1,0 +1,59 @@
+<section data-ng-controller="BasketController">
+    <div class="page-header">
+        <h1>Basket</h1>
+    </div>
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+	        <ng-pluralize count="totalItems()"
+                when="{'0': 'Your basket is empty.',
+                     'one': 'Your basket has one item.',
+                     'other': 'Your basket contains {{totalItems()}} items.'}">
+            </ng-pluralize>
+        </div>
+        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th class="text-right">Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in basketItems track by $index">
+                    <td><a class="list-group-item-text" data-ui-sref="home.view-product({productId: item._product})" data-ng-bind="item.name"></a></td>
+                    <td data-ng-bind="item.price | currency:'£'"></td>
+                    <td>
+                        <span data-ng-bind="item.quantity"></span>&nbsp;
+                        <a class="btn btn-small badge" ng-click="addItem(item)">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </a>
+                        <a class="btn btn-small badge" ng-click="removeItem(item)">
+                            <i class="glyphicon glyphicon-minus"></i>
+                        </a>
+                    </td>
+                    <td data-ng-bind="item.price * item.quantity | currency:'£'"></td>
+                    <td><a class="btn btn-danger btn-small badge pull-right" ng-click="removeItem(item, item.quantity)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan=3 class="text-right">Total:</td>
+                    <td colspan=2 data-ng-bind="total() | currency:'£'"></td>
+                </tr>
+            </tfoot>
+        </table>
+        
+        <div class="panel-footer text-right">
+            <a class="btn btn-danger" ng-click="clear()">Clear</a>
+            <a class="btn btn-primary" data-ui-sref="checkout.profile">Checkout</a>
+        </div>
+        
+    </div>
+
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+</section>

@@ -1,0 +1,23 @@
+<!-- form-interests.html -->
+<div class="panel-heading">
+    <h2 class="panel-title text-center">Confirm Collection</h2>
+</div>
+
+<div class="panel-body">
+    <div ng-bind-html="collectionInfo"></div>
+</div>
+
+<div class="panel-footer">
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-2">
+            <a ui-sref="basket.save" class="btn btn-block btn-warning">
+            No, Save my order <span class="glyphicon glyphicon-floppy-disk"></span>
+            </a>
+        </div>
+        <div class="col-xs-4">
+            <a ui-sref="checkout.payment" class="btn btn-block btn-info" ng-click="formData.delivery = true">
+            Yes, I can collect my order <span class="glyphicon glyphicon-circle-arrow-right"></span>
+            </a>
+        </div>
+    </div>
+</div>

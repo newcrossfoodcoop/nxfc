@@ -32,7 +32,11 @@ angular.module('home').config(['$stateProvider', '$urlRouterProvider',
 		}).
 		state('home.shop', {
 			url: '/shop',
-			templateUrl: 'modules/home/views/default.client.view.html'
+			templateUrl: 'modules/home/views/shop.client.view.html'
+		}).
+		state('home.view-product', {
+		    url: '/shop/products/:productId',
+		    templateUrl: 'modules/products/views/view-product.client.view.html'
 		});
 	}
 ]);

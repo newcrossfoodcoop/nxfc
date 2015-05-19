@@ -18,7 +18,9 @@ module.exports = {
 				'public/lib/angular-file-upload/angular-file-upload.min.js',
 				'public/lib/angular-local-storage/dist/angular-local-storage.min.js',
 				'public/lib/ng-lodash/build/ng-lodash.min.js',
-				'public/lib/angular-ui-select/dist/select.min.js'
+				'public/lib/angular-ui-select/dist/select.min.js',
+				'public/lib/angular-spinner/angular-spinner.min.js',
+				'public/lib/spin.js/spin.js'
 			]
 		},
 		css: 'public/dist/application.min.css',

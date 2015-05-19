@@ -1,0 +1,18 @@
+<section data-ng-controller="CheckoutController" data-ng-init="redirected()">
+	<div class="page-header">
+		<h1>Confirming Your Order: <span data-ng-bind="order.totalItems()"></span> items @ £<span data-ng-bind="order.total"></span></h1>
+	</div>
+	
+	<div order-items></div>
+	
+	<small>
+		<em class="text-muted">
+			Placed on
+			<span data-ng-bind="order.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="order.user.displayName"></span>
+		</em>
+	</small>
+	
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+</section>

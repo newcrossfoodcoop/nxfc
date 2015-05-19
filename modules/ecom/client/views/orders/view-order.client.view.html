@@ -1,0 +1,40 @@
+<section data-ng-controller="OrdersController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1>
+		    <span data-ng-bind="order.totalItems()"></span> items @ £<span data-ng-bind="order.total"></span> [{{order.state}}]
+	
+	        <div class="pull-right" data-ng-show="authentication.user._id == order.user._id">
+		        <a class="btn btn-primary" data-ui-sref="orders.view({orderId: order._id})">
+			        <i class="glyphicon glyphicon-edit"></i>
+		        </a>
+		        <a class="btn btn-primary" data-ng-click="remove();">
+			        <i class="glyphicon glyphicon-trash"></i>
+		        </a>
+	        </div>
+	    </h1>
+	</div>
+
+	<div order-items></div>
+
+    <div data-ng-repeat="payment in order.payments" ng-init="rows={}">
+        <hr>
+        <h3>{{payment.method}} [{{payment.state}}] <small>{{payment.created | date:"MM/dd/yyyy @ HH:mm:ss" }}</small></h3>
+        <div data-ng-repeat="entry in payment.transactions.log | reverse">
+            <h4>
+            <a class="btn" data-ng-click="rows[$index] = !rows[$index]">
+                <i class="glyphicon glyphicon-plus"></i>
+            </a>
+            {{entry.name}} <small>{{entry.date | date:"MM/dd/yyyy @ HH:mm:ss" }}<small></h4>
+	        <pre ng-show="rows[$index]">{{payment.transactions[entry.name] | json}}</pre>
+	    </div>
+	</div>
+	
+	<small>
+		<em class="text-muted">
+			Posted on
+			<span data-ng-bind="order.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="order.user.displayName"></span>
+		</em>
+	</small>
+</section>

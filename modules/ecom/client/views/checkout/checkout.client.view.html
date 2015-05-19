@@ -1,0 +1,45 @@
+<!-- form.html -->
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+
+	    <div class="co-form-container">
+
+		    <div class="row page-header text-center">
+			
+			    <!-- the links to our nested states using relative paths -->
+			    <!-- add the active class if the state matches our ui-sref -->
+
+			    <div class="status-buttons text-center">
+			        <div class="col-sm-3 col-sm-offset-1 wizard-step" ui-sref-active="active" ng-class="getStepState('profile')">
+                        <div class="text-center bs-wizard-stepnum">Profile</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <button ng-disabled="getStepState('profile') === 'disabled'" ui-sref=".profile" class="wizard-dot"></button>
+                        <button ng-disabled="getStepState('profile') === 'disabled'" ui-sref=".profile" class="text-center btn">Profile</button>
+                    </div>
+                    <div class="col-sm-4 wizard-step" ui-sref-active="active" ng-class="getStepState('delivery')">
+                        <div class="text-center bs-wizard-stepnum">Delivery</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <button ng-disabled="getStepState('delivery') === 'disabled'" ui-sref=".delivery" class="wizard-dot"></button>
+                        <button ng-disabled="getStepState('delivery') === 'disabled'" ui-sref=".delivery" class="text-center btn">Delivery</button>
+                    </div>
+                    <div class="col-sm-3 wizard-step" ui-sref-active="active"  ng-class="getStepState('payment')">
+                        <div class="text-center bs-wizard-stepnum">Payment</div>
+                        <div class="progress"><div class="progress-bar"></div></div>
+                        <button ng-disabled="getStepState('payment') === 'disabled'" ui-sref=".payment" class="wizard-dot"></button>
+                        <button ng-disabled="getStepState('payment') === 'disabled'" ui-sref=".payment" class="text-center btn">Payment</button>
+                    </div>
+			    </div>
+		    </div>
+		
+		    <!-- use ng-submit to catch the form submission and use our Angular function -->
+		    <form id="signup-form">
+
+			    <!-- our nested state views will be injected here -->
+			    <div class="panel panel-default" id="form-views" ui-view></div>
+		    </form>
+
+	    </div>
+
+        <span us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+    </div>
+</div>

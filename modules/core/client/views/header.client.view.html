@@ -25,6 +25,13 @@
 				        <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
 			        </li>
 		        </ul>
+		        <ul class="nav navbar-nav navbar-right">
+		            <li ui-route="/basket" ng-class="{active: $uiRoute}">
+		                <a data-ui-sref="basket" class="dropdown-toggle">
+			                Basket ({{totalItems()}})
+			            </a>
+			        </li>
+		        </ul>
 		        <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
 			        <li data-ui-sref-active="active">
 				        <a data-ui-sref="authentication.signup" target="_self">Sign Up</a>

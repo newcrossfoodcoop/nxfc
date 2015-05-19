@@ -1,0 +1,21 @@
+<section data-ng-controller="CheckoutController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1>Order confirmed: <span data-ng-bind="order.totalItems()"></span> items @ £<span data-ng-bind="order.total"></span></h1>
+	</div>
+	
+	<div order-items></div>
+	
+	<small>
+		<em class="text-muted">
+			Placed on
+			<span data-ng-bind="order.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="order.user.displayName"></span>
+		</em>
+	</small>
+	
+    <div class="pull-right">
+        <a class="btn btn-primary" href="/">Continue Shopping</a>
+    </div>
+
+</section>

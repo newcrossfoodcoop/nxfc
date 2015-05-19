@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in basketItems track by $index">
+            <td><span class="list-group-item-text" data-ng-bind="item.name"></span></td>
+            <td data-ng-bind="item.price | currency:'£'"></td>
+            <td>
+                <span data-ng-bind="item.quantity"></span>
+            </td>
+            <td data-ng-bind="item.price * item.quantity | currency:'£'"></td>
+        </tr>
+    </tbody>
+    <tfoot class="panel-footer">
+        <tr>
+            <td colspan=3 class="text-right">Total:</td>
+            <td colspan=2 data-ng-bind="total()"></td>
+        </tr>
+    </tfoot>
+</table>

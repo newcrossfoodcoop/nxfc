@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in order.items">
+            <td data-ng-bind="item.name"></td>
+            <td data-ng-bind="item.price | currency:'£'"></td>
+            <td data-ng-bind="item.quantity"></td>
+            <td data-ng-bind="item.price * item.quantity | currency:'£'"></td>
+        </tr>
+    </tbody>
+    <tfoot class="panel-footer">
+        <tr>
+            <td colspan=3 class="text-right">Total:</td>
+            <td  data-ng-bind="order.total | currency:'£'"></td>
+        </tr>
+    </tfoot>
+</table>

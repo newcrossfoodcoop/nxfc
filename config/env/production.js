@@ -40,5 +40,15 @@ module.exports = {
                 pass: process.env.MAILER_PASSWORD || 'MAILER_PASSWORD'
             }
         }
-    }
+    },
+    modules: {
+        ecom: {
+            methods: [{
+                name: 'local-psp',
+                plugin: 'localPSP',
+                active: true,
+                returnUrl: 'http://app.newcrossfoodcoop.org.uk/checkout/local-psp/%s/redirected',
+            }]
+	    }
+	}
 };

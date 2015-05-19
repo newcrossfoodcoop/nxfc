@@ -1,0 +1,29 @@
+<section data-ng-controller="OrdersController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>Edit Order</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" data-ng-submit="update()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="state">State</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="order.state" id="state" class="form-control" placeholder="State" required>
+                    </div>
+                    <label class="control-label" for="method">Method</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="order.method" id="method" class="form-control" placeholder="Method" required>
+                    </div>
+                    <label class="control-label" for="items">Items</label>
+                    <div order-items></div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-default">
+                </div>
+				<div data-ng-show="error" class="text-danger">
+					<strong data-ng-bind="error"></strong>
+				</div>
+            </fieldset>
+        </form>
+    </div>
+</section>
