@@ -1,6 +1,6 @@
-image: newcrossfoodcoop/nxfc_base:latest
+image: newcrossfoodcoop/nxfc-base:latest
 services:
-  - newcrossfoodcoop/nxfc_mongo:latest
+  - newcrossfoodcoop/nxfc-mongo:latest
 script:
   - set -e
   - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/
