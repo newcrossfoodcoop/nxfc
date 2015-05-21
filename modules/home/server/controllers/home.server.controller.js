@@ -17,7 +17,7 @@ exports.renderHoldingPage = function(req, res, next) {
 
 exports.checkBasicAuth = function(req, res, next) {
     var auth;
-    var config = require('../config/home.server.config');
+    var config = req.app.locals.home;
 
     // check whether an autorization header was sent
     if (req.headers.authorization) {

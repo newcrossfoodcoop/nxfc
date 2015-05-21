@@ -12,19 +12,19 @@ angular.module('products').config(['$stateProvider',
 		}).
 		state('products.list', {
 			url: '',
-			templateUrl: 'modules/products/views/list-products.client.view.html'
+			templateUrl: 'modules/products/views/products/list-products.client.view.html'
 		}).
 		state('products.create', {
 			url: '/create',
-			templateUrl: 'modules/products/views/create-product.client.view.html'
+			templateUrl: 'modules/products/views/products/create-product.client.view.html'
 		}).
 		state('products.view', {
 			url: '/:productId',
-			templateUrl: 'modules/products/views/view-product.client.view.html'
+			templateUrl: 'modules/products/views/products/view-product.client.view.html'
 		}).
 		state('products.edit', {
 			url: '/:productId/edit',
-			templateUrl: 'modules/products/views/edit-product.client.view.html'
+			templateUrl: 'modules/products/views/products/edit-product.client.view.html'
 		});
 		
 	}

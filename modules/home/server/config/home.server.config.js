@@ -1,6 +1,6 @@
 'use strict';
 
-exports = {
+var config = {
     useHolding: process.env.HOLDING_USERNAME & process.env.HOLDING_PASSWORD,
     holdingUsername: process.env.HOLDING_USERNAME || 'HOLDING_USERNAME',
     holdingPassword: process.env.HOLDING_PASSWORD || 'HOLDING_PASSWORD'
@@ -11,7 +11,7 @@ module.exports = function(app, db) {
 	var core = require('../controllers/home.server.controller'), 
 	    express = require('express');
 	
-	if (exports.useHolding) {
+	if (config.useHolding) {
         app.use(express.static('../views/holding'));
         app.use(core.renderHoldingPage);
 
@@ -19,5 +19,5 @@ module.exports = function(app, db) {
         app.use(core.checkBasicAuth);
     }
 
-    module.exports = exports;
+    app.locals.home = config;
 };
