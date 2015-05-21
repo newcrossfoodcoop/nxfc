@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(app) {
-	var checkout = require('../controllers/checkout.server.controller'),
+	var checkout = require('../controllers/checkout.server.controller')(app),
 	    checkoutPolicy = require('../policies/checkout.server.policy');
 
     app.route('/api/checkout/config')

@@ -26,6 +26,11 @@ gulp.task('env:prod', function () {
 	process.env.NODE_ENV = 'production';
 });
 
+// Set NODE_ENV to 'stage'
+gulp.task('env:stage', function () {
+	process.env.NODE_ENV = 'stage';
+});
+
 // Set DEBUG environment variables
 gulp.task('env:DEBUG', function () {
     console.log('debug');
@@ -197,4 +202,9 @@ gulp.task('debug', function(done) {
 // Run the project in production mode
 gulp.task('prod', function(done) {
 	runSequence('build', 'lint', 'env:prod', ['nodemon', 'watch'], done);
+});
+
+// Run the project in production mode
+gulp.task('stage', function(done) {
+	runSequence('build', 'lint', 'env:stage', ['nodemon', 'watch'], done);
 });

@@ -3,19 +3,47 @@
 // Documentation can be found at http://support.ghost.org/config/
 
 var path = require('path'),
-    moduleConfig = require(path.resolve('./config/config')).modules.ghost;
+    appConfig = require(path.resolve('./config/config')),
+    moduleConfig = appConfig.modules.ghost;
 
 var config = {
     // ### Production
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://app.newcrossfoodcoop.org.uk' + moduleConfig.subdir,
+        url: 'http://' + appConfig.externalAddress + moduleConfig.subdir,
         mail: {},
         database: {
             client: 'sqlite3',
             connection: {
                 filename: path.join(__dirname, '/../data/ghost.db')
+            },
+            debug: false
+        },
+
+        server: {
+            // Host to be passed to node's `net.Server#listen()`
+            host: '0.0.0.0',
+            // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
+            port: '2368'
+        },
+        
+        paths: {
+            contentPath: path.join(__dirname, '/../'),
+            subdir: moduleConfig.subdir
+        }
+    },
+    
+    // ### Stage
+    // When running Ghost in the wild, use the production environment
+    // Configure your URL and mail settings here
+    stage: {
+        url: 'http://' + appConfig.externalAddress + moduleConfig.subdir,
+        mail: {},
+        database: {
+            client: 'sqlite3',
+            connection: {
+                filename: path.join(__dirname, '/../data/ghost-stage.db')
             },
             debug: false
         },
