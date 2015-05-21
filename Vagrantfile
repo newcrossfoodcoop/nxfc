@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "mongo" do |app|
     app.vm.provider "docker" do |d|
-      d.image = "bsimpson53/nxfc_mongo"
+      d.image = "newcrossfoodcoop/nxfc-mongo"
       d.name = "nxfc_mongo"
       d.ports = ["27017:27017"]
     end
@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
       d.link "nxfc_mongo:nxfc_mongo"
       d.env = {
         NODE_ENV: "development",
-        OWNER: "admin"
+        OWNER: "admin",
       }
       #d.cmd = ["gulp" , "prod"]
       #d.cmd = ["gulp" , "debug"]
