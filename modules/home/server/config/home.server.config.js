@@ -1,7 +1,7 @@
 'use strict';
 
 exports = {
-    useHolding: true, //process.env.HOLDING_USERNAME & process.env.HOLDING_PASSWORD,
+    useHolding: process.env.HOLDING_USERNAME & process.env.HOLDING_PASSWORD,
     holdingUsername: process.env.HOLDING_USERNAME || 'HOLDING_USERNAME',
     holdingPassword: process.env.HOLDING_PASSWORD || 'HOLDING_PASSWORD'
 };
