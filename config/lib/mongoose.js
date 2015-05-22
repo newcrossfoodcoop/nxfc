@@ -6,6 +6,7 @@
 var config = require('../config'),
 	chalk = require('chalk'),
 	path = require('path'),
+	_ = require('lodash'),
 	mongoose = require('mongoose');
 
 // Load the mongoose models
@@ -24,7 +25,12 @@ module.exports.connect = function(cb) {
 		// Log Error
 		if (err) {
 			console.error(chalk.red('Could not connect to MongoDB!'));
-			console.log(err);
+			console.log('tried: "%s"\n  got: "%s"',config.db, err);
+			console.log('Maybe you need to set MONGO_ADDR_VAR to one of these:');
+			_(process.env)
+			    .pick(function(v,k) { return k.match( /pass/i ) ? false : k.match( /mongo/i ); })
+			    .pairs()
+			    .forEach(function(p) { console.log('   ',p); });
 		} else {
 			// Load modules
 			_this.loadModels();

@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
       d.env = {
         NODE_ENV: "development",
         OWNER: "admin",
+        MONGO_ADDR_VAR: "NXFC_MONGO_PORT_27017_TCP_ADDR"
       }
       #d.cmd = ["gulp" , "prod"]
       #d.cmd = ["gulp" , "debug"]

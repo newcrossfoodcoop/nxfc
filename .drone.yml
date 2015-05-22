@@ -3,6 +3,7 @@ services:
   - newcrossfoodcoop/nxfc-mongo:latest
 script:
   - set -e
+  - MONGO_ADDR_VAR="NXFC-MONGO_PORT_27017_TCP_ADDR"
   - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/
   - ln -s /home/app/public/lib /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/public/
   - npm install
