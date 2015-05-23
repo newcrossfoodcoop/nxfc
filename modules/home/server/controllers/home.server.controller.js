@@ -11,7 +11,7 @@ exports.renderHoldingPage = function(req, res, next) {
         return next();
     } else {
         res.cookie('holding','yes', { maxAge: 900000, httpOnly: false});
-        res.render('modules/home/server/views/holding');
+        res.render('modules/home/server/views/holding', {production: process.env.NODE_ENV === 'production'});
     }
 };
 
@@ -39,7 +39,8 @@ exports.checkBasicAuth = function(req, res, next) {
                 res.statusCode = err ? 400 : 200;
                 res.render('modules/home/server/views/holding', {
                     errors: err ? _(err.errors).values().pluck('message').value() : undefined,
-                    message: 'Thanks ' + req.body.firstName + ', we\'ll be in touch!'
+                    message: 'Thanks ' + req.body.firstName + ', we\'ll be in touch!',
+                    production: process.env.NODE_ENV === 'production'
                 });
             });
         } else {
@@ -49,7 +50,7 @@ exports.checkBasicAuth = function(req, res, next) {
             // MyRealmName can be changed to anything, will be prompted to the user
             res.setHeader('WWW-Authenticate', 'Basic realm="Holding"');
             // this will be displayed in the browser when authorization is cancelled
-            res.render('modules/home/server/views/holding');
+            res.render('modules/home/server/views/holding',{production: process.env.NODE_ENV === 'production'});
         }
     }
     

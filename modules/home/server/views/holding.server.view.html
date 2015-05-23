@@ -8,27 +8,35 @@
 <body>
     <center>
         <h1>New Cross Food Coop & Eat A Rainbow</h1>
+        {% if !production %}
+        <h2>Holding Page</h2>
+        <h3>Click <a href="http://www.newcrossfoodcoop.org.uk">here</a> for the live site</h3>
+        <div><p>Access this site <a href="/">>>here<<</a> (password protected)</p></div>
+        {% endif %}
+        {% if production %}
         <h2>Coming Soon!</h2>
         <h3>Sign up to take part in our first order!</h3>
+        {% endif %}
     </center>
-        <div style="width: 300px; margin: auto;">
-            {% if !errors %}<p style="color: green;">{{message}}</p>{% endif %}
-            {% if errors %}
-                <span style="color: red;"><ul>
-                {% for error in errors %}
-                    <li>{{error}}</li>
-                {% endfor %}    
-                </ul></span>
-            {% endif %}
-            <form action="/register-interest" method="POST">
-                <table>
-                    <tr><td><label>First Name:</label></td><td><input type="text" name="firstName"/></td></tr>
-                    <tr><td><label>Last Name:</label></td><td><input type="text" name="lastName"/></td></tr>
-                    <tr><td><label>Email Address:</label></td><td><input type="text" name="email"/></td></tr>
-                    <tr><td>&nbsp;</td><td><center><button type="submit">Submit</button></center></td></tr>
-                </table>
-            </form>
-        </div>
+    {% if production %}
+    <div style="width: 300px; margin: auto;">
+        {% if !errors %}<p style="color: green;">{{message}}</p>{% endif %}
+        {% if errors %}
+            <span style="color: red;"><ul>
+            {% for error in errors %}
+                <li>{{error}}</li>
+            {% endfor %}    
+            </ul></span>
+        {% endif %}
+        <form action="/register-interest" method="POST">
+            <table>
+                <tr><td><label>First Name:</label></td><td><input type="text" name="firstName"/></td></tr>
+                <tr><td><label>Last Name:</label></td><td><input type="text" name="lastName"/></td></tr>
+                <tr><td><label>Email Address:</label></td><td><input type="text" name="email"/></td></tr>
+                <tr><td>&nbsp;</td><td><center><button type="submit">Submit</button></center></td></tr>
+            </table>
+        </form>
+    </div>
     <div style="width: 950px; margin: auto;">
         <p>Hi Everyone,
 
@@ -40,8 +48,9 @@
         <p>We need you... We need technical people of all flavours, we need webby design people, we need organiser type people, we need people who can author interesting copy, we need people with knowledge of current issues around food, and with interesting ideas about food and how the web can help. We need everyone! If you're interested drop us an email: <b>info AT newcrossfoodcoop.org.uk</b>
 
         <p>Ben, Minnie, Oli & Carlos
-        <div><p>Password protected site access <a href="/">here</a></p></div>
+        <div><p>Access the site <a href="/">>>here<<</a> (password protected)</p></div>
     </div>
+    {% endif %}
 </body>
 
 </html>
