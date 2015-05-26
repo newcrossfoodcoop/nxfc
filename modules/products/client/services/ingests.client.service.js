@@ -11,6 +11,15 @@ angular.module('products').factory('Ingests', ['$resource',
 			run: {
 			    method: 'GET',
 			    url: '/api/ingests/:ingestId/run'
+			},
+			logInfo: {
+			    method: 'GET',
+			    url: '/api/ingests/:ingestId/logs/:ingestLogId'
+			},
+			logsQuery: {
+			    method: 'GET',
+			    url: '/api/ingests/:ingestId/logs',
+			    isArray: true
 			}
 		});
 	}

@@ -1,17 +1,56 @@
 <section data-ng-controller="IngestsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="ingest.name"></h1>
+	
+	<div class="row page-header">
+	    <div class="col-md-9">
+		    <h1 data-ng-bind="ingest.name"></h1>
+	    </div>
+	    <div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('ingests', 'edit')">
+	            <h1>
+                    <a class="btn btn-primary" data-ui-sref="ingests.edit({ingestId: ingest._id})">
+			            <i class="glyphicon glyphicon-edit"></i>
+		            </a>
+		            <a class="btn btn-primary" data-ng-click="remove();">
+			            <i class="glyphicon glyphicon-trash"></i>
+		            </a>
+                </h1>
+            </div>
+        </div>
+    </div>
+	
+	<div class="row page-header">
+	    <div class="col-md-9">
+	        <h2>Ingest Logs (last {{ingestLogs.length}})</h2>
+	    </div>
+	    <div class="col-md-3 text-right">
+	    <div data-ng-show="authorisation.isAllowed('ingests', 'edit')">
+	        <h2>
+	        <a class="btn btn-warning" ng-disabled="disableRun" ng-click="runIngest();">
+			    Run Ingest
+		    </a>
+		    </h2>
+	    </div>
+	    </div>
 	</div>
-	<div class="pull-right" data-ng-show="authorisation.isAllowed('ingests', 'edit')">
-	    <a class="btn btn-warning" ng-click="runIngest();">
-			Run Ingest
-		</a>
-		<a class="btn btn-primary" data-ui-sref="ingests.edit({ingestId: ingest._id})">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
+	
+	<accordion close-others="true" class="row">
+	    <accordion-group ng-repeat="log in ingestLogs" ng-class="accordionClass(log);">
+	        <accordion-heading>
+	            {{ log.created | date:"dd/MM/yyyy @ HH:mm:ss" }} status: {{log.status}}
+	            <a ng-show="log.status === 'running'" ng-click="reloadLog(log._id);" ng-disabled="disableReload">
+	                <i class="pull-right glyphicon glyphicon-refresh"></i>
+	            </a>
+	        </accordion-heading>
+	        <div class="well">
+	            <div ng-repeat="line in log.logEntities">
+                    {{line.date | date:"dd/MM/yyyy @ HH:mm:ss"}}: "{{line.message}}"
+                </div>
+            </div>
+        </accordion-group>
+	</accordion>
+	
+	<div class="page-header">
+		<h2>Ingest Configuration</h2>
 	</div>
 	
     <div>
@@ -48,7 +87,7 @@
         </div>
         
         <div class="panel panel-default">
-            <div class="panel-heading">Processing Settings</div>
+            <div class="panel-heading">Parsing Settings</div>
             <div class="panel-body">
                 <div class="form-group">
                     <label>Field Map</label>

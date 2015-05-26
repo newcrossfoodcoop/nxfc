@@ -25,12 +25,18 @@ exports.invokeRolesPolicies = function() {
 			permissions: '*'
 		}]
 	}, {
-		roles: ['manager'],
+		roles: ['manager', 'admin'],
 		allows: [{
 			resources: '/api/ingests',
-			permissions: ['get', 'post']
+			permissions: ['get']
 		}, {
 			resources: '/api/ingests/:ingestId',
+			permissions: ['get']
+		}, {
+			resources: '/api/ingests/:ingestId/logs',
+			permissions: ['get']
+		}, {
+			resources: '/api/ingests/:ingestId/logs/:ingestLogId',
 			permissions: ['get']
 		}]
 	}, {

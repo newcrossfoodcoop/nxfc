@@ -2,8 +2,8 @@
 
 // ingests controller
 angular.module('products').controller('IngestsController', [
-            '$scope','$stateParams','$location','Authorisation','Ingests','Suppliers',
-	function($scope,  $stateParams,  $location,  Authorisation,  Ingests,  Suppliers) {
+            '$scope','$stateParams','$location','Authorisation','Ingests','Suppliers','lodash',
+	function($scope,  $stateParams,  $location,  Authorisation,  Ingests,  Suppliers,  lodash) {
 		$scope.authorisation = Authorisation;
 
         $scope.suppliers = Suppliers.query();
@@ -60,15 +60,50 @@ angular.module('products').controller('IngestsController', [
 
 		// Find existing ingest
 		$scope.findOne = function() {
+		    $scope.findIngestLogs();
 			$scope.ingest = Ingests.get({ 
 				ingestId: $stateParams.ingestId
 			});
 		};
 		
+		$scope.findIngestLogs = function() {
+            $scope.ingestLogs = Ingests.logsQuery({ 
+				ingestId: $stateParams.ingestId
+			});
+		};
+		
 		$scope.runIngest = function() {
-		    Ingests.run({
+		    $scope.disableRun = true;
+		    var run = Ingests.run({
 		        ingestId: $stateParams.ingestId
+		    }, function() {
+		        $scope.ingestLogs.unshift(Ingests.logInfo({
+		            ingestId: $stateParams.ingestId,
+		            ingestLogId: run.ingestLog
+		        }));
 		    });
+		};
+		
+		$scope.reloadLog = function(id) {
+		    var index = lodash.findIndex($scope.ingestLogs,{_id: id});
+		    if (index >=0) {
+		        $scope.disableReload = true;
+		        var log = Ingests.logInfo({
+		            ingestId: $stateParams.ingestId,
+		            ingestLogId: id
+		        }, function () {
+		            $scope.ingestLogs[index] = log;
+		            $scope.disableReload = false;
+		        });
+		    }
+		};
+		
+		$scope.accordionClass = function(log) {
+		    return { 
+		        'panel-success': log.status === 'success', 
+		        'panel-warning': log.status === 'new' || log.status === 'running',
+		        'panel-danger': log.status === 'fail' 
+		    };
 		};
 	}
 ]);

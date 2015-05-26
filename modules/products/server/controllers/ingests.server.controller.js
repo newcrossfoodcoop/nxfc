@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
 	Ingest = mongoose.model('Ingest'),
+	IngestLog = mongoose.model('IngestLog'),
 	Product = mongoose.model('Product'),
 	request = require('request'),
 	yaml = require('yaml-js'),
@@ -128,86 +129,145 @@ exports.ingestByID = function(req, res, next, id) {
 	    });
 };
 
+function securityFormPost(context,callback) {
+    var ingest = context.ingest;
+    if (ingest.securityType !== 'formPost') { return callback(null, context); }
+    
+    context.ingestLog.log('authenticating');
+    
+    var payload = yaml.load(ingest.formPostPayload);
+    var j = request.jar();
+    context.request = request.defaults({jar:j});
+    context.request.post(
+        ingest.formPostUrl,
+        { form: payload }, 
+        function(err,httpResponse,body){
+            callback(err, context);
+        }
+    );
+}
+
+function csvParser(context, callback) {
+    var ingest = context.ingest;
+    if (!ingest.fieldMap) { return callback(null, context); }
+    
+    context.ingestLog.log('configuring csv parser');
+    
+    var fieldMap = yaml.load(ingest.fieldMap);
+    var parser = csv.parse({delimiter: ',', trim: true, columns: true, relax: true});
+                
+    parser.on('readable', function(){
+        var record;
+        
+        async.whilst(
+            function(){
+                record = parser.read();
+                return !!(record); 
+            },
+            function(callback) {
+                Product.findOne(
+                    {supplierCode: record[fieldMap.supplierCode]}, 
+                    function(_err, product) {
+                        if (_err) { callback(_err); }
+                        var values = {};
+                        _(fieldMap)
+                            .keys()
+                            .forEach(function(k) {
+                                if (k === 'tags') {
+                                    if (product) {
+                                        values[k] = _.union(product.tags, [record[fieldMap[k]]]);
+                                    } else {
+                                        values[k] = [record[fieldMap[k]]];
+                                    }
+                                }
+                                else {
+                                    values[k] = record[fieldMap[k]];
+                                }
+                            });
+                        
+                        if (product) {
+                            product = _.extend(product, values);
+                        }
+                        else {
+                            product = new Product(values);
+                        }
+                        
+                        if (! product.supplier) {
+                            product.supplier = ingest.supplier._id;
+                        }
+                        
+                        product.save(callback);
+                    }
+                );
+            },
+            function(err) {
+                if (err) {
+                    console.log('error', err);
+                }
+            }
+        );
+
+    });
+    
+    parser.on('error', function(_err){
+        // record ingest status
+        context.ingestLog.log('csv parser error: %s', _err);
+    });
+    
+    parser.on('finish', function(){
+        // record ingest status
+        context.ingestLog.log('csv parsing complete %s records processed', this.count);
+    });
+    
+    context.parser = parser;
+    callback(null,context);
+}
+
+function streamAndParse(context, callback) {
+    var ingest = context.ingest;
+    if (!ingest.downloadUrl) { callback(null,context); }
+    
+    context.ingestLog.log('stream file and parse it');
+    
+    context.request.get(ingest.downloadUrl)
+        .pipe(context.parser)
+        .on('finish',callback)
+        .on('error',callback);
+}
+
 exports.run = function(req, res, next) {
     var ingest = req.ingest;
-    if (ingest.securityType) {
-        if (ingest.securityType === 'formPost') {
-            var payload = yaml.load(ingest.formPostPayload);
-            var fieldMap = yaml.load(ingest.fieldMap);
-            
-            var j = request.jar();
-            var rq = request.defaults({jar:j});
-            rq.post(ingest.formPostUrl,{ form: payload }, function(err,httpResponse,body){
-                if (err) { return next(err); }
-                var parser = csv.parse({delimiter: ',', trim: true, columns: true, relax: true});
-                
-                parser.on('readable', function(){
-                    var record;
-                    
-                    async.whilst(
-                        function(){
-                            record = parser.read();
-                            return !!(record); 
-                        },
-                        function(callback) {
-                            Product.findOne(
-                                {supplierCode: record[fieldMap.supplierCode]}, 
-                                function(_err, product) {
-                                    if (_err) { callback(_err); }
-                                    var values = {};
-                                    _(fieldMap)
-                                        .keys()
-                                        .forEach(function(k) {
-                                            if (k === 'tags') {
-                                                if (product) {
-                                                    values[k] = _.union(product.tags, [record[fieldMap[k]]]);
-                                                } else {
-                                                    values[k] = [record[fieldMap[k]]];
-                                                }
-                                            }
-                                            else {
-                                                values[k] = record[fieldMap[k]];
-                                            }
-                                        });
-                                    
-                                    if (product) {
-                                        product = _.extend(product, values);
-                                    }
-                                    else {
-                                        product = new Product(values);
-                                    }
-                                    
-                                    if (! product.supplier) {
-                                        product.supplier = ingest.supplier._id;
-                                    }
-                                    
-                                    console.log('values', values);
-                                    
-                                    product.save(callback);
-                                }
-                            );
-                        },
-                        function(err) {
-                            if (err) {
-                                console.log('error', err);
-                            }
-                        }
-                    );
-
+    var ingestLog = new IngestLog({ ingest: ingest._id });
+    
+    function startLog(callback) {
+        ingestLog.log('create log');
+        ingestLog.save(function(err) {
+            if (err) {
+                res.status(500).jsonp({
+                    status: 'failed to save log'
                 });
-                
-                parser.on('error', function(_err){
-                    // record ingest status
+                callback(err); 
+            } else {
+                res.jsonp({
+                    ingestLog: ingestLog._id,
+                    status: 'accepted'
                 });
-                
-                parser.on('finish', function(){
-                    // record ingest status
-                });
-                
-                rq.get(ingest.downloadUrl).pipe(parser);
-                
-            });
-        }
+                callback(null, {ingest: ingest, ingestLog: ingestLog});
+            }
+        });
     }
-    res.jsonp({status: 'accepted'});
+    
+    async.waterfall([
+        startLog,
+        securityFormPost,
+        csvParser,
+        streamAndParse
+    ], function (err) {
+        ingestLog.finish(err);
+        ingestLog.save(function(err) {
+            if (err) {
+                ingestLog.log('failed to save log :(');
+            }
+        });
+    });
 };

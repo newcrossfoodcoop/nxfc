@@ -1,7 +1,8 @@
 'use strict';
 
 var ingestsPolicy = require('../policies/ingests.server.policy'),
-    ingests = require('../controllers/ingests.server.controller');
+    ingests = require('../controllers/ingests.server.controller'),
+    ingestLogs = require('../controllers/ingest-logs.server.controller');
 
 module.exports = function(app) {
 
@@ -18,6 +19,13 @@ module.exports = function(app) {
 	app.route('/api/ingests/:ingestId/run').all(ingestsPolicy.isAllowed)
 	    .get(ingests.run);
 
+	app.route('/api/ingests/:ingestId/logs').all(ingestsPolicy.isAllowed)
+	    .get(ingestLogs.list);
+	
+	app.route('/api/ingests/:ingestId/logs/:ingestLogId').all(ingestsPolicy.isAllowed)
+	    .get(ingestLogs.read);
+
 	// Finish by binding the ingest middleware
 	app.param('ingestId', ingests.ingestByID);
+	app.param('ingestLogId', ingestLogs.ingestLogByID);
 };
