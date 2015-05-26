@@ -1,4 +1,4 @@
-FROM newcrossfoodcoop/nxfc-base:v3-slim
+FROM newcrossfoodcoop/nxfc-base:v4
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
