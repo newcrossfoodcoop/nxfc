@@ -2,41 +2,146 @@
     <div class="page-header">
         <h1>Edit Product</h1>
     </div>
-    <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="update()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="product.name" id="name" class="form-control" placeholder="Name" required>
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+	        <div class="form-group text-left">
+		        <img data-ng-src="{{product.mainImageURL}}" alt="{{product.name}}" class="img-thumbnail product-picture">
+	        </div>
+	        <small>
+	        	<em class="text-muted">
+			        Updated on:
+			        <span data-ng-bind="product.updated | date:'mediumDate'"></span>
+		        </em>
+		        <br>
+		        <em class="text-muted">
+			        Created on:
+			        <span data-ng-bind="product.created | date:'mediumDate'"></span>
+		        </em>
+	        </small>
+	    </div>
+	    <div class="col-sm-9 col-md-9">
+            <form data-ng-submit="update()" novalidate>
+                <fieldset>
+                    <div class="form-group">
+                        <label class="control-label">Price:</label>
+                        <div class="controls">
+                            <p class="form-control-static" data-ng-bind="product.price | currency:'£'"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="description">Description</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="product.description" id="description" class="form-control" placeholder="Description" required>
+                    <div class="form-group">
+                        <label class="control-label">Size:</label>
+                        <div class="controls">
+                            <p class="form-control-static" data-ng-bind="product.size"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="price">Price</label>
-                    <div class="controls">
-                        £<input type="text" data-ng-model="product.price" id="price" class="form-control" placeholder="Price" required>
+                	<div class="form-group">
+                        <label class="control-label">Name:</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" data-ng-model="product.name" id="name">
+                        </div>
+                    </div>	
+            	    <div class="form-group">
+                        <label class="control-label">VAT Code:</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" data-ng-model="product.VATcode" id="VATcode">
+                        </div>
+                    </div>	 
+                    <div class="form-group">
+                        <label class="control-label">Description:</label>
+                        <div class="controls">
+                            <textarea class="form-control" rows="3" data-ng-model="product.description" id="description"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" for="productOptions">Options</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="product.productOptions" id="productOptions" class="form-control" placeholder="Options" ng-list>
+                    <div class="form-group">
+                        <label class="control-label">Brand:</label>
+                        <div class="controls">
+                            <input type="text" class="form-control" data-ng-model="product.brand" id="brand">
+                        </div>
                     </div>
-                </div>
+   
+                    <div class="row">
+                        <div class="col-md-6">
+	                        <div class="panel panel-default">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">Unit Infomration</div>
+	                            </div>
+	                            <div class="panel-body">
+	                                <div class="form-group">
+	                                    <label class="control-label">Unit RRP £:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.unitRRP"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Unit Size:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.unitSize"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Unit Barcode:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.unitBarcode"></div>
+	                                </div>           
+	                            </div>
+	                        </div>
+	                        
+	                        <div class="panel panel-default">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">Case Infomration</div>
+	                            </div>
+	                            <div class="panel-body">
+	                                <div class="form-group">
+	                                    <label class="control-label">Case RRP £:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.caseRRP"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Units per Case:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.unitsPerCase"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Case Size:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.caseSize"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Case Barcode:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.caseBarcode"></div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+	                            <div class="panel-heading">
+	                                <div class="panel-title">Supplier Infomration</div>
+	                            </div>
+	                            <div class="panel-body">
+	                                <div class="form-group">
+	                                    <label class="control-label">Supplier:</label>
+	                                    <div class="controls">
+	                                        <p class="form-control-static" data-ng-model="product.supplier.name"></p>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Supplier Price £:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.supplierPrice"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Supplier Code:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.supplierCode"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">Supplier Key:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.supplierKey"></div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
                
-                <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-default">
-	            </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-            </fieldset>
-        </form>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-default">
+	                </div>
+				    <div data-ng-show="error" class="text-danger">
+					    <strong data-ng-bind="error"></strong>
+				    </div>
+                </fieldset>
+            </form>
+        <div>
     </div>
 </section>

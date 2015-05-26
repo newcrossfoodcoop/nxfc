@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Supplier = mongoose.model('supplier'),
+	Supplier = mongoose.model('Supplier'),
 	_ = require('lodash');
 
 /**

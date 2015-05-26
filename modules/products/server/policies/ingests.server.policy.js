@@ -20,6 +20,9 @@ exports.invokeRolesPolicies = function() {
 		}, {
 			resources: '/api/ingests/:ingestId',
 			permissions: '*'
+		}, {
+			resources: '/api/ingests/:ingestId/run',
+			permissions: '*'
 		}]
 	}, {
 		roles: ['manager'],

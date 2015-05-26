@@ -3,7 +3,7 @@
         <h1>Edit Ingest</h1>
     </div>
     <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="update()" novalidate>
+        <form data-ng-submit="update()" novalidate>
             <fieldset>
                 <div class="form-group">
                     <label class="control-label" for="name">Name</label>
@@ -15,6 +15,63 @@
                     <label class="control-label" for="description">Description</label>
                     <div class="controls">
                         <input type="text" data-ng-model="ingest.description" id="description" class="form-control" placeholder="Description" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="supplier">Supplier</label>
+                    <div class="controls"> 
+                        <ui-select ng-model="ingest.supplier" id="supplier" theme="bootstrap">
+                            <ui-select-match placeholder="Choose supplier...">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="supplier._id as supplier in suppliers | filter:$select.search">
+                                {{supplier.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="downloadUrl">Download Url</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="ingest.downloadUrl" id="downloadUrl" class="form-control" placeholder="http://my.download.url" required>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Security Settings</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label" for="securityType">SecurityType</label>
+                            <div class="controls"> 
+                                <ui-select ng-model="ingest.securityType" id="securityType" theme="bootstrap">
+                                    <ui-select-match placeholder="Choose security...">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="type in ['none', 'formPost'] | filter:$select.search">
+                                        {{type}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="formPostUrl">Form Post Url</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="ingest.formPostUrl" id="formPostUrl" class="form-control" placeholder="http://form.post.url" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="formPostPayload">Form Post Payload</label>
+                            <div class="controls">
+                                <textarea data-ng-model="ingest.formPostPayload" id="formPostPayload" class="form-control" placeholder="key: value" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">Processing Settings</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label" for="fieldMap">Field Map</label>
+                            <div class="controls">
+                                <textarea data-ng-model="ingest.fieldMap" id="fieldMap" class="form-control" rows="5" placeholder="key: field" required></textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
                

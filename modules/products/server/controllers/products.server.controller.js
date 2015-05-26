@@ -95,24 +95,115 @@ exports.delete = function(req, res) {
 /**
  * List of Products
  */
-exports.list = function(req, res) { Product.find().sort('-created').populate('user', 'displayName').exec(function(err, products) {
-		if (err) {
-			return res.send(400, {
-				message: getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(products);
-		}
-	});
+exports.list = function(req, res) {
+    var itemsPerPage = req.query.itemsperpage || 20;
+    var pageNumber = req.query.pagenumber || 1;
+    
+    var query;
+    
+    if (req.query.textsearch) {
+        query = Product.find(
+            { $text : { $search : req.query.textsearch } }, 
+            { score : { $meta: 'textScore' } }
+        )
+        .sort({ score : { $meta : 'textScore' } });
+    } else if (req.query.tags) {
+        query = Product.find(
+            { $in: req.query.tags }
+        ).sort('name');
+    } else {
+        query = Product.find().sort('name');
+    }
+    
+    query.populate('user', 'displayName')
+        .skip(itemsPerPage * (pageNumber - 1))
+        .limit(itemsPerPage)
+        .exec(function(err, products) {
+		    if (err) {
+			    return res.send(400, {
+				    message: getErrorMessage(err)
+			    });
+		    } else {
+			    res.jsonp(products);
+		    }
+	    });
+};
+
+/**
+ * Count products in query
+ */
+exports.count = function(req, res) {
+
+    function cb(err, count) {
+	    if (err) {
+		    return res.send(400, {
+			    message: getErrorMessage(err)
+		    });
+	    } else {
+		    res.jsonp({count: count});
+	    }
+    }
+    
+    var query;
+    if (req.query.textsearch) {
+        Product.count(
+            { $text : { $search : req.query.textsearch } }, cb
+        );
+    } else if (req.query.tags) {
+        Product.count({ $in: req.query.tags }, cb);
+    } else {
+        Product.count({}, cb);
+    }
+    
+};
+
+exports.tags = function(req, res) {
+    Product.find().distinct('tags', function(err, tags){
+    	if (err) {
+		    return res.send(400, {
+			    message: getErrorMessage(err)
+		    });
+	    } else {
+		    res.jsonp(tags);
+	    }
+    });
+};
+
+exports.brands = function(req, res) {
+    Product.find().distinct('brand', function(err, brands){
+    	if (err) {
+		    return res.send(400, {
+			    message: getErrorMessage(err)
+		    });
+	    } else {
+		    res.jsonp(brands);
+	    }
+    });
+};
+
+exports.supplierCodes = function(req, res) {
+    Product.find().distinct('supplierCode', function(err, supplierCodes){
+    	if (err) {
+		    return res.send(400, {
+			    message: getErrorMessage(err)
+		    });
+	    } else {
+		    res.jsonp(supplierCodes);
+	    }
+    });
 };
 
 /**
  * Product middleware
  */
-exports.productByID = function(req, res, next, id) { Product.findById(id).populate('user', 'displayName').exec(function(err, product) {
-		if (err) return next(err);
-		if (! product) return next(new Error('Failed to load Product ' + id));
-		req.product = product ;
-		next();
-	});
+exports.productByID = function(req, res, next, id) { 
+    Product.findById(id)
+        .populate('user', 'displayName')
+        .populate('supplier', 'name')
+        .exec(function(err, product) {
+		    if (err) return next(err);
+		    if (! product) return next(new Error('Failed to load Product ' + id));
+		    req.product = product;
+		    next();
+	    });
 };

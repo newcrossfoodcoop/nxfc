@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Product</th>
+                    <th>Size</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
@@ -24,6 +25,7 @@
             <tbody>
                 <tr ng-repeat="item in basketItems track by $index">
                     <td><a class="list-group-item-text" data-ui-sref="home.view-product({productId: item._product})" data-ng-bind="item.name"></a></td>
+                    <td data-ng-bind="item.size"></td>
                     <td data-ng-bind="item.price | currency:'£'"></td>
                     <td>
                         <span data-ng-bind="item.quantity"></span>&nbsp;
@@ -42,7 +44,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan=3 class="text-right">Total:</td>
+                    <td colspan=4 class="text-right">Total:</td>
                     <td colspan=2 data-ng-bind="total() | currency:'£'"></td>
                 </tr>
             </tfoot>

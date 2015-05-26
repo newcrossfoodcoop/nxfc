@@ -1,37 +1,138 @@
 <section data-ng-controller="ProductsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="product.name"></h1>
-	</div>
-	<div class="pull-right" data-ng-show="authorisation.isAllowed('products', 'edit')">
-		<a class="btn btn-primary" data-ui-sref="products.edit({productId: product._id})">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
+	<div class="row page-header">
+	    <div class="col-md-9">
+		    <h1 data-ng-bind="product.name"></h1>
+	    </div>
+	    <div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('products', 'edit')">
+	        <h1>
+            <a class="btn btn-primary" data-ui-sref="products.edit({productId: product._id})">
+	            <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-primary" data-ng-click="remove();">
+	            <i class="glyphicon glyphicon-trash"></i>
+            </a>
+            </h1>
+            </div>
+        </div>
+    </div>
 	
 	<div class="row">
         <div class="col-sm-3 col-md-3">
 	        <div class="form-group text-left">
 		        <img data-ng-src="{{product.mainImageURL}}" alt="{{product.name}}" class="img-thumbnail product-picture">
 	        </div>
-	    </div>
-	    <div class="col-sm-3 col-md-3">
-	        <div class="form-group">
-	            <label>Price:</label>
-	            <p data-ng-bind="product.price | currency:'£'"></p>
-	        </div>
-	        <div class="form-group">
-	            <label>Description:</label>
-	            <p data-ng-bind="product.description"></p>
-	        </div>
 	        <small>
+	        	<em class="text-muted">
+			        Updated on:
+			        <span data-ng-bind="product.updated | date:'mediumDate'"></span>
+		        </em>
+		        <br>
 		        <em class="text-muted">
 			        Created on:
 			        <span data-ng-bind="product.created | date:'mediumDate'"></span>
 		        </em>
 	        </small>
+	    </div>
+	    <div class="col-sm-9 col-md-9">
+	        <div>
+                <div class="form-group">
+                    <label>Price:</label>
+                    <p data-ng-bind="product.price | currency:'£'"></p>
+                </div>
+                <div class="form-group">
+                    <label>Size:</label>
+                    <p data-ng-bind="product.size"></p>
+                </div>
+        	    <div class="form-group">
+                    <label>VAT Code:</label>
+                    <p data-ng-bind="product.VATcode"></p>
+                </div>	 
+                <div class="form-group">
+                    <label>Description:</label>
+                    <p data-ng-bind="product.description"></p>
+                </div>
+                <div class="form-group">
+                    <label>Brand:</label>
+                    <p data-ng-bind="product.brand"></p>
+                </div>
+                <div class="form-group">
+                    <label>Tags:</label>
+                    <p data-ng-bind="product.tags"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+	                <div class="panel panel-default">
+	                    <div class="panel-heading">
+	                        <div class="panel-title">Unit Infomration</div>
+	                    </div>
+	                    <div class="panel-body">
+	                        <div class="form-group">
+	                            <label>Unit RRP:</label>
+	                            <p data-ng-bind="product.unitRRP | currency:'£'"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Unit Size:</label>
+	                            <p data-ng-bind="product.unitSize"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Unit Barcode:</label>
+	                            <p data-ng-bind="product.unitBarcode"></p>
+	                        </div>           
+	                    </div>
+	                </div>
+	                
+	                <div class="panel panel-default">
+	                    <div class="panel-heading">
+	                        <div class="panel-title">Case Infomration</div>
+	                    </div>
+	                    <div class="panel-body">
+	                        <div class="form-group">
+	                            <label>Case RRP:</label>
+	                            <p data-ng-bind="product.caseRRP | currency:'£'"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Units per Case:</label>
+	                            <p data-ng-bind="product.unitsPerCase"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Case Size:</label>
+	                            <p data-ng-bind="product.caseSize"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Case Barcode:</label>
+	                            <p data-ng-bind="product.caseBarcode"></p>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+	                    <div class="panel-heading">
+	                        <div class="panel-title">Supplier Infomration</div>
+	                    </div>
+	                    <div class="panel-body">
+	                        <div class="form-group">
+	                            <label>Supplier:</label>
+	                            <p data-ng-bind="product.supplier.name"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Supplier Price:</label>
+	                            <p data-ng-bind="product.supplierPrice | currency:'£'"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Supplier Code:</label>
+	                            <p data-ng-bind="product.supplierCode"></p>
+	                        </div>
+	                        <div class="form-group">
+	                            <label>Supplier Key:</label>
+	                            <p data-ng-bind="product.supplierKey"></p>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
         </div>
 	</div>
 	

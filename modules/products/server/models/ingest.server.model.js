@@ -32,7 +32,23 @@ var ingestSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	supplier: {
+	    type: Schema.ObjectId,
+	    ref: 'Supplier',
+	    required: 'An ingest must be assosicated with a supplier'
+	},
+	downloadUrl: String,
+	formPostUrl: String,
+    formPostPayload: String,
+	securityType: {
+	    type: String,
+	    enum: ['formPost', 'none'],
+	    default: 'none'
+	},
+	fieldMap: {
+	    type: String
 	}
 });
 
-mongoose.model('ingest', ingestSchema);
+mongoose.model('Ingest', ingestSchema);

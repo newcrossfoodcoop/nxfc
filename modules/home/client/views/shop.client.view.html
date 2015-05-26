@@ -2,18 +2,48 @@
     <div class="page-header">
         <h1>Products</h1>
     </div>
-    <div class="list-group">
-        <div data-ng-repeat="product in products">
-            <a data-ui-sref="home.view-product({productId: product._id})" class="col-md-8 list-group-item">
-                <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
-                <small class="list-group-item-text">
-                    <span data-ng-bind="product.description"></span>
-                </small>
-            </a>
-            <div class="col-md-4">
-                <div class="pull-right" add-to-basket></div>
-            </div>
+    <div class="clearfix">
+        <div class="col-md-3 search-box">
+        <div class="input-group">
+            <span class="form-control">Results: {{((currentPage-1)*itemsPerPage)+1}} - {{currentPage*itemsPerPage}} / {{totalItems}}</span>
+        
+            <div class="input-group-btn dropdown" on-toggle="toggled(open)">
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    {{itemsPerPage}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a ng-click="setItemsPerPage(10)">10</a></li>
+                    <li><a ng-click="setItemsPerPage(20)">20</a></li>
+                    <li><a ng-click="setItemsPerPage(50)">50</a></li>
+                    <li><a ng-click="setItemsPerPage(100)">100</a></li>
+                </ul>
+            </div><!-- /btn-group -->
         </div>
+        </div>
+        
+        <div class="text-center col-md-6">
+            <pagination boundary-links="true" items-per-page="itemsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></pagination>
+        </div>
+        <form ng-submit="doSearch();">
+        <div class="input-group col-md-3 search-box">
+            <input type="text" class="form-control" typeahead="ahead for ahead in aheads | filter:$viewValue | limitTo:8" ng-model="searchTerms"/>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="doSearch();"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+        </form>
+    </div>
+    <div class="list-group">
+        <div data-ng-repeat="product in products" class="list-group-item clearfix">
+            <span class="pull-right">
+                <a class="btn btn-primary" data-ui-sref="products.view({productId: product._id})">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                </a>
+                <span add-to-basket></span>
+            </span>
+		    <h4 class="list-group-item-heading">{{product.name}} {{product.caseSize}}</h4>
+			<p class="list-group-item-text" data-ng-bind="product.description"></p>
+	    </div>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
         No Products match...

@@ -7,6 +7,10 @@ angular.module('products').factory('Ingests', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
+			},
+			run: {
+			    method: 'GET',
+			    url: '/api/ingests/:ingestId/run'
 			}
 		});
 	}

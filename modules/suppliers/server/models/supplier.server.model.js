@@ -35,4 +35,4 @@ var supplierSchema = new Schema({
 	}
 });
 
-mongoose.model('supplier', supplierSchema);
+mongoose.model('Supplier', supplierSchema);

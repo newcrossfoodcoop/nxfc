@@ -39,7 +39,8 @@ angular.module('ecom').factory('Basket', [ 'localStorageService', 'Authenticatio
 				        _product: product._id,
 				        name: product.name,
 				        price: product.price,
-				        quantity: quantity
+				        quantity: quantity,
+				        size: product.size
 				    });
 				}
 				

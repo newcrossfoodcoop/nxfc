@@ -36,7 +36,7 @@ angular.module('home').config(['$stateProvider', '$urlRouterProvider',
 		}).
 		state('home.view-product', {
 		    url: '/shop/products/:productId',
-		    templateUrl: 'modules/products/views/view-product.client.view.html'
+		    templateUrl: 'modules/products/views/products/view-product.client.view.html'
 		});
 	}
 ]);

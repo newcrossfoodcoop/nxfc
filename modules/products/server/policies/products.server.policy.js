@@ -25,15 +25,24 @@ exports.invokeRolesPolicies = function() {
 		roles: ['manager'],
 		allows: [{
 			resources: '/api/products',
-			permissions: ['get', 'post']
-		}, {
-			resources: '/api/products/:productId',
-			permissions: ['get']
+			permissions: ['post']
 		}]
 	}, {
 		roles: ['guest', 'user'],
 		allows: [{
 			resources: '/api/products',
+			permissions: ['get']
+		}, {
+			resources: '/api/products/tags',
+			permissions: ['get']
+		}, {
+			resources: '/api/products/count',
+			permissions: ['get']
+		}, {
+			resources: '/api/products/brands',
+			permissions: ['get']
+		}, {
+			resources: '/api/products/suppliercodes',
 			permissions: ['get']
 		}, {
 			resources: '/api/products/:productId',

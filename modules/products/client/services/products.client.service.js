@@ -7,6 +7,25 @@ angular.module('products').factory('Products', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
+			},
+			count: {
+			    method: 'GET',
+			    url: '/api/products/count'
+			},
+			tags: {
+			    method: 'GET',
+			    url: '/api/products/tags',
+			    isArray: true
+			},
+			brands: {
+			    method: 'GET',
+			    url: '/api/products/brands',
+			    isArray: true
+			},
+			supplierCodes: {
+			    method: 'GET',
+			    url: '/api/products/supplierCodes',
+			    isArray: true
 			}
 		});
 	}

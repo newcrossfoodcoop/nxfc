@@ -14,6 +14,9 @@ module.exports = function(app) {
 		.get(ingests.read)
 		.put(ingests.update)
 		.delete(ingests.delete);
+		
+	app.route('/api/ingests/:ingestId/run').all(ingestsPolicy.isAllowed)
+	    .get(ingests.run);
 
 	// Finish by binding the ingest middleware
 	app.param('ingestId', ingests.ingestByID);

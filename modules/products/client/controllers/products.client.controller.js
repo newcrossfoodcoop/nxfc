@@ -52,7 +52,49 @@ angular.module('products').controller('ProductsController', ['$scope', '$statePa
 
 		// Find a list of Products
 		$scope.find = function() {
-			$scope.products = Products.query();
+		    $scope.currentPage = $scope.currentPage || 1;
+		    $scope.itemsPerPage = $scope.itemsPerPage || 20;
+		    $scope.maxSize = $scope.maxSize || 5;
+			$scope.pageChanged();
+			Products.count(function(res) { $scope.totalItems = res.count; });
+			Products.tags(function(tags) {
+			    var aheads = tags;
+			    $scope.tags = tags; 
+			    Products.supplierCodes(function(supplierCodes) { 
+			        $scope.supplierCodes = supplierCodes;
+			        aheads = aheads.concat(supplierCodes);
+			        Products.brands(function(brands) { 
+			            $scope.brands = brands;
+			            aheads = aheads.concat(brands);
+			            $scope.aheads = aheads;
+			        });
+			    });
+			});
+
+		};
+		
+		$scope.pageChanged = function() {
+		    $scope.products = Products.query({
+		        pagenumber: $scope.currentPage,
+		        textsearch: $scope.searchTerms,
+			    itemsperpage: $scope.itemsPerPage
+		    });
+		};
+		
+		$scope.doSearch = function() {
+		    $scope.currentPage = 1;
+		    Products.count(
+		        {textsearch: $scope.searchTerms}, 
+		        function(res) { 
+		            $scope.totalItems = res.count; 
+		        }
+		    );
+		    $scope.pageChanged();
+		};
+		
+		$scope.setItemsPerPage = function(itemsPerPage) {
+		    $scope.itemsPerPage = itemsPerPage;
+		    $scope.doSearch();
 		};
 
 		// Find existing Product
@@ -61,5 +103,6 @@ angular.module('products').controller('ProductsController', ['$scope', '$statePa
 				productId: $stateParams.productId
 			});
 		};
+		
 	}
 ]);

@@ -1,9 +1,12 @@
 'use strict';
 
 // ingests controller
-angular.module('products').controller('IngestsController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Ingests',
-	function($scope, $stateParams, $location, Authorisation, Ingests ) {
+angular.module('products').controller('IngestsController', [
+            '$scope','$stateParams','$location','Authorisation','Ingests','Suppliers',
+	function($scope,  $stateParams,  $location,  Authorisation,  Ingests,  Suppliers) {
 		$scope.authorisation = Authorisation;
+
+        $scope.suppliers = Suppliers.query();
 
 		// Create new ingest
 		$scope.create = function() {
@@ -60,6 +63,12 @@ angular.module('products').controller('IngestsController', ['$scope', '$statePar
 			$scope.ingest = Ingests.get({ 
 				ingestId: $stateParams.ingestId
 			});
+		};
+		
+		$scope.runIngest = function() {
+		    Ingests.run({
+		        ingestId: $stateParams.ingestId
+		    });
 		};
 	}
 ]);
