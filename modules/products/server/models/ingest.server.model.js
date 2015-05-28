@@ -38,9 +38,12 @@ var ingestSchema = new Schema({
 	    ref: 'Supplier',
 	    required: 'An ingest must be assosicated with a supplier'
 	},
+    searchUrlTemplate: String,
 	downloadUrl: String,
 	formPostUrl: String,
     formPostPayload: String,
+    searchSelectors: String,
+    productSelectors: String,
 	securityType: {
 	    type: String,
 	    enum: ['formPost', 'none'],

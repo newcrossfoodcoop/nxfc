@@ -18,7 +18,7 @@
                     <li><a ng-click="setItemsPerPage(50)">50</a></li>
                     <li><a ng-click="setItemsPerPage(100)">100</a></li>
                 </ul>
-            </div><!-- /btn-group -->
+            </div>
         </div>
         </div>
         
@@ -37,6 +37,11 @@
     
     <div class="list-group">
         <a data-ng-repeat="product in products" data-ui-sref="products.view({productId: product._id})" class="list-group-item">
+        <div class="row">
+            <div class="col-md-1">
+		        <img data-ng-src="{{product.thumbImageUrl}}" alt="{{product.name}}" class="img-thumbnail">
+	        </div>
+	        <div class="col-md-11">
 			<small class="list-group-item-text">
 				Created on
 				<span data-ng-bind="product.created | date:'mediumDate'"></span>
@@ -45,6 +50,8 @@
 			</small>
 		    <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
 			<p class="list-group-item-text" data-ng-bind="product.description"></p>
+			</div>
+		</div>
 	    </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">

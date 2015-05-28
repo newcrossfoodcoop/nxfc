@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	IngestLog = mongoose.model('IngestLog');
+	IngestLog = mongoose.model('IngestLog'),
+	IngestLogEntry = mongoose.model('IngestLogEntry');
 
 /**
  * Get the error message from error object
@@ -51,6 +52,22 @@ exports.list = function(req, res) {
 			    });
 		    } else {
 			    res.jsonp(ingestLogs);
+		    }
+	    });
+};
+
+/**
+ * List of ingest log entries
+ */
+exports.listEntries = function(req, res) { 
+    IngestLogEntry.find({ingestLog: req.ingestLog._id}).sort('date')
+        .exec(function(err, ingestLogEntries) {
+		    if (err) {
+			    return res.send(400, {
+				    message: getErrorMessage(err)
+			    });
+		    } else {
+			    res.jsonp(ingestLogEntries);
 		    }
 	    });
 };

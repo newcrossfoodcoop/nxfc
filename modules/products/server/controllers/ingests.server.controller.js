@@ -12,7 +12,12 @@ var mongoose = require('mongoose'),
 	fs = require('fs'),
 	csv = require('csv'),
 	_ = require('lodash'),
-	async = require('async');
+	async = require('async'),
+	swig = require('swig'),
+	jsdom = require('jsdom'),
+    $ = require('jquery')(jsdom.jsdom().parentWindow),
+    Corq = require('corq'),
+    queue = new Corq();
 
 /**
  * Get the error message from error object
@@ -149,64 +154,28 @@ function securityFormPost(context,callback) {
 
 function csvParser(context, callback) {
     var ingest = context.ingest;
+    var fieldMap = context.fieldMap;
+    
     if (!ingest.fieldMap) { return callback(null, context); }
     
     context.ingestLog.log('configuring csv parser');
     
-    var fieldMap = yaml.load(ingest.fieldMap);
     var parser = csv.parse({delimiter: ',', trim: true, columns: true, relax: true});
                 
     parser.on('readable', function(){
         var record;
         
-        async.whilst(
-            function(){
-                record = parser.read();
-                return !!(record); 
-            },
-            function(callback) {
-                Product.findOne(
-                    {supplierCode: record[fieldMap.supplierCode]}, 
-                    function(_err, product) {
-                        if (_err) { callback(_err); }
-                        var values = {};
-                        _(fieldMap)
-                            .keys()
-                            .forEach(function(k) {
-                                if (k === 'tags') {
-                                    if (product) {
-                                        values[k] = _.union(product.tags, [record[fieldMap[k]]]);
-                                    } else {
-                                        values[k] = [record[fieldMap[k]]];
-                                    }
-                                }
-                                else {
-                                    values[k] = record[fieldMap[k]];
-                                }
-                            });
-                        
-                        if (product) {
-                            product = _.extend(product, values);
-                        }
-                        else {
-                            product = new Product(values);
-                        }
-                        
-                        if (! product.supplier) {
-                            product.supplier = ingest.supplier._id;
-                        }
-                        
-                        product.save(callback);
-                    }
+        do {
+            if (record) {
+                context.queue.push(
+                    'record', 
+                    { record: record, context: context }
                 );
-            },
-            function(err) {
-                if (err) {
-                    console.log('error', err);
-                }
+                context.count++;
             }
-        );
-
+            record = parser.read();
+        } while (!!(record) && (context.limit && context.limit > context.count));
+        
     });
     
     parser.on('error', function(_err){
@@ -216,10 +185,148 @@ function csvParser(context, callback) {
     
     parser.on('finish', function(){
         // record ingest status
+        context.totalrecords = this.count;
         context.ingestLog.log('csv parsing complete %s records processed', this.count);
     });
     
     context.parser = parser;
+    callback(null,context);
+}
+
+function _runSelectors(item, selectors, html) {
+    var product = item.product;
+    _(selectors)
+        .keys()
+        .forEach(function(k) {
+            if (k.match(/imageurl$/i)) {
+                product[k] = $(html).find(selectors[k]).attr('src');
+            } else if (k.match(/url$/i)) {
+                product[k] = $(html).find(selectors[k]).attr('href');
+            } else {
+                product[k] = $(html).find(selectors[k]).text();
+            }
+        });
+}
+
+function searchAndScrapeExternal(item, callback) {
+    var product = item.product;
+    var ingest = item.context.ingest;
+    
+    if (!ingest.searchUrlTemplate) { return callback(null, item); }
+    
+    var swigOpts = {
+        locals: {
+            supplierCode: product.supplierCode
+        }
+    };
+
+    async.waterfall([
+        function(_callback) {
+            request.get(
+                swig.render(ingest.searchUrlTemplate, swigOpts),
+                function(err,res,body) {
+                    if (err) { return _callback(err); }
+                    _runSelectors(item, item.context.searchSelectors, body);
+                    _callback(null, product.externalUrl);
+                }
+            );
+        },
+        function(link,_callback) {
+            if (!link) { _callback('product not found'); }
+            request.get(
+                link, 
+                function(err,res,body) {
+                    if (err) { return _callback(err); }
+                    _runSelectors(item, item.context.productSelectors, body);
+                    _callback();  
+                }
+            );
+        }
+    ], function(err) {
+        if (err) { item.context.ingestLog.log('searchAndScrape error: %s',err); }
+        callback(null, item);
+    });
+}
+
+function extendProduct(item, callback) {
+    var product = item.product;
+    var record = item.record;
+    var fieldMap = item.context.fieldMap;
+    var ingest = item.context.ingest;
+    var values = {};
+    
+    _(fieldMap)
+        .keys()
+        .forEach(function(k) {
+            if (k === 'tags') {
+                if (product) {
+                    values[k] = _.union(product.tags, [record[fieldMap[k]]]);
+                } else {
+                    values[k] = [record[fieldMap[k]]];
+                }
+            }
+            else {
+                values[k] = record[fieldMap[k]];
+            }
+        });
+    
+    if (product) {
+        product = _.extend(product, values);
+    }
+    else {
+        product = new Product(values);
+    }
+    
+    if (! product.supplier) {
+        product.supplier = ingest.supplier._id;
+    }
+    
+    callback(null,item);
+}
+
+function queueHandlers(context, callback) {
+    
+    context.queue.on('record', function(item, success, fail) {
+        // There are no more records
+        if (item.done) {
+            context.ingestLog.log(
+                '%s records of %s processed, failed records may still be re-tried', 
+                context.processed, context.totalrecords
+            );
+            context.ingestLog.finish();
+            return success();
+        }
+        
+        if (context.processed % 100 === 0) {
+            var complete = context.processed * 100 / context.totalrecords;
+            context.ingestLog.log(
+                '%s of %s (%s %)', context.processed, context.totalrecords, complete.toFixed(2)
+            );
+        }
+        
+        Product.findOne(
+            {supplierCode: item.record[item.context.fieldMap.supplierCode]}, 
+            function(err, product) {
+                if (err) { fail(err); }
+            
+                item.product = product;
+                
+                async.waterfall([
+                    function(cb) { cb(null,item); },
+                    extendProduct,
+                    searchAndScrapeExternal
+                ], function(err) {
+                    if (err) { context.ingestLog.log('queue item error: %s', err); }
+                    product.save(function(err) {
+                        if (err) { return fail(err); }
+                        context.processed++;
+                        return success();
+                    });
+                }); 
+            }
+        );
+    });
+    
     callback(null,context);
 }
 
@@ -237,22 +344,39 @@ function streamAndParse(context, callback) {
 
 exports.run = function(req, res, next) {
     var ingest = req.ingest;
-    var ingestLog = new IngestLog({ ingest: ingest._id });
+    var ingestLog = new IngestLog({ ingest: ingest._id, status: 'running' });
+    
+    var fieldMap = yaml.load(ingest.fieldMap);
+    var searchSelectors = yaml.load(ingest.searchSelectors);
+    var productSelectors = yaml.load(ingest.productSelectors);
+    
+    var context = {
+        ingest: ingest, 
+        ingestLog: ingestLog,
+        fieldMap: fieldMap,
+        searchSelectors: searchSelectors,
+        productSelectors: productSelectors,
+        queue: queue,
+        limit: req.query.limit,
+        count: 0,
+        totalitems: 0
+    };
     
     function startLog(callback) {
-        ingestLog.log('create log');
+        
         ingestLog.save(function(err) {
             if (err) {
                 res.status(500).jsonp({
-                    status: 'failed to save log'
+                    status: 'failed to create log'
                 });
                 callback(err); 
             } else {
+                ingestLog.log('starting to log...');
                 res.jsonp({
                     ingestLog: ingestLog._id,
                     status: 'accepted'
                 });
-                callback(null, {ingest: ingest, ingestLog: ingestLog});
+                callback(null, context);
             }
         });
     }
@@ -261,13 +385,11 @@ exports.run = function(req, res, next) {
         startLog,
         securityFormPost,
         csvParser,
+        queueHandlers,
         streamAndParse
     ], function (err) {
-        ingestLog.finish(err);
-        ingestLog.save(function(err) {
-            if (err) {
-                ingestLog.log('failed to save log :(');
-            }
-        });
+        if (err) { ingestLog.log('file parse ended with error: %s', err); }
+        else { ingestLog.log('file parse complete'); }
+        context.queue.push('record', {done: 'all done'});
     });
 };

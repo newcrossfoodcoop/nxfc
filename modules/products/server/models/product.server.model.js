@@ -28,6 +28,11 @@ var ProductSchema = new Schema({
 	    default: '',
 	    trim: true
 	},
+	annotation: {
+	    type: String,
+	    default: '',
+	    trim: true
+	},
 	updated: {
 	    type: Date,
 	    default: Date.now
@@ -54,6 +59,8 @@ var ProductSchema = new Schema({
 	unitSize: String,
 	caseSize: String,
 	mainImageUrl: String,
+	thumbImageUrl: String,
+	externalUrl: String,
 	VATcode: Number,
 	FGOSV: String,
 	unitBarcode: Number, 

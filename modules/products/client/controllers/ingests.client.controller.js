@@ -7,6 +7,10 @@ angular.module('products').controller('IngestsController', [
 		$scope.authorisation = Authorisation;
 
         $scope.suppliers = Suppliers.query();
+        $scope.runLength = 'all';
+        $scope.setRunLength = function(value) {
+            $scope.runLength = value;
+        };
 
 		// Create new ingest
 		$scope.create = function() {
@@ -74,25 +78,36 @@ angular.module('products').controller('IngestsController', [
 		
 		$scope.runIngest = function() {
 		    $scope.disableRun = true;
-		    var run = Ingests.run({
+		    var options = {
 		        ingestId: $stateParams.ingestId
-		    }, function() {
-		        $scope.ingestLogs.unshift(Ingests.logInfo({
+		    };
+		    if ($scope.runLength !== 'all') {
+		        options.limit = $scope.runLength;
+		    }
+		    var run = Ingests.run(options, function() {
+		        var log = Ingests.logInfo({
 		            ingestId: $stateParams.ingestId,
 		            ingestLogId: run.ingestLog
-		        }));
+		        }, function() {
+		            $scope.ingestLogs.unshift(log);
+		        });
 		    });
 		};
+		
+		$scope.viewLogs = {};
+		$scope.$watch('viewLogs', function(n,o) { 
+		    var key = lodash.findKey($scope.viewLogs);
+		    $scope.reloadLog(key);
+		}, true);
 		
 		$scope.reloadLog = function(id) {
 		    var index = lodash.findIndex($scope.ingestLogs,{_id: id});
 		    if (index >=0) {
 		        $scope.disableReload = true;
-		        var log = Ingests.logInfo({
-		            ingestId: $stateParams.ingestId,
+		        var log = Ingests.logEntries({
 		            ingestLogId: id
 		        }, function () {
-		            $scope.ingestLogs[index] = log;
+		            $scope.ingestLogs[index].entries = log;
 		            $scope.disableReload = false;
 		        });
 		    }

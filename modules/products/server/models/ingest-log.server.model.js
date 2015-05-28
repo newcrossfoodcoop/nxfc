@@ -7,6 +7,21 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema, 
 	util = require('util');
 
+var ingestLogEntrySchema = new Schema({
+    ingestLog: {
+        type: Schema.ObjectId,
+		ref: 'IngestLog',
+		required: 'An ingest log entry must be associated with an ingest'
+    },
+    date: { 
+        type: Date, 
+        default: Date.now 
+    },
+    message: String
+});
+
+var IngestLogEntry = mongoose.model('IngestLogEntry', ingestLogEntrySchema);
+
 /**
  * ingest log Schema
  */
@@ -28,13 +43,6 @@ var ingestLogSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	logEntities: {
-	    type: [{
-	        date: { type: Date, default: Date.now },
-	        message: String
-	    }],
-	    default: [] 
-	},
 	status: {
 	    type: String,
 	    enum: ['new', 'running', 'success', 'fail'],
@@ -45,21 +53,31 @@ var ingestLogSchema = new Schema({
 
 ingestLogSchema.methods.log = function() {
     var message = util.format.apply(this,arguments);
-    this.logEntities.push({message: message});
-    this.status = 'running';
+    var entry = new IngestLogEntry({
+        message: message,
+        ingestLog: this._id
+    });
+    
+    entry.save(function(err) {
+        if (err) {
+            console.log('failed to save log entry: "%s" because: %s', message, err);
+        }
+    });
+    
     console.log(message);
     return message;
 };
 
 ingestLogSchema.methods.finish = function(err) {
     if (err) {
-        this.log('finished with error: %s', err);
         this.status = 'fail';
+        this.log('finished with error: %s', err);
     }
     else {
-        this.log('finished');
         this.status = 'success';
+        this.log('finished');
     }
+    this.save();
 };
 
 mongoose.model('IngestLog', ingestLogSchema);

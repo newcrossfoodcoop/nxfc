@@ -22,27 +22,37 @@
 	    <div class="col-md-9">
 	        <h2>Ingest Logs (last {{ingestLogs.length}})</h2>
 	    </div>
-	    <div class="col-md-3 text-right">
-	    <div data-ng-show="authorisation.isAllowed('ingests', 'edit')">
-	        <h2>
-	        <a class="btn btn-warning" ng-disabled="disableRun" ng-click="runIngest();">
-			    Run Ingest
-		    </a>
-		    </h2>
-	    </div>
+	    <div class="col-md-3">
+	        <div data-ng-show="authorisation.isAllowed('ingests', 'edit')" class="input-group pull-right">
+	            <h2>
+	                <div class="input-group-btn">
+	                <a class="btn btn-warning" ng-disabled="disableRun" ng-click="runIngest();">
+			            Run Ingest
+		            </a>
+		            </div>
+		            <div class="input-group-btn dropdown" on-toggle="toggled(open)" ng-disabled="disableRun">
+                        <button type="button" class="btn btn-info dropdown-toggle">
+                            {{runLength}} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li ng-repeat="item in [10, 'all']"><a ng-click="setRunLength(item);" ng-bind="item"></a></li>
+                        </ul>
+                    </div>
+		        </h2>
+	        </div>
 	    </div>
 	</div>
-	
+
 	<accordion close-others="true" class="row">
-	    <accordion-group ng-repeat="log in ingestLogs" ng-class="accordionClass(log);">
+	    <accordion-group ng-repeat="log in ingestLogs" ng-class="accordionClass(log);" is-open="$parent.viewLogs[log._id]">
 	        <accordion-heading>
 	            {{ log.created | date:"dd/MM/yyyy @ HH:mm:ss" }} status: {{log.status}}
-	            <a ng-show="log.status === 'running'" ng-click="reloadLog(log._id);" ng-disabled="disableReload">
-	                <i class="pull-right glyphicon glyphicon-refresh"></i>
-	            </a>
 	        </accordion-heading>
 	        <div class="well">
-	            <div ng-repeat="line in log.logEntities">
+	        	<a ng-show="log.status === 'running' || log.status === 'new';" ng-click="reloadLog(log._id);" ng-disabled="disableReload">
+	                <i class="pull-right glyphicon glyphicon-refresh"></i>
+	            </a>
+	            <div ng-repeat="line in log.entries">
                     {{line.date | date:"dd/MM/yyyy @ HH:mm:ss"}}: "{{line.message}}"
                 </div>
             </div>
@@ -92,6 +102,24 @@
                 <div class="form-group">
                     <label>Field Map</label>
                     <pre data-ng-bind="ingest.fieldMap"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">Search And Scrape Settings</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>Search Url Template</label>
+                    <p data-ng-bind="ingest.searchtUrlTemplate">
+                </div>
+                <div class="form-group">
+                    <label>Search Selectors</label>
+                    <pre data-ng-bind="ingest.searchSelectors"></pre>
+                </div>
+                <div class="form-group">
+                    <label>Product Selectors</label>
+                    <pre data-ng-bind="ingest.productSelectors"></pre>
                 </div>
             </div>
         </div>

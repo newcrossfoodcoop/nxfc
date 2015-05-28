@@ -22,8 +22,11 @@ module.exports = function(app) {
 	app.route('/api/ingests/:ingestId/logs').all(ingestsPolicy.isAllowed)
 	    .get(ingestLogs.list);
 	
-	app.route('/api/ingests/:ingestId/logs/:ingestLogId').all(ingestsPolicy.isAllowed)
+	app.route('/api/ingest-logs/:ingestLogId').all(ingestsPolicy.isAllowed)
 	    .get(ingestLogs.read);
+	
+	app.route('/api/ingest-logs/:ingestLogId/entries').all(ingestsPolicy.isAllowed)
+	    .get(ingestLogs.listEntries);
 
 	// Finish by binding the ingest middleware
 	app.param('ingestId', ingests.ingestByID);

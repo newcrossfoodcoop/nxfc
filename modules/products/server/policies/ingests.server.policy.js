@@ -36,7 +36,10 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/ingests/:ingestId/logs',
 			permissions: ['get']
 		}, {
-			resources: '/api/ingests/:ingestId/logs/:ingestLogId',
+			resources: '/api/ingest-logs/:ingestLogId',
+			permissions: ['get']
+		}, {
+			resources: '/api/ingest-logs/:ingestLogId/entries',
 			permissions: ['get']
 		}]
 	}, {

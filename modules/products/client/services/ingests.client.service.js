@@ -14,7 +14,12 @@ angular.module('products').factory('Ingests', ['$resource',
 			},
 			logInfo: {
 			    method: 'GET',
-			    url: '/api/ingests/:ingestId/logs/:ingestLogId'
+			    url: '/api/ingest-logs/:ingestLogId'
+			},
+			logEntries: {
+			    method: 'GET',
+			    url: '/api/ingest-logs/:ingestLogId/entries',
+			    isArray: true
 			},
 			logsQuery: {
 			    method: 'GET',

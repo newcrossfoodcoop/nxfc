@@ -7,6 +7,9 @@
 	        <div class="form-group text-left">
 		        <img data-ng-src="{{product.mainImageURL}}" alt="{{product.name}}" class="img-thumbnail product-picture">
 	        </div>
+	        <div class="form-group text-left">
+		        <img data-ng-src="{{product.thumbImageURL}}" alt="{{product.name}}" class="img-thumbnail">
+	        </div>
 	        <small>
 	        	<em class="text-muted">
 			        Updated on:
@@ -128,6 +131,10 @@
 	                                <div class="form-group">
 	                                    <label class="control-label">Supplier Key:</label>
 	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.supplierKey"></div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label class="control-label">External Url:</label>
+	                                    <div class="controls"><input type="text" class="form-control" data-ng-model="product.externalUrl"></div>
 	                                </div>
 	                            </div>
 	                        </div>
