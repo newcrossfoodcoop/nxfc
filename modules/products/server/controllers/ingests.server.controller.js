@@ -172,7 +172,7 @@ function csvParser(context, callback) {
                 context.count++;
             }
             record = parser.read();
-        } while (!!(record) && (context.limit && context.limit > context.count));
+        } while (record && ((context.limit && context.limit > context.count) || !context.limit));
         
     });
     
