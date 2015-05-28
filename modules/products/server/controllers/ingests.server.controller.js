@@ -15,9 +15,7 @@ var mongoose = require('mongoose'),
 	async = require('async'),
 	swig = require('swig'),
 	jsdom = require('jsdom'),
-    $ = require('jquery')(jsdom.jsdom().parentWindow),
-    Corq = require('corq'),
-    queue = new Corq();
+    $ = require('jquery')(jsdom.jsdom().parentWindow);
 
 /**
  * Get the error message from error object
@@ -167,9 +165,9 @@ function csvParser(context, callback) {
         
         do {
             if (record) {
-                context.queue.push(
-                    'record', 
-                    { record: record, context: context }
+                context.queue.push( 
+                    { record: record, context: context },
+                    _.noop
                 );
                 context.count++;
             }
@@ -232,7 +230,7 @@ function searchAndScrapeExternal(item, callback) {
             );
         },
         function(link,_callback) {
-            if (!link) { _callback('product not found'); }
+            if (!link) { return _callback('product not found'); }
             request.get(
                 link, 
                 function(err,res,body) {
@@ -274,7 +272,7 @@ function extendProduct(item, callback) {
         product = _.extend(product, values);
     }
     else {
-        product = new Product(values);
+        item.product = product = new Product(values);
     }
     
     if (! product.supplier) {
@@ -284,9 +282,11 @@ function extendProduct(item, callback) {
     callback(null,item);
 }
 
-function queueHandlers(context, callback) {
+function initQueue(_context,_callback) {
     
-    context.queue.on('record', function(item, success, fail) {
+    _context.queue = async.queue(function(item, callback) {
+        var context = item.context;
+    
         // There are no more records
         if (item.done) {
             context.ingestLog.log(
@@ -294,7 +294,7 @@ function queueHandlers(context, callback) {
                 context.processed, context.totalrecords
             );
             context.ingestLog.finish();
-            return success();
+            return callback();
         }
         
         if (context.processed % 100 === 0) {
@@ -307,7 +307,7 @@ function queueHandlers(context, callback) {
         Product.findOne(
             {supplierCode: item.record[item.context.fieldMap.supplierCode]}, 
             function(err, product) {
-                if (err) { fail(err); }
+                if (err) { return callback(err); }
             
                 item.product = product;
                 
@@ -317,17 +317,17 @@ function queueHandlers(context, callback) {
                     searchAndScrapeExternal
                 ], function(err) {
                     if (err) { context.ingestLog.log('queue item error: %s', err); }
-                    product.save(function(err) {
-                        if (err) { return fail(err); }
+                    item.product.save(function(err) {
+                        if (err) { return callback(err); }
                         context.processed++;
-                        return success();
+                        return callback();
                     });
                 }); 
             }
         );
-    });
+    },1);
     
-    callback(null,context);
+    _callback(null,_context);
 }
 
 function streamAndParse(context, callback) {
@@ -356,10 +356,10 @@ exports.run = function(req, res, next) {
         fieldMap: fieldMap,
         searchSelectors: searchSelectors,
         productSelectors: productSelectors,
-        queue: queue,
         limit: req.query.limit,
         count: 0,
-        totalitems: 0
+        totalitems: 0,
+        processed: 0
     };
     
     function startLog(callback) {
@@ -385,11 +385,11 @@ exports.run = function(req, res, next) {
         startLog,
         securityFormPost,
         csvParser,
-        queueHandlers,
+        initQueue,
         streamAndParse
     ], function (err) {
         if (err) { ingestLog.log('file parse ended with error: %s', err); }
         else { ingestLog.log('file parse complete'); }
-        context.queue.push('record', {done: 'all done'});
+        context.queue.push({done: 'all done', context: context}, _.noop);
     });
 };
