@@ -18,6 +18,20 @@
         </div>
     </div>
 	
+    <div class="form-group">
+        <label>Description:</label>
+        <p data-ng-bind="ingest.description"></p>
+    </div>
+    
+    <div class="form-group">
+        <label>Supplier</label>
+        <p data-ng-bind="ingest.supplier.name"></p>
+    </div>
+    <div class="form-group">
+        <label>Download Url</label>
+        <p data-ng-bind="ingest.downloadUrl">
+    </div> 
+	
 	<div class="row page-header">
 	    <div class="col-md-9">
 	        <h2>Ingest Logs (last {{ingestLogs.length}})</h2>
@@ -64,20 +78,6 @@
 	</div>
 	
     <div>
-        <div class="form-group">
-            <label>Description:</label>
-            <p data-ng-bind="ingest.description"></p>
-        </div>
-        
-        <div class="form-group">
-            <label>Supplier</label>
-            <p data-ng-bind="ingest.supplier.name"></p>
-        </div>
-        <div class="form-group">
-            <label>Download Url</label>
-            <p data-ng-bind="ingest.downloadUrl">
-        </div>
-        
         <div class="panel panel-default">
             <div class="panel-heading">Security Settings</div>
             <div class="panel-body">

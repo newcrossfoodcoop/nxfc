@@ -16,7 +16,9 @@ angular.module('products').controller('IngestsController', [
 		$scope.create = function() {
 			// Create new ingest object
 			var ingest = new Ingests ({
-				name: this.name
+				name: this.name,
+				supplier: this.supplier,
+				description: this.description
 			});
 
 			// Redirect after save

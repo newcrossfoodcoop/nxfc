@@ -41,8 +41,9 @@ exports.read = function(req, res) {
 /**
  * List of ingest logs
  */
-exports.list = function(req, res) { 
-    IngestLog.find().sort('-created')
+exports.list = function(req, res) {
+    var ingest = req.ingest;
+    IngestLog.find({ingest: ingest._id}).sort('-created')
         .populate('user', 'displayName')
         .limit( req.query.limit || 5)
         .exec(function(err, ingestLogs) {
@@ -59,7 +60,7 @@ exports.list = function(req, res) {
 /**
  * List of ingest log entries
  */
-exports.listEntries = function(req, res) { 
+exports.listEntries = function(req, res) {
     IngestLogEntry.find({ingestLog: req.ingestLog._id}).sort('date')
         .exec(function(err, ingestLogEntries) {
 		    if (err) {
