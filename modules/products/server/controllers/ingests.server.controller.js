@@ -13,9 +13,7 @@ var mongoose = require('mongoose'),
 	csv = require('csv'),
 	_ = require('lodash'),
 	async = require('async'),
-	swig = require('swig'),
-	jsdom = require('jsdom'),
-    $ = require('jquery')(jsdom.jsdom().parentWindow);
+	swig = require('swig');
 
 /**
  * Get the error message from error object
@@ -185,6 +183,9 @@ function csvParser(context, callback) {
         // record ingest status
         context.totalrecords = this.count;
         context.ingestLog.log('csv parsing complete %s records processed', this.count);
+        
+        // we don't need this any more and it creates leaks by holding bags of references
+        context.parser = null;
     });
     
     context.parser = parser;
@@ -193,6 +194,14 @@ function csvParser(context, callback) {
 
 function _runSelectors(item, selectors, html) {
     var product = item.product;
+
+	// This is the only place we use the modules and they don't release memory
+	// http://stackoverflow.com/questions/13893163/jsdom-and-node-js-leaking-memory
+	// This is essentially a worker function so we don't care about speed really
+	var jsdom = require('jsdom');
+    var jd = jsdom.jsdom();
+    var $ = require('jquery')(jd.parentWindow);
+    
     _(selectors)
         .keys()
         .forEach(function(k) {
@@ -204,6 +213,7 @@ function _runSelectors(item, selectors, html) {
                 product[k] = $(html).find(selectors[k]).text();
             }
         });
+    jd.parentWindow.close();
 }
 
 function searchAndScrapeExternal(item, callback) {
@@ -297,10 +307,14 @@ function initQueue(_context,_callback) {
             return callback();
         }
         
-        if (context.processed % 100 === 0) {
+        if (context.processed > 0 && context.processed % 50 === 0) {
             var complete = context.processed * 100 / context.totalrecords;
             context.ingestLog.log(
-                '%s of %s (%s %)', context.processed, context.totalrecords, complete.toFixed(2)
+                '%s of %s (%s %) [ %s]', context.processed, context.totalrecords, complete.toFixed(2), 
+                _(process.memoryUsage())
+                    .mapValues(function(n) { return ': ' + parseInt(n / 1e6) + 'M '; })
+                    .pairs()
+                    .join('')
             );
         }
         
