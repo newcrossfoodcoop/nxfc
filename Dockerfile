@@ -29,5 +29,5 @@ VOLUME /home/app/modules/ghost/server/content/data
 # Port 2368 for ghost
 EXPOSE 3000 35729 5858 80 2368
 
-# ["gulp","prod"] for production
+# CMD ["gulp","prod"] for production
 CMD ["gulp"]
