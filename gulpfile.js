@@ -9,7 +9,8 @@ var _ = require('lodash'),
 	gulp = require('gulp'),
 	gulpLoadPlugins = require('gulp-load-plugins'),
 	runSequence = require('run-sequence'),
-	plugins = gulpLoadPlugins();
+	plugins = gulpLoadPlugins(),
+	args = require('get-gulp-args')();;
 
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
@@ -45,6 +46,22 @@ gulp.task('nodemon', function () {
 		ext: 'js,html',
 		watch: _.union(defaultAssets.server.views, defaultAssets.server.allJS, defaultAssets.server.config)
 	});
+});
+
+gulp.task('node', function () {
+    var nodeArgs = ['server.js'];
+    var spawn = require('child_process').spawn;
+    console.log(args);
+    
+    _(['stack-size', 'debug', 'max_old_space_size'])
+        .forEach(function(k) {
+            var sk = 'spawn_' + k;
+            if (!_.has(args,sk)) { return; }
+            if (typeof(args[sk]) !== 'undefined') {nodeArgs.push( '--' + k + '=' + args[sk] );}
+            else {nodeArgs.push('--' + k);}
+        });
+    console.log('spawning: node',nodeArgs);
+    spawn('node', nodeArgs, {stdio: 'inherit'}); 
 });
 
 // Watch Files For Changes
@@ -201,10 +218,10 @@ gulp.task('debug', function(done) {
 
 // Run the project in production mode
 gulp.task('prod', function(done) {
-	runSequence('build', 'lint', 'env:prod', ['nodemon'], done);
+	runSequence('env:prod', 'node', done);
 });
 
 // Run the project in production mode
 gulp.task('stage', function(done) {
-	runSequence('build', 'lint', 'env:stage', ['nodemon', 'watch'], done);
+	runSequence('env:stage', 'node', done);
 });

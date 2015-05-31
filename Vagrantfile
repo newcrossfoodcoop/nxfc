@@ -19,9 +19,6 @@ Vagrant.configure("2") do |config|
         OWNER: "admin",
         MONGO_ADDR_VAR: "NXFC_MONGO_PORT_27017_TCP_ADDR"
       }
-      #d.cmd = ["gulp" , "prod"]
-      #d.cmd = ["gulp" , "debug"]
-      d.cmd = ["gulp"]
       d.volumes = [
         ENV['PWD'] + "/modules:/home/app/modules", 
         ENV['PWD'] + "/uploads:/home/app/uploads"

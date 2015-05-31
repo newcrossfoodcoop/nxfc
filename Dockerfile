@@ -15,6 +15,7 @@ RUN bower install --config.interactive=false --allow-root
 
 # Make everything available for start
 ADD . /home/app
+RUN gulp build
 
 # Define upload directories as volumes
 VOLUME /home/app/uploads
@@ -28,5 +29,5 @@ VOLUME /home/app/modules/ghost/server/content/data
 # Port 2368 for ghost
 EXPOSE 3000 35729 5858 80 2368
 
-# "gulp prod" for production
+# ["gulp","prod"] for production
 CMD ["gulp"]

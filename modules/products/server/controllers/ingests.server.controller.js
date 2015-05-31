@@ -4,16 +4,18 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Ingest = mongoose.model('Ingest'),
-	IngestLog = mongoose.model('IngestLog'),
-	Product = mongoose.model('Product'),
-	request = require('request'),
-	yaml = require('yaml-js'),
-	fs = require('fs'),
-	csv = require('csv'),
-	_ = require('lodash'),
-	async = require('async'),
-	swig = require('swig');
+    Ingest = mongoose.model('Ingest'),
+    IngestLog = mongoose.model('IngestLog'),
+    Product = mongoose.model('Product'),
+    request = require('request'),
+    yaml = require('yaml-js'),
+    fs = require('fs'),
+    csv = require('csv'),
+    _ = require('lodash'),
+    async = require('async'),
+    swig = require('swig'),
+    jsdom = require('jsdom'),
+    jquery = require('jquery');
 
 /**
  * Get the error message from error object
@@ -198,9 +200,8 @@ function _runSelectors(item, selectors, html) {
 	// This is the only place we use the modules and they don't release memory
 	// http://stackoverflow.com/questions/13893163/jsdom-and-node-js-leaking-memory
 	// This is essentially a worker function so we don't care about speed really
-	var jsdom = require('jsdom');
     var jd = jsdom.jsdom();
-    var $ = require('jquery')(jd.parentWindow);
+    var $ = jquery(jd.parentWindow);
     
     _(selectors)
         .keys()
