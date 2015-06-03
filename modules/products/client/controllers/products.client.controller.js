@@ -81,7 +81,10 @@ angular.module('products').controller('ProductsController', ['$scope', '$statePa
 		    });
 		};
 		
-		$scope.doSearch = function() {
+		$scope.doSearch = function(searchTerms) {
+		    if (searchTerms) {
+		        $scope.searchTerms = searchTerms;
+		    }
 		    $scope.currentPage = 1;
 		    Products.count(
 		        {textsearch: $scope.searchTerms}, 

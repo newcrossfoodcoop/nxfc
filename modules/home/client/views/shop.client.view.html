@@ -33,19 +33,78 @@
         </div>
         </form>
     </div>
-    <div class="list-group">
-        <div data-ng-repeat="product in products" class="list-group-item clearfix">
-            <span class="pull-right">
-                <a class="btn btn-primary" data-ui-sref="products.view({productId: product._id})">
-                    <i class="glyphicon glyphicon-eye-open"></i>
-                </a>
-                <span add-to-basket></span>
-            </span>
-		    <h4 class="list-group-item-heading">{{product.name}} {{product.caseSize}}</h4>
-			<p class="list-group-item-text" data-ng-bind="product.description"></p>
-	    </div>
+    
+    <accordion close-others="true" class="row">
+	    <accordion-group ng-repeat="log in ingestLogs" ng-class="accordionClass(log);" is-open="$parent.viewLogs[log._id]">
+	        <accordion-heading>
+	            {{ log.created | date:"dd/MM/yyyy @ HH:mm:ss" }} status: {{log.status}}
+	        </accordion-heading>
+	        <div class="well">
+	        	<a ng-show="log.status === 'running' || log.status === 'new';" ng-click="reloadLog(log._id);" ng-disabled="disableReload">
+	                <i class="pull-right glyphicon glyphicon-refresh"></i>
+	            </a>
+	            <div ng-repeat="line in log.entries">
+                    {{line.date | date:"dd/MM/yyyy @ HH:mm:ss"}}: "{{line.message}}"
+                </div>
+            </div>
+        </accordion-group>
+	</accordion>
+    
+    <div class="col-md-3">
+        <accordion>
+            <accordion-group>
+                <accordion-heading>
+                    <h4 class="text-center">Shop By Brand</h4>
+                </accordion-heading>
+                <ul class="nav nav-stacked nav-pill">
+                    <li data-ng-repeat="brand in brands">
+                        <a ng-click="doSearch(brand);" data-ng-bind="brand"></a>
+                    </li>
+                </ul>
+            </accordion-group>
+            <accordion-group>
+                <accordion-heading>
+                    <h4 class="text-center">Shop By Category</h4>
+                </accordion-heading>
+                <ul class="nav nav-stacked nav-pill">
+                    <li data-ng-repeat="tag in tags">
+                        <a ng-click="doSearch(tag);" data-ng-bind="tag"></a>
+                    </li>
+                </ul>
+            </accordion-group>
+        </accordion>
     </div>
-    <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
-        No Products match...
+
+    <div class="col-md-9">
+        <div class="list-group">
+            <div data-ng-repeat="product in products" class="list-group-item clearfix">
+                <div class="row">
+                    <div class="col-md-3 pull-right text-right">
+                        <a class="btn btn-primary" data-ui-sref="products.view({productId: product._id})">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                        <span add-to-basket></span>
+                        <h5>
+                            <a href="{{product.externalUrl}}" target="_blank">
+			                    {{product.supplier.name}}'s page
+			                    <i class="glyphicon glyphicon-new-window"></i>
+			                </a>
+			            </h5>
+                    </div>
+                    <div class="col-md-2">
+                        <a data-ui-sref="products.view({productId: product._id})">
+		                    <img data-ng-src="{{product.thumbImageUrl}}" alt="{{product.name}}" class="img-thumbnail">
+		                </a>
+	                </div>
+	                <a data-ui-sref="products.view({productId: product._id})">
+		                <h4 class="list-group-item-heading">{{product.name}} ({{product.caseSize}})</h4>
+		            </a>
+			        <div class="col-md-7" data-ng-bind="product.description"></div>
+			    </div>
+	        </div>
+        </div>
+        <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
+            No Products match...
+        </div>
     </div>
 </section>

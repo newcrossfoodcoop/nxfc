@@ -77,7 +77,9 @@ ingestLogSchema.methods.finish = function(err) {
         this.status = 'success';
         this.log('finished');
     }
-    this.save();
+    this.save(function(err) {
+        console.log('failed to save the log: ', err);
+    });
 };
 
 mongoose.model('IngestLog', ingestLogSchema);

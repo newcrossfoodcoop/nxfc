@@ -115,7 +115,9 @@ exports.list = function(req, res) {
         query = Product.find().sort('name');
     }
     
-    query.populate('user', 'displayName')
+    query
+        .populate('user', 'displayName')
+        .populate('supplier', 'name')
         .skip(itemsPerPage * (pageNumber - 1))
         .limit(itemsPerPage)
         .exec(function(err, products) {
