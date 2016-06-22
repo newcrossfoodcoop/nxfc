@@ -1,0 +1,33 @@
+<section data-ng-controller="IngestsController" data-ng-init="find()">
+    
+    <div class="row page-header">
+	    <div class="col-md-9">
+		    <h1>Ingests</h1>
+		</div>
+		<div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('ingests', 'create')"> 
+	            <h1>
+                    <a class="btn btn-primary" data-ui-sref="ingests.create()">
+			            <i class="glyphicon glyphicon-plus"></i>
+		            </a>
+                </h1>
+            </div>
+        </div>
+	</div>
+    
+    <div class="list-group">
+        <a data-ng-repeat="ingest in ingests" data-ui-sref="ingests.view({ingestId: ingest._id})" class="list-group-item">
+			<small class="list-group-item-text">
+				Created on
+				<span data-ng-bind="ingest.created | date:'mediumDate'"></span>
+				by
+				<span data-ng-bind="ingest.user.displayName"></span>
+			</small>
+		    <h4 class="list-group-item-heading" data-ng-bind="ingest.name"></h4>
+			<p class="list-group-item-text" data-ng-bind="ingest.description"></p>
+	    </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!ingests.$resolved || ingests.length">
+    	No Ingests yet, why don't you <a data-ui-sref="ingests.create">create one</a>?
+    </div>
+</section>

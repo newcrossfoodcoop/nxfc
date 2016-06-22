@@ -24,7 +24,8 @@ module.exports = function(app, db) {
             ghost: {
                 subdir: '/cms',
                 salt: 'meanjsghost',
-                ownerEmail: config.ownerEmail
+                ownerEmail: config.ownerEmail,
+                mysqlAddress: config.mysqlAddress
             }
         }
     };

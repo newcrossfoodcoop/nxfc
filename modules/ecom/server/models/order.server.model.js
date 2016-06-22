@@ -63,6 +63,16 @@ var OrderSchema = new Schema({
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
+	},
+	collectionDetails: {
+	    type: Schema.ObjectId,
+		ref: 'Collection',
+		required: 'all orders must be associated with a collection'
+	},
+	orderType: {
+	    type: String,
+	    enum: ['supplier', 'customer'],
+	    default: 'customer'
 	}
 });
 

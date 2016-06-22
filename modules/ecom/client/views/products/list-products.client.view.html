@@ -1,0 +1,72 @@
+<section data-ng-controller="ProductsController" data-ng-init="find()">
+    
+    <div class="row page-header">
+	    <div class="col-md-9">
+		    <h1>Products</h1>
+		</div>
+		<div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('products', 'create')"> 
+	            <h1>
+                    <a class="btn btn-primary" data-ui-sref="products.create()">
+			            <i class="glyphicon glyphicon-plus"></i>
+		            </a>
+                </h1>
+            </div>
+        </div>
+	</div>
+    
+    <div class="clearfix">
+        <div class="col-md-3 search-box">
+        <div class="input-group">
+            <span class="form-control">Results: {{((currentPage-1)*itemsPerPage)+1}} - {{currentPage*itemsPerPage}} / {{totalItems}}</span>
+        
+            <div class="input-group-btn dropdown" on-toggle="toggled(open)">
+                <button type="button" class="btn btn-default dropdown-toggle">
+                    {{itemsPerPage}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a ng-click="setItemsPerPage(10)">10</a></li>
+                    <li><a ng-click="setItemsPerPage(20)">20</a></li>
+                    <li><a ng-click="setItemsPerPage(50)">50</a></li>
+                    <li><a ng-click="setItemsPerPage(100)">100</a></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        
+        <div class="text-center col-md-6">
+            <pagination boundary-links="true" items-per-page="itemsPerPage" total-items="totalItems" ng-model="currentPage" max-size="maxSize" ng-change="pageChanged()"></pagination>
+        </div>
+        <form ng-submit="doSearch();">
+        <div class="input-group col-md-3 search-box">
+            <input type="text" class="form-control" typeahead="ahead for ahead in aheads | filter:$viewValue | limitTo:8" ng-model="searchTerms"/>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="doSearch();"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
+        </form>
+    </div>
+    
+    <div class="list-group">
+        <a data-ng-repeat="product in products" data-ui-sref="products.view({productId: product._id})" class="list-group-item">
+        <div class="row">
+            <div class="col-md-1">
+		        <img data-ng-src="{{product.thumbImageUrl}}" alt="{{product.name}}" class="img-thumbnail">
+	        </div>
+	        <div class="col-md-11">
+			<small class="list-group-item-text">
+				Created on
+				<span data-ng-bind="product.created | date:'mediumDate'"></span>
+				by
+				<span data-ng-bind="product.user.displayName"></span>
+			</small>
+		    <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
+			<p class="list-group-item-text" data-ng-bind="product.description"></p>
+			</div>
+		</div>
+	    </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!products.$resolved || products.length">
+    	Your search didn't return any products...
+    </div>
+</section>
