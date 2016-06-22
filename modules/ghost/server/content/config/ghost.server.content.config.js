@@ -54,7 +54,7 @@ var config = {
                 host     : moduleConfig.mysqlAddress,
                 user     : 'root',
                 password : 'complexlanyard',
-                database : 'ghost-stage',
+                database : 'ghost_stage',
                 charset  : 'utf8'
             }
         },
