@@ -18,6 +18,10 @@ exports.renderHoldingPage = function(req, res, next) {
 exports.checkBasicAuth = function(req, res, next) {
     var auth;
     var config = req.app.locals.home;
+    
+    if (req.session.holdingAuthed) {
+        return next();
+    }
 
     // check whether an autorization header was sent
     if (req.headers.authorization) {
@@ -27,6 +31,25 @@ exports.checkBasicAuth = function(req, res, next) {
         // * split the string at the colon
         // -> should result in an array
         auth = new Buffer(req.headers.authorization.substring(6), 'base64').toString().split(':');
+    }
+    
+    console.log('DO WE HAVE A SESSION?: ' + req.session);
+
+    function registerInterest(req, callback) {
+	    crypto.randomBytes(20, function(err, buffer) {
+		    var token = buffer.toString('hex');
+            var user = new User({
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                displayName: req.body.firstName + ' ' + req.body.lastName,
+                state: 'interested',
+                provider: 'local',
+                username: token,
+                password: token
+            });
+            user.save(callback);
+	    });
     }
     
     // checks if:
@@ -53,23 +76,7 @@ exports.checkBasicAuth = function(req, res, next) {
             res.render('modules/home/server/views/holding',{production: process.env.NODE_ENV === 'production'});
         }
     }
-    
-    function registerInterest(req, callback) {
-	    crypto.randomBytes(20, function(err, buffer) {
-		    var token = buffer.toString('hex');
-            var user = new User({
-                email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                displayName: req.body.firstName + ' ' + req.body.lastName,
-                state: 'interested',
-                provider: 'local',
-                username: token,
-                password: token
-            });
-            user.save(callback);
-	    });
-    }
+
 
     if (!auth) {
         // no auth header
@@ -81,6 +88,7 @@ exports.checkBasicAuth = function(req, res, next) {
         // password mismatch
         returnUnAuthorized(res);
     } else {
+        req.session.holdingAuthed = true;
         // continue with processing, user was authenticated
         next();
     }
