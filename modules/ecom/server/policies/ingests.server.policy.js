@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-var acl = require('acl');
+var Acl = require('acl');
 
 // Using the memory backend
-acl = new acl(new acl.memoryBackend());
+var acl = new Acl(new Acl.memoryBackend());
 
 /**
  * Invoke ingests Permissions

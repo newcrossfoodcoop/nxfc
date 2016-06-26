@@ -4,6 +4,20 @@
 angular.module('users').factory('Authorisation', ['Authentication', 'lodash',
 	function(Authentication, lodash) {
 	    var _rules = {};
+	    
+	    function addRules(role, resources, permissions) {
+            if (!lodash.isArray(resources)) { resources = [resources]; }
+            if (!lodash.isArray(permissions)) { permissions = [permissions]; }
+            
+            lodash.forEach(resources, function(resource) {
+                lodash.forEach(permissions, function(permission) {
+                    if (!_rules[resource]) { _rules[resource] = {}; }
+                    if (!_rules[resource][permission]) { _rules[resource][permission] = []; }
+                    _rules[resource][permission] = lodash.union(_rules[resource][permission], [role]);
+                });
+            });
+        }
+	    
 	    function allow(roles, resources, permissions) {
             if (lodash.isArray(roles)) {
                 var groups = roles;
@@ -16,19 +30,6 @@ angular.module('users').factory('Authorisation', ['Authentication', 'lodash',
             else {
                 addRules(roles, resources, permissions);
             }
-        }
-        
-        function addRules(role, resources, permissions) {
-            if (!lodash.isArray(resources)) { resources = [resources]; }
-            if (!lodash.isArray(permissions)) { permissions = [permissions]; }
-            
-            lodash.forEach(resources, function(resource) {
-                lodash.forEach(permissions, function(permission) {
-                    if (!_rules[resource]) { _rules[resource] = {}; }
-                    if (!_rules[resource][permission]) { _rules[resource][permission] = []; }
-                    _rules[resource][permission] = lodash.union(_rules[resource][permission], [role]);
-                });
-            });
         }
         
         function isAllowed(resource, permission) {

@@ -2,7 +2,7 @@
 
 var path = require('path'), 
     util = require('util'),
-    paypalEC = require('paypal-ec'),
+    PaypalEC = require('paypal-ec'),
     _ = require('lodash');
 
 module.exports = function(config) {
@@ -18,7 +18,7 @@ module.exports = function(config) {
       version : '117.0'
     };
 
-    var ec = new paypalEC( cred, opts );
+    var ec = new PaypalEC( cred, opts );
 
     exports.initiatePayment = function initiatePayment(order, callback) {
 

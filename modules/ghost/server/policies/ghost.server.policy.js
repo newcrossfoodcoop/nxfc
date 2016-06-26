@@ -3,12 +3,12 @@
 /**
  * Module dependencies.
  */
-var acl = require('acl'),
+var Acl = require('acl'),
     path = require('path'),
     config = require(path.resolve('./config/config')).modules.ghost;
 
 // Using the memory backend
-acl = new acl(new acl.memoryBackend());
+var acl = new Acl(new Acl.memoryBackend());
 
 /**
  * Invoke Ghost Permissions

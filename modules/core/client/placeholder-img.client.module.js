@@ -52,41 +52,6 @@ angular.module( 'placeholders.img', [] )
       };
 
       /**
-       * When the provided dimensions change, re-pull the width and height and
-       * then redraw the image.
-       */
-      scope.$watch('dimensions', function () {
-        if( ! angular.isDefined( scope.dimensions ) ) {
-            return;
-        }
-        var matches = scope.dimensions.match( /^(\d+)x(\d+)$/ ),
-            dataUrl;
-        
-        if(  ! matches ) {
-          console.error('Expected "000x000". Got ' + scope.dimensions);
-          return;
-        }
-        
-        // Grab the provided dimensions.
-        scope.size = { w: matches[1], h: matches[2] };
-
-        // FIXME: only add these if not already present
-        element.prop( 'title', scope.dimensions );
-        element.prop( 'alt', scope.dimensions );
-
-        // And draw the image, getting the returned data URL.
-        dataUrl = drawImage();
-
-        // If this is an `img` tag, set the src as the data URL. Else, we set
-        // the CSS `background-image` property to same.
-        if ( element.prop( 'tagName' ) === 'IMG' ) {
-          element.prop( 'src', dataUrl );
-        } else {
-          element.css( 'background-image', 'url("' + dataUrl + '")' );      
-        }
-      });
-
-      /**
        * Calculate the maximum height of the text we can draw, based on the
        * requested dimensions of the image.
        */
@@ -146,6 +111,41 @@ angular.module( 'placeholders.img', [] )
         // Get the data URL and return it.
         return canvas.toDataURL('image/png');
       }
+
+      /**
+       * When the provided dimensions change, re-pull the width and height and
+       * then redraw the image.
+       */
+      scope.$watch('dimensions', function () {
+        if( ! angular.isDefined( scope.dimensions ) ) {
+            return;
+        }
+        var matches = scope.dimensions.match( /^(\d+)x(\d+)$/ ),
+            dataUrl;
+        
+        if(  ! matches ) {
+          console.error('Expected "000x000". Got ' + scope.dimensions);
+          return;
+        }
+        
+        // Grab the provided dimensions.
+        scope.size = { w: matches[1], h: matches[2] };
+
+        // FIXME: only add these if not already present
+        element.prop( 'title', scope.dimensions );
+        element.prop( 'alt', scope.dimensions );
+
+        // And draw the image, getting the returned data URL.
+        dataUrl = drawImage();
+
+        // If this is an `img` tag, set the src as the data URL. Else, we set
+        // the CSS `background-image` property to same.
+        if ( element.prop( 'tagName' ) === 'IMG' ) {
+          element.prop( 'src', dataUrl );
+        } else {
+          element.css( 'background-image', 'url("' + dataUrl + '")' );      
+        }
+      });
     }
   };
 });
