@@ -1,7 +1,7 @@
 {
   "name": "nxfc",
   "description": "New Cross Food Coop & Eat A Rainbow web application based on MEAN.JS",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": false,
   "author": "https://github.com/newcrossfoodcoop/nxfc/graphs/contributors",
   "repository": {
