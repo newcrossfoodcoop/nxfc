@@ -13,12 +13,16 @@ var config = {
     production: {
         url: 'http://' + appConfig.externalAddress + moduleConfig.subdir,
         mail: {},
+
         database: {
-            client: 'sqlite3',
+            client: 'mysql',
             connection: {
-                filename: path.join(__dirname, '/../data/ghost.db')
-            },
-            debug: false
+                host     : moduleConfig.mysqlAddress,
+                user     : 'root',
+                password : 'complexlanyard',
+                database : 'ghost_prod',
+                charset  : 'utf8'
+            }
         },
 
         server: {
@@ -40,13 +44,6 @@ var config = {
     stage: {
         url: 'http://' + appConfig.externalAddress + moduleConfig.subdir,
         mail: {},
-//        database: {
-//            client: 'sqlite3',
-//            connection: {
-//                filename: path.join(__dirname, '/../data/ghost-stage.db')
-//            },
-//            debug: false
-//        },
         
         database: {
             client: 'mysql',

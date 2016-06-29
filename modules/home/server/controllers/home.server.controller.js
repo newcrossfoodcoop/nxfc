@@ -32,8 +32,6 @@ exports.checkBasicAuth = function(req, res, next) {
         // -> should result in an array
         auth = new Buffer(req.headers.authorization.substring(6), 'base64').toString().split(':');
     }
-    
-    console.log('DO WE HAVE A SESSION?: ' + req.session);
 
     function registerInterest(req, callback) {
 	    crypto.randomBytes(20, function(err, buffer) {
