@@ -1,3 +1,7 @@
 sut:
   build: .
   command: gulp test
+  links:
+    mongo
+mongo:
+  image: mongo:3
