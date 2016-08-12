@@ -66,3 +66,7 @@ build/
 
 # Vagrant
 .vagrant
+
+# Drone
+# =====
+secrets.yml
