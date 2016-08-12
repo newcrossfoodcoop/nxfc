@@ -1,14 +1,31 @@
 build:
-  image: newcrossfoodcoop/nxfc-base:latest
-  commands:
-    - ln -s /home/app/node_modules /drone/src/github.com/newcrossfoodcoop/nxfc/
-    - ln -s /home/app/public/lib /drone/src/github.com/newcrossfoodcoop/nxfc/public/
-    - npm install
-    - bower install --config.interactive=false --allow-root
-    - gulp test
-    - gulp build
-  when:
-    event: push
+  main:
+    image: newcrossfoodcoop/nxfc-base:latest
+    commands:
+      - ln -s /home/app/node_modules /drone/src/github.com/newcrossfoodcoop/nxfc/
+      - ln -s /home/app/public/lib /drone/src/github.com/newcrossfoodcoop/nxfc/public/
+      - npm install
+      - bower install --config.interactive=false --allow-root
+      - gulp test
+      - gulp build
+    
 compose:
   mongo:
     image: newcrossfoodcoop/nxfc-mongo:latest
+    
+publish:
+  docker:
+    username: bsimpson53
+    password: $$DOCKER_PASSWORD
+    repo: bsimpson53/nxfc_web
+    tag: latest
+    when:
+      branch: master
+      
+  docker:
+    username: bsimpson53
+    password: $$DOCKER_PASSWORD
+    repo: bsimpson53/nxfc_web
+    tag: $$TAG
+    when:
+      event: tag
