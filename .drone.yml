@@ -16,6 +16,7 @@ compose:
 publish:
   docker:
     username: bsimpson53
+    email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
     repo: bsimpson53/nxfc_web
     tag: latest
@@ -24,6 +25,7 @@ publish:
       
   docker:
     username: bsimpson53
+    email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
     repo: bsimpson53/nxfc_web
     tag: $$TAG
