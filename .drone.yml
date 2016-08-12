@@ -1,23 +1,14 @@
-image: newcrossfoodcoop/nxfc-base:latest
-services:
-  - newcrossfoodcoop/nxfc-mongo:latest
-script:
-  - set -e
-  - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/
-  - ln -s /home/app/public/lib /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/public/
-  - npm install
-  - bower install --config.interactive=false --allow-root
-  - gulp test
-  - gulp build
-deploy:
-  bash:
-    script:
-      - curl --data "build=true" -X POST https://registry.hub.docker.com/u/bsimpson53/nxfc_web/trigger/${TRIGGER_TOKEN}/
-    when:
-      branch: master
-notify:
-  webhook:
-    urls:
-      - "https://webhooks.gitter.im/e/${GITTER_TOKEN}"
-    on_success: true
-    on_failure: true
+build:
+  image: newcrossfoodcoop/nxfc-base:latest
+  commands:
+    - ln -s /home/app/node_modules /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/
+    - ln -s /home/app/public/lib /var/cache/drone/src/github.com/newcrossfoodcoop/nxfc/public/
+    - npm install
+    - bower install --config.interactive=false --allow-root
+    - gulp test
+    - gulp build
+  when:
+    event: push
+compose:
+  mongo:
+    image: newcrossfoodcoop/nxfc-mongo:latest
