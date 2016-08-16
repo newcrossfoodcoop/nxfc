@@ -1,3 +1,9 @@
+cache:
+  mount:
+    - node_modules
+    - .git
+    - public/lib
+
 build:
   main:
     image: newcrossfoodcoop/nxfc-base:latest
