@@ -2,8 +2,6 @@ build:
   main:
     image: newcrossfoodcoop/nxfc-base:latest
     commands:
-      - ln -s /home/app/node_modules /drone/src/github.com/newcrossfoodcoop/nxfc/
-      - ln -s /home/app/public/lib /drone/src/github.com/newcrossfoodcoop/nxfc/public/
       - npm install
       - bower install --config.interactive=false --allow-root
       - gulp test
