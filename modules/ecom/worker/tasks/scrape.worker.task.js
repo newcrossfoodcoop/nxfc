@@ -34,7 +34,7 @@ function _runSelectors(opts, selectors, html) {
 function searchAndScrapeExternal(opts, callback) {
     var product = opts.product = opts.product || {};
     
-    if (!opts.searchUrlTemplate) { return callback('searchUrlTempalte not defined', opts); }
+    if (!opts.searchUrlTemplate) { return callback('searchUrlTemplate not defined', opts); }
     
     var swigOpts = {
         locals: {

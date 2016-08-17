@@ -154,7 +154,7 @@ function closeTask(context) {
 function searchAndScrapeExternal(item, context, callback) {
 
     if (!context.fork) {
-        context.fork = childProcess.fork(path.resolve('./modules/products/worker/tasks/scrape.worker.task'));
+        context.fork = childProcess.fork(path.resolve('./modules/ecom/worker/tasks/scrape.worker.task'));
         context.fork.on('exit', function() {
             if (context.currentMessage && context.currentMessage.tries) {
                 var _cb = context.currentMessageCallback;
@@ -289,8 +289,8 @@ function streamAndParse(context, callback) {
     
     context.request.get(ingest.downloadUrl)
         .pipe(context.parser)
-        .on('finish',_.partialRight(callback,context))
-        .on('error',_.partialRight(callback,context));
+        .on('finish',_.partial(callback,null,context))
+        .on('error',_.partial(callback,_,context));
 }
 
 function startLog(context, callback) {
