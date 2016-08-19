@@ -9,7 +9,8 @@ var mongoose = require('mongoose'),
     path = require('path'),
     seneca = require('seneca')();
     
-seneca.use(path.resolve('./modules/ecom/worker/actions/ingests.worker.actions'));
+//seneca.use(path.resolve('./modules/ecom/worker/actions/ingests.worker.actions'));
+seneca.client({port: 4000, host: 'worker', role: 'ingest'});
 
 /**
  * Get the error message from error object

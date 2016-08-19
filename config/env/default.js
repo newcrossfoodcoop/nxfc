@@ -51,6 +51,7 @@ module.exports = {
         }
     },
 	port: process.env.PORT || 3000,
+	workerPort: process.env.WORKER_PORT || 4000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',
 	sessionCollection: 'sessions',

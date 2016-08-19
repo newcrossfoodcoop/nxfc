@@ -5,22 +5,19 @@
  */
 var config = require('../config'),
     path = require('path'),
-    seneca = require('seneca');
+    seneca = require('seneca')();
 
-exports.initWorkerActions = function(app) {
+exports.initWorkerActions = function(seneca) {
 	config.files.worker.actions.forEach(function (actionsPath) {
-		require(path.resolve(actionsPath))(app);
+		seneca.use(path.resolve(actionsPath));
 	});
 };
 
 /**
- * Initialize the Express application
+ * Initialize the Seneca application
  */
 module.exports.init = function (db) {
-	// Initialize seneca app
-    var app = seneca();
+    this.initWorkerActions(seneca);
     
-    this.initWorkerActions(app);
-    
-    return app;
+    return seneca;
 };

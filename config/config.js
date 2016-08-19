@@ -88,7 +88,8 @@ var initGlobalConfigFiles = function(config, assets) {
     // Appending files
     config.files = {
         server: {},
-        client: {}
+        client: {},
+        worker: {}
     };
 
     // Setting Globbed model files
@@ -107,7 +108,6 @@ var initGlobalConfigFiles = function(config, assets) {
     config.files.server.policies = getGlobbedPaths(assets.server.policies);
 
     // Setting Globbed js files
-    console.log(assets.client.lib.js);
     config.files.client.js = getGlobbedPaths(assets.client.lib.js, 'public/').concat(getGlobbedPaths(assets.client.js, ['client/', 'public/']));
 
     // Setting Globbed css files
@@ -115,6 +115,9 @@ var initGlobalConfigFiles = function(config, assets) {
 
     // Setting Globbed test files
     config.files.client.tests = getGlobbedPaths(assets.client.tests);
+    
+    // Setting Globbed worker files
+    config.files.worker.actions = getGlobbedPaths(assets.worker.actions);
 };
 
 /**

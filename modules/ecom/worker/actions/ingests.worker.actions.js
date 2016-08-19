@@ -286,7 +286,7 @@ function streamAndParse(context, callback) {
     if (!ingest.downloadUrl) { callback(null,context); }
     
     context.ingestLog.log('stream file and parse it');
-    
+
     context.request.get(ingest.downloadUrl)
         .pipe(context.parser)
         .on('finish',_.partial(callback,null,context))
