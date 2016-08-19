@@ -144,4 +144,4 @@ module.exports = function(app) {
     var config = app.locals.ecom;
     seneca.client({port: config.worker.port, host: config.worker.host, role: 'ingest'});
     return exports;
-}
+};
