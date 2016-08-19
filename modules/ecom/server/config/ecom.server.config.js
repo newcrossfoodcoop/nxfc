@@ -28,7 +28,11 @@ var moduleConfig = {
         returnUrl : 'http://' + config.externalAddress + '/checkout/paypal-rest/%s/redirected',
         cancelUrl : 'http://' + config.externalAddress + '/checkout/paypal-rest/%s/cancelled',
         buttonImageUrl: 'https://www.paypal.com/en_GB/GB/i/btn/btn_xpressCheckout.gif'
-    }]
+    }],
+    worker: {
+        host: config.workerHost,
+        port: config.workerPort
+    }
 };
 
 module.exports = function(app, db) {

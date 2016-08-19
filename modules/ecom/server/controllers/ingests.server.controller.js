@@ -8,9 +8,6 @@ var mongoose = require('mongoose'),
     _ = require('lodash'),
     path = require('path'),
     seneca = require('seneca')();
-    
-//seneca.use(path.resolve('./modules/ecom/worker/actions/ingests.worker.actions'));
-seneca.client({port: 4000, host: 'worker', role: 'ingest'});
 
 /**
  * Get the error message from error object
@@ -141,3 +138,12 @@ exports.run = function(req, res, next) {
         }
     });
 };
+
+
+module.exports = function(app) {
+    var config = app.locals.ecom;
+
+    //seneca.use(path.resolve('./modules/ecom/worker/actions/ingests.worker.actions'));
+    seneca.client({port: config.worker.port, host: config.worker.host, role: 'ingest'});
+    return exports;
+}
