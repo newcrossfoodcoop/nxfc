@@ -3,5 +3,8 @@ sut:
   command: gulp test
   links:
     - mongo
+  environment:
+    - MONGO_ADDR_VAR=MONGO
+    - MONGO=mongo
 mongo:
   image: mongo:3

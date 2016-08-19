@@ -1,10 +1,11 @@
 'use strict';
 
 var ingestsPolicy = require('../policies/ingests.server.policy'),
-    ingests = require('../controllers/ingests.server.controller'),
     ingestLogs = require('../controllers/ingest-logs.server.controller');
 
 module.exports = function(app) {
+
+    var ingests = require('../controllers/ingests.server.controller')(app);
 
 	// ingests Routes
 	app.route('/api/ingests').all(ingestsPolicy.isAllowed)

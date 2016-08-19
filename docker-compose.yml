@@ -12,12 +12,23 @@ services:
       - "./uploads:/home/app/uploads"
     depends_on:
       - nxfc_mongo
+      - worker
     environment:
       - NODE_ENV="development"
       - OWNER="admin"
       - MONGO_ADDR_VAR=MONGO
       - MONGO=nxfc_mongo
+      - WORKER_HOST=worker
+      - WORKER_PORT=4000
   nxfc_mongo:
     image: "newcrossfoodcoop/nxfc-mongo"
     ports:
       - "27017:27017"
+  worker:
+    image: bsimpson53/nxfc_worker:latest
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV="development"
+      - MONGO_ADDR_VAR=MONGO
+      - MONGO=nxfc_mongo
