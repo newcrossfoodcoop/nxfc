@@ -6,13 +6,13 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Eat A Rainbow & New Cross Food Coop Website Tech Blog
+title: Eat A Rainbow Website Tech Blog
 email: ben@eatarainbow.org.uk
 description: > # this means to ignore newlines until "baseurl:"
-  This is the blog for the Eat A Rainbow Website.
+  Tech talk for [eatarainbow.org.uk](http://www.eatarainbow.org.uk)
 baseurl: "/nxfc" # the subpath of your site, e.g. /blog
 url: "http://newcrossfoodcoop.github.io" # the base hostname & protocol for your site
-github_username:  bsimpson53
-
+github_username: bsimpson53
+gitter_username: newcrossfoodcoop/nxfc 
 # Build settings
 markdown: kramdown
