@@ -10,8 +10,8 @@ title: Eat A Rainbow & New Cross Food Coop Website Tech Blog
 email: ben@eatarainbow.org.uk
 description: > # this means to ignore newlines until "baseurl:"
   This is the blog for the Eat A Rainbow Website.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://newcrossfoodcoop.github.io/nxfc" # the base hostname & protocol for your site
+baseurl: "/nxfc" # the subpath of your site, e.g. /blog
+url: "http://newcrossfoodcoop.github.io" # the base hostname & protocol for your site
 github_username:  bsimpson53
 
 # Build settings
