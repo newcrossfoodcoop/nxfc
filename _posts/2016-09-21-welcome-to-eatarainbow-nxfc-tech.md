@@ -6,7 +6,7 @@ categories: update
 ---
 This is the inaugural post :)
 
-The aim is to document the rythum of work on the website and how it develops.
+The aim is to document the rhythm of work on the website and how it develops.
 
 Right now I'm in the process of migrating the site's architecture from a 
 [monolithic](http://microservices.io/patterns/monolithic.html) app to an 
@@ -20,5 +20,5 @@ In reality the monolithic app is:
 * hard to test
 * hard to maintain
 
-I'm hoping that I can reuse some of the services for other projects guarenteeing
+I'm hoping that I can reuse some of the services for other projects guaranteeing
 that they are maintained and actively monitored and developed. 
