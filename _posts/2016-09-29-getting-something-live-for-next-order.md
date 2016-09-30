@@ -5,8 +5,6 @@ date:   2016-09-29 15:26:21 +0100
 categories: update
 ---
 
-Foo
-
 **Carlos asks**: _"Can we use the site for the next order?"_  
 **Ben replies**: _"Can I answer that at the end of Thursday?"_
 
