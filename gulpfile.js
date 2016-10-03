@@ -48,33 +48,8 @@ gulp.task('nodemon', function () {
 	});
 });
 
-gulp.task('workermon', function () {
-	return plugins.nodemon({
-		script: 'worker.js',
-		nodeArgs: ['--debug'],
-		ext: 'js',
-		watch: _.union(defaultAssets.worker.actions, defaultAssets.server.config)
-	});
-});
-
 gulp.task('node', function () {
     var nodeArgs = ['server.js'];
-    var spawn = require('child_process').spawn;
-    console.log(args);
-    
-    _(['stack-size', 'debug', 'max_old_space_size'])
-        .forEach(function(k) {
-            var sk = 'spawn_' + k;
-            if (!_.has(args,sk)) { return; }
-            if (typeof(args[sk]) !== 'undefined') {nodeArgs.push( '--' + k + '=' + args[sk] );}
-            else {nodeArgs.push('--' + k);}
-        });
-    console.log('spawning: node',nodeArgs);
-    spawn('node', nodeArgs, {stdio: 'inherit'}); 
-});
-
-gulp.task('worker', function () {
-    var nodeArgs = ['worker.js'];
     var spawn = require('child_process').spawn;
     console.log(args);
     
@@ -202,20 +177,6 @@ gulp.task('karma', function (done) {
 		}));
 });
 
-// Selenium standalone WebDriver update task
-gulp.task('webdriver-update', plugins.protractor.webdriver_update);
-
-// Protractor test runner task
-gulp.task('protractor', function () {
-	gulp.src([])
-		.pipe(plugins.protractor.protractor({
-			configFile: 'protractor.conf.js'
-		}))
-		.on('error', function (e) {
-			throw e;
-		});
-});
-
 // Lint CSS and JavaScript files.
 gulp.task('lint', function(done) {
 	runSequence('less', 'sass', ['csslint', 'jshint'], done);
@@ -249,16 +210,6 @@ gulp.task('prod', function(done) {
 // Run the project in stage mode
 gulp.task('stage', function(done) {
 	runSequence('env:stage', 'node', done);
-});
-
-// Run the worker in development mode
-gulp.task('dev-worker', function(done) {
-	runSequence('env:dev', 'jshint', 'workermon', done);
-});
-
-// Run the worker in stage mode
-gulp.task('stage-worker', function(done) {
-	runSequence('env:stage', 'jshint', 'worker', done);
 });
 
 
