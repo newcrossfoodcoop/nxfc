@@ -1,5 +1,13 @@
 version: '2'
 services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+  mongo:
+    image: "newcrossfoodcoop/nxfc-mongo:latest"
+    ports:
+      - "27017:27017"
   web:
     build: .
     ports:
@@ -11,24 +19,28 @@ services:
       - "./modules:/home/app/modules" 
       - "./uploads:/home/app/uploads"
     depends_on:
-      - nxfc_mongo
-      - worker
+      - mongo
+      - products_api
     environment:
-      - NODE_ENV="development"
       - OWNER="admin"
-      - MONGO_ADDR_VAR=MONGO
-      - MONGO=nxfc_mongo
-      - WORKER_HOST=worker
-      - WORKER_PORT=4000
-  nxfc_mongo:
-    image: "newcrossfoodcoop/nxfc-mongo"
+      - MONGO_HOST=mongo
+  products_worker:
+    image: newcrossfoodcoop/nxfc_products:latest
+    depends_on:
+      - mongo
+      - products_api
+      - redis
     ports:
-      - "27017:27017"
-  worker:
-    image: bsimpson53/nxfc_worker:latest
-    ports:
-      - "4000:4000"
+      - "3014:3014"
     environment:
-      - NODE_ENV="development"
-      - MONGO_ADDR_VAR=MONGO
-      - MONGO=nxfc_mongo
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
+  products_api:
+    image: newcrossfoodcoop/nxfc_products:latest
+    depends_on:
+      - mongo
+      - products_worker
+    ports:
+      - "3010:3010"
+    environment:
+      - MONGO_HOST=mongo
