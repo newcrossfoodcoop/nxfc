@@ -3,7 +3,8 @@
 
 [![Join the chat at https://gitter.im/newcrossfoodcoop/nxfc](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/newcrossfoodcoop/nxfc?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badge/github.com/newcrossfoodcoop/nxfc/status.svg?branch=master)](http://drone.newcrossfoodcoop.org.uk/github.com/newcrossfoodcoop/nxfc)
+[![Build Status](http://drone.newcrossfoodcoop.org.uk/api/badges/newcrossfoodcoop/nxfc/status.svg)](http://drone.newcrossfoodcoop.org.uk/newcrossfoodcoop/nxfc)
+
 [![Dependency Status](https://david-dm.org/newcrossfoodcoop/nxfc.svg)](https://david-dm.org/newcrossfoodcoop/nxfc)
 
 The website is based on: 
@@ -13,13 +14,12 @@ The website is based on:
 ## Getting started
 To make getting started as easy as possible we are using: 
 
-* [Vagrant](https://www.vagrantup.com/) to provide a virtual machine to run the app in
 * [Docker](https://www.docker.com/) to provide "containers" to run our app and its dependant services in
 
 These allow our application to run happily and consistently on Linux, MacOSX and Windows in only a few commands.
 
-### 1. Install Vagrant & Docker
-* Install [Vagrant](http://www.vagrantup.com/downloads)
+### 1. Install Docker
+
 * Install [Docker](http://www.docker.com/)
 
 ### 2. Clone The GitHub Repository
@@ -30,9 +30,9 @@ This will clone the latest version of the repository to a **nxfc** folder.
 
 ### 3. Start The App
 ```
-$ vagrant up
+$ docker-compose up
 ```
-Vagrant and Docker will now download a couple of container images, build them and then run them, this could take a few minutes the first time but will be much quicker the next time.
+Docker will now download a couple of container images, build them and then run them, this could take a few minutes the first time but will be much quicker the next time.
 
 The website should now be running on the 3000 port so in your browser just go to [http://localhost:3000](http://localhost:3000)
                             
