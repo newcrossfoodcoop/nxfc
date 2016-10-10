@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 var Acl = require('acl'),
-    path = require('path'),
-    config = require(path.resolve('./config/config')).modules.ghost;
+    path = require('path');
 
 // Using the memory backend
 var acl = new Acl(new Acl.memoryBackend());
@@ -17,7 +16,7 @@ exports.invokeRolesPolicies = function() {
 	acl.allow([{
 		roles: ['admin', 'ghost-admin', 'ghost-editor', 'ghost-author'],
 		allows: [{
-			resources: config.subdir,
+			resources: '/cms',
 			permissions: '*'
 		}, {
 			resources: '/api/ghost/login',
