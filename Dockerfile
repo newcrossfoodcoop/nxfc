@@ -1,8 +1,10 @@
-FROM newcrossfoodcoop/nxfc-base:v4-v0.10
+FROM mhart/alpine-node:4.5
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
 WORKDIR /home/app
+
+RUN npm install -g gulp
 
 # Install Mean.JS packages
 ADD package.json /home/app/package.json
@@ -19,7 +21,7 @@ RUN gulp build
 
 # Define upload directories as volumes
 VOLUME /home/app/uploads
-VOLUME /home/app/modules/users/client/img/profie/uploads
+VOLUME /home/app/modules/users/client/img/profile/uploads
 VOLUME /home/app/modules/ghost/server/content/data
 
 # Port 3000 for server

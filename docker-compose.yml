@@ -6,29 +6,56 @@ services:
       - "3000:3000"
       - "35729:35729"
       - "5858:5858"
-      - "2368:2368"
     volumes:
       - "./modules:/home/app/modules" 
       - "./uploads:/home/app/uploads"
     depends_on:
-      - nxfc_mongo
-      - worker
+      - mongo
+      - products_api
+      - ghost_api
     environment:
-      - NODE_ENV="development"
       - OWNER="admin"
-      - MONGO_ADDR_VAR=MONGO
-      - MONGO=nxfc_mongo
-      - WORKER_HOST=worker
-      - WORKER_PORT=4000
-  nxfc_mongo:
+      - MONGO_HOST=mongo
+      - PRODUCTS_API_HOST=products_api
+      - GHOST_API_HOST=ghost_api
+      
+  mongo:
     image: "newcrossfoodcoop/nxfc-mongo"
     ports:
       - "27017:27017"
-  worker:
-    image: bsimpson53/nxfc_worker:latest
+      
+  redis:
+    image: "redis:alpine"
     ports:
-      - "4000:4000"
+      - "6379:6379"
+      
+  ghost_api:
+    image: newcrossfoodcoop/nxfc_ghost:latest
+    ports:
+      - "3020:3020"
+    command: gulp api
+      
+  products_api:
+    image: newcrossfoodcoop/nxfc_products:latest
+    ports:
+      - "3010:3010"
+    depends_on:
+      - mongo
+      - products_worker
     environment:
-      - NODE_ENV="development"
-      - MONGO_ADDR_VAR=MONGO
-      - MONGO=nxfc_mongo
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
+    command: gulp api
+
+  products_worker:
+    image: newcrossfoodcoop/nxfc_products:latest
+    ports:
+      - "3014:3014"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
+      - DEBUG=ingester
+    command: gulp worker
