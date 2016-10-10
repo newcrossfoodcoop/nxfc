@@ -44,7 +44,6 @@ services:
       - products_worker
     environment:
       - MONGO_HOST=mongo
-      - REDIS_HOST=redis
     command: gulp api
 
   products_worker:
