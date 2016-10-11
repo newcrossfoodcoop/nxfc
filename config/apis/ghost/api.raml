@@ -1,0 +1,106 @@
+#%RAML 0.8
+
+title: NXFC Ghost
+baseUri: http://localhost:3020   
+
+schemas:
+  - Post: !include schema/post.json
+  
+/api/ghost:
+  /login:
+    post:
+      description: Generate ghost login credentials for a user
+      body:
+        application/json:
+          schema: |
+            {
+              "$schema": "http://json-schema.org/draft-03/schema#",
+              "type": "object",
+              "properties": {
+                "firstName": "string",
+                "lastName": "string",
+                "displayName": "string",
+                "email": "string",
+                "roles": "array",
+                "id": "string"
+              }
+            }
+          example: |
+            {
+              "firstName": "Ghost",
+              "lastName": "User",
+              "displayName": "Ghost User",
+              "email": "test@test.com",
+              "roles": ["ghost-admin"],
+              "id": "57c4b1ba1abb0114001963c5"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-03/schema#",
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "required": "true"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "required": "true"
+                    },
+                    "token_type": {
+                      "type": "string",
+                      "required": "true",
+                      "enum": ["Bearer"]
+                    },
+                    "expires_in": {
+                      "type": "number",
+                      "required": "true"
+                    }
+                  }
+                }
+              example: |
+                { 
+                  "access_token": 'gPqM08KqYeKiocUokQ5AUaPpbpB6LcM9AB1bVom77pxrZqW09ilA2uJWLhPeep1ENYsCve4Gb71E7NMrHKPZbYJdXtmlnb1shMw08LOjojeb9mvDvwM792sC0hTbc5EBVMIjSs4NyCpmKCUDBDI1TvnzH9FMZjSQZ21surD5pMSY0oMeZCvEiUfNQdnVKjPgnEvkfbthmAvLe34YHhKsz8Qhe8Y2lcQJadss3H53fAuQQjib7oYFNDQ99fKWIyM',
+                  "refresh_token": 'oJl97aWz9DtzzuT2IQ95ZJ9WllC9uDjG5XVKP6UKObbNSYiOR5w50Rkb10ZYzAjYITNzgfWCU5aqJoQcd6j9gkDP7IEf4wIx1ekrt36oCMRUzeIxue30SfcnL1NukiIGeis3n6Yt9LOKS5JcLeDy7DwNQXOfcXhHCFtgPYSQTqJPtlOuqjy54XBc57GU4Y7KBrnioMHiAbG3qiqzQTOWTodyHXqgRXiq6elWJ5AwHgfZEeAKGEb1INLeEaz74TX',
+                  "expires_in": 3600,
+                  "token_type": "Bearer" 
+                }
+  /posts:
+    /slug/{slug}:
+      get:
+        description: Get a post by its slug or Id
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Post
+          404:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-03/schema#",
+                    "type": "array",
+                    "properties": {
+                      "message": "string",
+                      "stack": "string",
+                      "code": {
+                        "type": "number",
+                        "enum": [404]
+                      }
+                    }
+                  }
+    /tag/{tag}:
+      get:
+        description: Get a list of posts matching a tag
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Post       
+/cms:
+  description: access to ghost's web API
