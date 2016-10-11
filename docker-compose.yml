@@ -16,8 +16,8 @@ services:
     environment:
       - OWNER="admin"
       - MONGO_HOST=mongo
-      - PRODUCTS_API_HOST=products_api
-      - GHOST_API_HOST=ghost_api
+      - PRODUCTS_HOST=products_api
+      - GHOST_HOST=ghost_api
       
   mongo:
     image: "newcrossfoodcoop/nxfc-mongo"

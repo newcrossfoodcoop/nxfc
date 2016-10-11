@@ -3,10 +3,20 @@
 var path = require('path'),
     pkgjson = require(path.resolve('./package.json'));
 
+function getEnvValue(varName, fallback) {
+    if (process.env[varName]) {
+        return process.env[varName];
+    }
+    if (process.env[varName + '_VAR']) {
+        return process.env[process.env[varName + '_VAR']];
+    }
+    return fallback;
+}
+
 module.exports = {
 	app: {
 		title: 'NXFC',
-		description: 'Full-Stack JavaScript with MongoDB, Express, AngularJS, and Node.js',
+		description: 'NXFC Gateway',
 		keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
 		googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID',
 		version: pkgjson.version || 'VERSION'
@@ -50,11 +60,21 @@ module.exports = {
             }
         }
     },
+    mongo: {
+        host: getEnvValue('MONGO_HOST','localhost')
+    },
+    products_api: {
+        host: getEnvValue('PRODUCTS_HOST','localhost'),
+        port: 3010
+    },
+    ghost_api: {
+        host: getEnvValue('GHOST_HOST','localhost'),
+        port: 3020
+    },
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',
 	sessionCollection: 'sessions',
 	ownerUsername: process.env.OWNER || 'OWNER',
-	ownerEmail: process.env.OWNER_EMAIL || 'OWNER_EMAIL' + '@a.b',
 	externalAddress: process.env.EXTERNAL_ADDRESS || 'localhost:' + (process.env.PORT || 3000)
 };

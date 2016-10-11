@@ -82,12 +82,8 @@ gulp.task('watch', function() {
 gulp.task('csslint', function (done) {
 	return gulp.src(defaultAssets.client.css)
 		.pipe(plugins.csslint('.csslintrc'))
-		.pipe(plugins.csslint.reporter())
-		.pipe(plugins.csslint.reporter(function (file) {
-			if (!file.csslint.errorCount) {
-				done();
-			}
-		}));
+		.pipe(plugins.csslint.formatter())
+		.pipe(plugins.csslint.formatter('fail'));
 });
 
 // JS linting task
@@ -128,11 +124,22 @@ gulp.task('less', function () {
 		.pipe(gulp.dest('./modules/'));
 });
 
+// Build clients from RAML
+gulp.task("generate-clients", function(){
+    var raml2code = require('raml2code');
+    var genJS = require("raml2code-js-client-mulesoft");
+
+    gulp.src(defaultAssets.server.raml)  
+        .pipe(raml2code({generator: genJS, extra: {}}))
+        .pipe(plugins.filter(['*.js']))
+        .pipe(gulp.dest('config/dist/'));
+});
+
 // Mocha tests task
 gulp.task('mocha', function (done) {
 	// Open mongoose connections
 	var mongoose = require('./config/lib/mongoose.js');
-	var error;
+	var already;
 
 	// Connect mongoose
 	mongoose.connect(function() {
@@ -144,12 +151,15 @@ gulp.task('mocha', function (done) {
 			}))
 			.on('error', function (err) {
 				// If an error occurs, save it
-				error = err;
+				already = true;
+				done(err);
 			})
-			.on('end', function() {
+			.on('end', function (err) {
 				// When the tests are done, disconnect mongoose and pass the error state back to gulp
 				mongoose.disconnect(function() {
-					done(error);
+					if (!already) {
+					    done(err);
+					}
 				});
 			});
 	});
@@ -173,7 +183,7 @@ gulp.task('lint', function(done) {
 
 // Lint project files and minify them into two production files.
 gulp.task('build', function(done) {
-	runSequence('env:dev' ,'lint', ['uglify', 'cssmin'], done);
+	runSequence('env:dev' ,'lint', ['uglify', 'cssmin'], 'generate-clients', done);
 });
 
 // Run the project tests

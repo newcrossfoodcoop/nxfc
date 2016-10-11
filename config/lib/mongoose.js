@@ -21,15 +21,15 @@ module.exports.loadModels = function() {
 module.exports.connect = function(cb) {
 	var _this = this;
 
-	var db = mongoose.connect(config.db, function (err) {
+	var db = mongoose.connect(config.mongo.uri, function (err) {
 		// Log Error
 		if (err) {
 			console.error(chalk.red('Could not connect to MongoDB!'));
-			console.log('tried: "%s"\n  got: "%s"',config.db, err);
-			console.log('Maybe you need to set MONGO_ADDR_VAR to one of these:');
+			console.log('tried: "%s"\n  got: "%s"',config.mongo.uri, err);
+			console.log('Maybe you need to set MONGO_HOST_VAR to one of these:');
 			_(process.env)
 			    .pick(function(v,k) { return k.match( /pass/i ) ? false : k.match( /mongo/i ); })
-			    .pairs()
+			    .toPairs()
 			    .forEach(function(p) { console.log('   ',p); });
 		} else {
 			// Load modules

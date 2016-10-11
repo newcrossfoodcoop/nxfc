@@ -2,9 +2,14 @@ FROM mhart/alpine-node:4.5
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
+RUN apk update
+RUN apk add git
+RUN rm -r /var/cache/apk
+
 WORKDIR /home/app
 
 RUN npm install -g gulp
+RUN npm install -g bower
 
 # Install Mean.JS packages
 ADD package.json /home/app/package.json
@@ -22,14 +27,12 @@ RUN gulp build
 # Define upload directories as volumes
 VOLUME /home/app/uploads
 VOLUME /home/app/modules/users/client/img/profile/uploads
-VOLUME /home/app/modules/ghost/server/content/data
 
 # Port 3000 for server
 # Port 35729 for livereload
 # Port 5858 for debug
 # Port 80 for production
-# Port 2368 for ghost
-EXPOSE 3000 35729 5858 80 2368
+EXPOSE 3000 35729 5858 80
 
 # CMD ["gulp","prod"] for production
 CMD ["gulp"]

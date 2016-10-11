@@ -6,12 +6,12 @@ cache:
 
 build:
   main:
-    image: newcrossfoodcoop/nxfc-base:latest
+    image: mhart/alpine-node:4.5
     commands:
       - npm install
       - bower install --config.interactive=false --allow-root
-      - gulp test
-      - gulp build
+      - node_modules/.bin/gulp test
+      - node_modules/.bin/gulp build
     
 compose:
   mongo:
@@ -22,7 +22,7 @@ publish:
     username: bsimpson53
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
-    repo: bsimpson53/nxfc_web
+    repo: newcrossfoodcoop/nxfc
     tag: latest
     when:
       branch: master
@@ -31,7 +31,7 @@ publish:
     username: bsimpson53
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
-    repo: bsimpson53/nxfc_web
+    repo: newcrossfoodcoop/nxfc
     tag: $$TAG
     when:
       event: tag

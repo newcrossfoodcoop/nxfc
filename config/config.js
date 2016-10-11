@@ -48,6 +48,22 @@ var getGlobbedPaths = function(globPatterns, excludes) {
 };
 
 /**
+ * Validate external service configuration
+ */
+ 
+var validateServiceConfigs = function(config) {
+    var mongo = config.mongo;
+    if(!mongo.uri) {
+        if (mongo.db) {
+            mongo.uri = 'mongodb://' + mongo.host + '/' + mongo.db;
+        }
+        else {
+            console.error(chalk.red('Cannot resolve mongo configuration'));
+        }
+    }
+};
+
+/**
  * Validate NODE_ENV existance
  */
 var validateEnvironmentVariable = function() {
@@ -88,8 +104,7 @@ var initGlobalConfigFiles = function(config, assets) {
     // Appending files
     config.files = {
         server: {},
-        client: {},
-        worker: {}
+        client: {}
     };
 
     // Setting Globbed model files
@@ -115,9 +130,6 @@ var initGlobalConfigFiles = function(config, assets) {
 
     // Setting Globbed test files
     config.files.client.tests = getGlobbedPaths(assets.client.tests);
-    
-    // Setting Globbed worker files
-    config.files.worker.actions = getGlobbedPaths(assets.worker.actions);
 };
 
 /**
@@ -143,7 +155,10 @@ var initGlobalConfig = function() {
     var environmentConfig = require(path.join(process.cwd(), 'config/env/', process.env.NODE_ENV)) || {};
 
     // Merge config files
-    var config = _.extend(defaultConfig, environmentConfig);
+    var config = _.defaultsDeep(environmentConfig, defaultConfig);
+
+    // Groc external service configs
+    validateServiceConfigs(config);
 
     // Initialize global globbed files
     initGlobalConfigFiles(config, assets);

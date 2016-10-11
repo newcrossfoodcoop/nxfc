@@ -24,6 +24,7 @@ access.log
 public/dist/
 uploads
 modules/users/client/img/profie/uploads
+config/dist/
 
 # Sublime editor
 # ==============
