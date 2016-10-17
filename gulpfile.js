@@ -10,7 +10,7 @@ var _ = require('lodash'),
 	gulpLoadPlugins = require('gulp-load-plugins'),
 	runSequence = require('run-sequence'),
 	plugins = gulpLoadPlugins(),
-	args = require('get-gulp-args')();;
+	args = require('get-gulp-args')();
 
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
@@ -94,7 +94,6 @@ gulp.task('jshint', function () {
 		.pipe(plugins.jshint.reporter('fail'));
 });
 
-
 // JS minifying task
 gulp.task('uglify', function () {
 	return gulp.src(defaultAssets.client.js)
@@ -128,10 +127,17 @@ gulp.task('less', function () {
 gulp.task("generate-clients", function(){
     var raml2code = require('raml2code');
     var genJS = require("raml2code-js-client-mulesoft");
-
+    var lastJS;
     gulp.src(defaultAssets.server.raml)  
         .pipe(raml2code({generator: genJS, extra: {}}))
-        .pipe(plugins.filter(['*.js']))
+        .pipe(plugins.rename(function (path) {
+            if (path.extname === '.js') {
+                lastJS = path.basename;
+            } 
+            else {
+                path.basename = lastJS + path.basename; 
+            }
+		}))
         .pipe(gulp.dest('config/dist/'));
 });
 

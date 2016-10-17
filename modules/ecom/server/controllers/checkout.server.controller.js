@@ -15,6 +15,8 @@ module.exports = function(app) {
         
         var order = new Order(req.body);
 	    order.user = req.user;
+	    
+	    console.log(order);
 	
 	    // orders can only be created in the new state and modifications are
 	    // managed through contoller methods (no bare updates)
@@ -50,7 +52,7 @@ module.exports = function(app) {
         function(err,order) {
             if (err) {
                 console.error(err);
-                return res.send(400, err);
+                return res.status(400).send(err);
             }
             res.jsonp({ redirect: subController.approvalRedirectUrl(order) });
         });

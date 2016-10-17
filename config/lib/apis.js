@@ -14,7 +14,7 @@ var path = require('path');
 function initApis() {
     return {
         catalogue: {
-            api: new CatalogueApi({baseUri: config.products.uri}),
+            api: new CatalogueApi({baseUri: config.catalogue.uri}),
             raml: ramlParser.loadFile(path.resolve('./config/apis/catalogue/api.raml'))
         },
         ghost: {

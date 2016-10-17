@@ -43,9 +43,9 @@ module.exports = function(app) {
     };
     
     var proxyMiddleware = proxy(
-        config.products.uri, {
+        config.catalogue.uri, {
             forwardPath: function(req, res) {
-                return config.products.path + url.parse(req.url).path;
+                return config.catalogue.path + url.parse(req.url).path;
             }
         }
     );

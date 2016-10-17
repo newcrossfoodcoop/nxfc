@@ -22,6 +22,15 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/ghost/login',
 			permissions: ['get']		
 		}]
+	}, {
+	    roles: ['guest', 'user'],
+	    allows: [{
+		    resources: '/api/ghost/posts/slug/{slug}',
+		    permissions: ['get']
+		}, {
+		    resources: '/api/ghost/posts/tag/{tag}',
+		    permissions: ['get']
+		}]
 	}]);
 };
 

@@ -7,6 +7,9 @@ var _ = require('lodash');
  */
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
+	
+var path = require('path');
+var productsApi = require(path.resolve('./config/lib/apis')).catalogue.api.resources.products;
 
 var OrderItemSchema = new Schema({
     _product: { type: Schema.Types.ObjectId, ref: 'Product' },
@@ -86,18 +89,30 @@ var OrderItem = mongoose.model('OrderItem', OrderItemSchema);
 // Order total is always validated
 OrderSchema.pre('validate', function(next) {
     var order = this;
-    OrderItem.populate(order.items,{path: '_product'}, function(err,doc) {
-        if (err) { return next(err); }
 
+    console.log('validating order');
+
+    // Essentially we are populating from the catalogue api
+    productsApi.get({
+        itemsperpage: order.items.length,
+        ids: _.map(order.items, '_product')
+    }).then(function(res) {
+        console.log(res.body);
+        var products = _.keyBy(res.body,'_id');
         order.total = _(order.items)
             .map(function(item) {
-                item.price = item._product.price || 0;
+                item._product = products[item._product];
+                item.price = item._product.price;
                 item.name = item._product.name;
+                item.price = (item.price ? item.price : 0);
                 item.total = item.price * item.quantity;
                 return item.total;
             })
             .reduce(function(total,subtot) { return total + subtot; },0);
         
         next();
+    }).catch(function(err) {
+        next(err);
     });
+
 });

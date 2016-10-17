@@ -61,6 +61,26 @@ var validateServiceConfigs = function(config) {
             console.error(chalk.red('Cannot resolve mongo configuration'));
         }
     }
+    
+    var catalogue = config.catalogue;
+    if(!catalogue.uri) {
+        if (catalogue.host) {
+            catalogue.uri = 'http://' + catalogue.host + ':' + catalogue.port + catalogue.path;
+        }
+        else {
+            console.error(chalk.red('Cannot resolve catalogue configuration'));
+        }
+    }
+    
+    var ghost = config.ghost;
+    if(!ghost.uri) {
+        if (ghost.host) {
+            ghost.uri = 'http://' + ghost.host + ':' + ghost.port + ghost.path;
+        }
+        else {
+            console.error(chalk.red('Cannot resolve ghost configuration'));
+        }
+    }
 };
 
 /**

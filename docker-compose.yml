@@ -11,12 +11,12 @@ services:
       - "./uploads:/home/app/uploads"
     depends_on:
       - mongo
-      - products_api
+      - catalogue_api
       - ghost_api
     environment:
       - OWNER="admin"
       - MONGO_HOST=mongo
-      - PRODUCTS_HOST=products_api
+      - CATALOGUE_HOST=catalogue_api
       - GHOST_HOST=ghost_api
       
   mongo:
@@ -35,19 +35,19 @@ services:
       - "3020:3020"
     command: gulp api
       
-  products_api:
-    image: newcrossfoodcoop/nxfc_products:latest
+  catalogue_api:
+    image: newcrossfoodcoop/nxfc_catalogue:latest
     ports:
       - "3010:3010"
     depends_on:
       - mongo
-      - products_worker
+      - catalogue_worker
     environment:
       - MONGO_HOST=mongo
     command: gulp api
 
-  products_worker:
-    image: newcrossfoodcoop/nxfc_products:latest
+  catalogue_worker:
+    image: newcrossfoodcoop/nxfc_catalogue:latest
     ports:
       - "3014:3014"
     depends_on:

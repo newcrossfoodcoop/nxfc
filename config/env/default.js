@@ -63,12 +63,14 @@ module.exports = {
     mongo: {
         host: getEnvValue('MONGO_HOST','localhost')
     },
-    products_api: {
-        host: getEnvValue('PRODUCTS_HOST','localhost'),
+    catalogue: {
+        host: getEnvValue('CATALOGUE_HOST','localhost'),
+        path: '/api',
         port: 3010
     },
-    ghost_api: {
+    ghost: {
         host: getEnvValue('GHOST_HOST','localhost'),
+        path: '',
         port: 3020
     },
 	port: process.env.PORT || 3000,

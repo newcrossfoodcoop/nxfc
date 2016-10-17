@@ -39,7 +39,7 @@ module.exports = {
 		views: ['modules/*/client/views/**/*.html']
 	},
 	server: {
-		allJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
+		allJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'modules/*/server/**/*.js', '!config/dist/**/*.js'],
 		models: 'modules/*/server/models/**/*.js',
 		routes: ['modules/!(core)/server/routes/**/*.js', 'modules/core/server/routes/**/*.js'],
 		sockets: 'modules/*/server/sockets/**/*.js',
