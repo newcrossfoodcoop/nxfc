@@ -14,8 +14,8 @@ build:
       - npm install -g bower
       - npm install
       - bower install --config.interactive=false --allow-root
-      - node_modules/.bin/gulp test
       - node_modules/.bin/gulp build
+      - node_modules/.bin/gulp test
     
 compose:
   mongo:
