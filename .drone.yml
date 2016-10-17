@@ -8,6 +8,9 @@ build:
   main:
     image: mhart/alpine-node:4.5
     commands:
+      - apk update
+      - apk add git
+      - rm -r /var/cache/apk
       - npm install
       - bower install --config.interactive=false --allow-root
       - node_modules/.bin/gulp test
