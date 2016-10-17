@@ -17,12 +17,12 @@ schemas:
               "$schema": "http://json-schema.org/draft-03/schema#",
               "type": "object",
               "properties": {
-                "firstName": "string",
-                "lastName": "string",
-                "displayName": "string",
-                "email": "string",
-                "roles": "array",
-                "id": "string"
+                "firstName": { "type": "string" },
+                "lastName": { "type": "string" },
+                "displayName": { "type": "string" },
+                "email": { "type": "string" },
+                "roles": { "type": "array" },
+                "id": { "type": "string" }
               }
             }
           example: |
@@ -86,8 +86,8 @@ schemas:
                     "$schema": "http://json-schema.org/draft-03/schema#",
                     "type": "array",
                     "properties": {
-                      "message": "string",
-                      "stack": "string",
+                      "message": { "type": "string" },
+                      "stack": { "type": "string" },
                       "code": {
                         "type": "number",
                         "enum": [404]
