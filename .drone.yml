@@ -11,6 +11,7 @@ build:
       - apk update
       - apk add git
       - rm -r /var/cache/apk
+      - npm install -g bower
       - npm install
       - bower install --config.interactive=false --allow-root
       - node_modules/.bin/gulp test

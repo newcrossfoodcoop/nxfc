@@ -184,7 +184,7 @@ describe('Article CRUD tests', function() {
 			request(app).get('/api/articles')
 				.end(function(req, res) {
 					// Set assertion
-					res.body.should.be.an.Array.with.lengthOf(1);
+					res.body.should.be.instanceof(Array).and.have.lengthOf(1);
 
 					// Call the assertion callback
 					done();
@@ -203,7 +203,7 @@ describe('Article CRUD tests', function() {
 			request(app).get('/api/articles/' + articleObj._id)
 				.end(function(req, res) {
 					// Set assertion
-					res.body.should.be.an.Object.with.property('title', article.title);
+					res.body.should.be.an.instanceof(Object).with.property('title', article.title);
 
 					// Call the assertion callback
 					done();
