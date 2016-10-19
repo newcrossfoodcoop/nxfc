@@ -6,16 +6,15 @@ cache:
 
 build:
   main:
-    image: mhart/alpine-node:4.5
+    image: newcrossfoodcoop/nxfc_base:v4.5.2
     commands:
-      - apk update
-      - apk add git
-      - rm -r /var/cache/apk
-      - npm install -g bower
       - npm install
-      - bower install --config.interactive=false --allow-root
       - node_modules/.bin/gulp build
-      - node_modules/.bin/gulp test
+      - node_modules/.bin/gulp drone:test
+  karma:
+    image: muccg/karma:latest
+    commands:
+      - /docker-entrypoint.sh karma /drone/src/bower.json --log-level info --browsers=Firefox --reporters=progress karma.conf.js
     
 compose:
   mongo:

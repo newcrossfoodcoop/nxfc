@@ -12,6 +12,8 @@ var _ = require('lodash'),
 	plugins = gulpLoadPlugins(),
 	args = require('get-gulp-args')();
 
+var Karma = require('karma').Server;
+
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
 	process.env.NODE_ENV = 'test';
@@ -174,12 +176,10 @@ gulp.task('mocha', function (done) {
 
 // Karma test runner task
 gulp.task('karma', function (done) {
-	return gulp.src([])
-		.pipe(plugins.karma({
-			configFile: 'karma.conf.js',
-			action: 'run',
-			singleRun: true
-		}));
+  new Karma({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
 
 // Lint CSS and JavaScript files.
@@ -193,8 +193,13 @@ gulp.task('build', function(done) {
 });
 
 // Run the project tests
+gulp.task('drone:test', function(done) {
+	runSequence('env:test', 'lint', 'mocha', done);
+});
+
+// Run the project tests
 gulp.task('test', function(done) {
-	runSequence('env:test', 'lint', 'mocha', 'karma', done);
+	runSequence('drone:test', 'karma', done);
 });
 
 // Run the project in development mode

@@ -1,14 +1,9 @@
-FROM mhart/alpine-node:4.5
+FROM newcrossfoodcoop/nxfc_base:v4.5.2
 
 MAINTAINER Ben Simpson, ben@hy-street.net
 
-RUN apk update
-RUN apk add git
-RUN rm -r /var/cache/apk
-
 WORKDIR /home/app
 
-RUN npm install -g gulp
 RUN npm install -g bower
 
 # Install Mean.JS packages
@@ -35,4 +30,4 @@ VOLUME /home/app/modules/users/client/img/profile/uploads
 EXPOSE 3000 35729 5858 80
 
 # CMD ["gulp","prod"] for production
-CMD ["gulp"]
+CMD gulp
