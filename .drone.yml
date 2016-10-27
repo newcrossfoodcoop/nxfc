@@ -12,9 +12,9 @@ build:
       - node_modules/.bin/gulp build
       - node_modules/.bin/gulp drone:test
   karma:
-    image: muccg/karma:latest
+    image: newcrossfoodcoop/nxfc_karma:v0.1.0
     commands:
-      - /docker-entrypoint.sh karma /drone/src/bower.json --log-level info --browsers=Firefox --reporters=progress karma.conf.js
+      - gulp karma --conf /drone/src/karma.conf.js
     
 compose:
   mongo:
