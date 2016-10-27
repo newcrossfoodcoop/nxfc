@@ -14,6 +14,7 @@ build:
   karma:
     image: newcrossfoodcoop/nxfc_karma:v0.1.0
     commands:
+      - cd /home/karma
       - gulp karma --conf /drone/src/karma.conf.js
     
 compose:
