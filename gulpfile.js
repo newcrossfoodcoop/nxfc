@@ -12,8 +12,6 @@ var _ = require('lodash'),
 	plugins = gulpLoadPlugins(),
 	args = require('get-gulp-args')();
 
-var Karma = require('karma').Server;
-
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
 	process.env.NODE_ENV = 'test';
@@ -53,7 +51,6 @@ gulp.task('nodemon', function () {
 gulp.task('node', function () {
     var nodeArgs = ['server.js'];
     var spawn = require('child_process').spawn;
-    console.log(args);
     
     _(['stack-size', 'debug', 'max_old_space_size'])
         .forEach(function(k) {
@@ -174,13 +171,15 @@ gulp.task('mocha', function (done) {
 
 });
 
-// Karma test runner task
+// Running karma from a docker container as we do on drone
 gulp.task('karma', function (done) {
-  new Karma({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
+    var spawn = require('child_process').spawn;
+
+    return spawn('docker', [
+        'run', '--rm', '-v', __dirname + ':/home/src', 'newcrossfoodcoop/nxfc_karma', 
+        'gulp', 'karma', '--conf=/home/src/karma.conf.js'
+    ], {stdio: 'inherit'});
+})
 
 // Lint CSS and JavaScript files.
 gulp.task('lint', function(done) {
