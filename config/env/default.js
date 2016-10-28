@@ -68,6 +68,11 @@ module.exports = {
         path: '/api',
         port: 3010
     },
+    checkout: {
+        host: getEnvValue('CHECKOUT_HOST','localhost'),
+        path: '/api',
+        port: 3030
+    },
     ghost: {
         host: getEnvValue('GHOST_HOST','localhost'),
         path: '',

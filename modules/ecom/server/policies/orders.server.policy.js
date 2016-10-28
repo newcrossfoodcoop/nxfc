@@ -18,7 +18,7 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/orders',
 			permissions: '*'
 		}, {
-			resources: '/api/orders/:orderId',
+			resources: '/api/orders/{orderId}',
 			permissions: '*'
 		}, {
 			resources: '/api/orders/history',
@@ -30,7 +30,7 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/orders',
 			permissions: ['get', 'post']
 		}, {
-			resources: '/api/orders/:orderId',
+			resources: '/api/orders/{orderId}',
 			permissions: ['get']
 		}, {
 			resources: '/api/orders/history',
@@ -42,7 +42,7 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/orders',
 			permissions: ['get']
 		}, {
-			resources: '/api/orders/:orderId',
+			resources: '/api/orders/{orderId}',
 			permissions: ['get']
 		}, {
 			resources: '/api/orders/history',
@@ -56,9 +56,10 @@ exports.invokeRolesPolicies = function() {
  */
 exports.isAllowed = function(req, res, next) {
 	var roles = (req.user) ? req.user.roles : ['guest'];
+	var resource = req.baseUrl + req.route.path;
 
 	// Check for user roles
-	acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function(err, isAllowed) {
+	acl.areAnyRolesAllowed(roles, resource, req.method.toLowerCase(), function(err, isAllowed) {
 		if (err) {
 			// An authorization error occurred.
 			return res.status(500).send('Unexpected authorization error');

@@ -16,16 +16,19 @@ exports.invokeRolesPolicies = function() {
 		roles: ['admin','user'],
 		allows: [{
 			resources: [
-			    '/api/checkout/:method/:checkoutOrderId/:token/redirected',
-			    '/api/checkout/:method/:checkoutOrderId/:token/cancelled'
+			    '/api/checkout/{method}/{checkoutOrderId}/{token}/redirected',
+			    '/api/checkout/{method}/{checkoutOrderId}/{token}/cancelled'
 			 ],
 			permissions: ['put']
 		}, {
-			resources: '/api/checkout/:method/:checkoutOrderId/:token/confirm',
+			resources: '/api/checkout/{method}/{checkoutOrderId}/{token}/confirm',
 			permissions: ['get']
 		}, {
-			resources: '/api/checkout/:method',
+			resources: '/api/checkout/{method}',
 			permissions: 'post'
+		}, {
+			resources: '/api/checkout/config',
+			permissions: 'get'
 		}]
 	}]);
 };
@@ -43,9 +46,11 @@ exports.isAllowed = function(req, res, next) {
 		    return next();
 	    }
 	}
+	
+	var resource = req.baseUrl + req.route.path;
 
 	// Check for user roles
-	acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function(err, isAllowed) {
+	acl.areAnyRolesAllowed(roles, resource, req.method.toLowerCase(), function(err, isAllowed) {
 		if (err) {
 			// An authorization error occurred.
 			return res.status(500).send('Unexpected authorization error');

@@ -81,6 +81,16 @@ var validateServiceConfigs = function(config) {
             console.error(chalk.red('Cannot resolve ghost configuration'));
         }
     }
+    
+    var checkout = config.checkout;
+    if(!checkout.uri) {
+        if (checkout.host) {
+            checkout.uri = 'http://' + checkout.host + ':' + checkout.port + checkout.path;
+        }
+        else {
+            console.error(chalk.red('Cannot resolve checkout configuration'));
+        }
+    }
 };
 
 /**

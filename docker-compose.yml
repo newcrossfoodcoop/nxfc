@@ -13,11 +13,13 @@ services:
       - mongo
       - catalogue_api
       - ghost_api
+      - checkout_api
     environment:
       - OWNER="admin"
       - MONGO_HOST=mongo
       - CATALOGUE_HOST=catalogue_api
       - GHOST_HOST=ghost_api
+      - CHECKOUT_HOST=checkout_api
       
   mongo:
     image: "newcrossfoodcoop/nxfc-mongo"
@@ -58,3 +60,15 @@ services:
       - REDIS_HOST=redis
       - DEBUG=ingester
     command: gulp worker
+    
+  checkout_api:
+    image: newcrossfoodcoop/nxfc_checkout:latest
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mongo
+      - catalogue_api
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - CATALOGUE_HOSTNAME=catalogue_api
+    command: gulp
