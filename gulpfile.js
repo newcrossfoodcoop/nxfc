@@ -10,7 +10,7 @@ var _ = require('lodash'),
 	gulpLoadPlugins = require('gulp-load-plugins'),
 	runSequence = require('run-sequence'),
 	plugins = gulpLoadPlugins(),
-	args = require('get-gulp-args')();;
+	args = require('get-gulp-args')();
 
 // Set NODE_ENV to 'test'
 gulp.task('env:test', function () {
@@ -48,35 +48,9 @@ gulp.task('nodemon', function () {
 	});
 });
 
-gulp.task('workermon', function () {
-	return plugins.nodemon({
-		script: 'worker.js',
-		nodeArgs: ['--debug'],
-		ext: 'js',
-		watch: _.union(defaultAssets.worker.actions, defaultAssets.server.config)
-	});
-});
-
 gulp.task('node', function () {
     var nodeArgs = ['server.js'];
     var spawn = require('child_process').spawn;
-    console.log(args);
-    
-    _(['stack-size', 'debug', 'max_old_space_size'])
-        .forEach(function(k) {
-            var sk = 'spawn_' + k;
-            if (!_.has(args,sk)) { return; }
-            if (typeof(args[sk]) !== 'undefined') {nodeArgs.push( '--' + k + '=' + args[sk] );}
-            else {nodeArgs.push('--' + k);}
-        });
-    console.log('spawning: node',nodeArgs);
-    spawn('node', nodeArgs, {stdio: 'inherit'}); 
-});
-
-gulp.task('worker', function () {
-    var nodeArgs = ['worker.js'];
-    var spawn = require('child_process').spawn;
-    console.log(args);
     
     _(['stack-size', 'debug', 'max_old_space_size'])
         .forEach(function(k) {
@@ -100,7 +74,6 @@ gulp.task('watch', function() {
 	gulp.watch(defaultAssets.client.views).on('change', plugins.livereload.changed);
 	gulp.watch(defaultAssets.client.js, ['jshint']).on('change', plugins.livereload.changed);
 	gulp.watch(defaultAssets.client.css, ['csslint']).on('change', plugins.livereload.changed);
-	gulp.watch(defaultAssets.client.sass, ['sass', 'csslint']).on('change', plugins.livereload.changed);
 	gulp.watch(defaultAssets.client.less, ['less', 'csslint']).on('change', plugins.livereload.changed);
 });
 
@@ -108,12 +81,8 @@ gulp.task('watch', function() {
 gulp.task('csslint', function (done) {
 	return gulp.src(defaultAssets.client.css)
 		.pipe(plugins.csslint('.csslintrc'))
-		.pipe(plugins.csslint.reporter())
-		.pipe(plugins.csslint.reporter(function (file) {
-			if (!file.csslint.errorCount) {
-				done();
-			}
-		}));
+		.pipe(plugins.csslint.formatter())
+		.pipe(plugins.csslint.formatter('fail'));
 });
 
 // JS linting task
@@ -123,7 +92,6 @@ gulp.task('jshint', function () {
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.jshint.reporter('fail'));
 });
-
 
 // JS minifying task
 gulp.task('uglify', function () {
@@ -144,16 +112,6 @@ gulp.task('cssmin', function () {
 		.pipe(gulp.dest('public/dist'));
 });
 
-// Sass task
-gulp.task('sass', function () {
-	return gulp.src(defaultAssets.client.sass)
-		.pipe(plugins.sass())
-		.pipe(plugins.rename(function (path) {
-			path.dirname = path.dirname.replace('/scss', '/css');
-		}))
-		.pipe(gulp.dest('./modules/'));
-});
-
 // Less task
 gulp.task('less', function () {
 	return gulp.src(defaultAssets.client.less)
@@ -164,11 +122,29 @@ gulp.task('less', function () {
 		.pipe(gulp.dest('./modules/'));
 });
 
+// Build clients from RAML
+gulp.task("generate-clients", function(){
+    var raml2code = require('raml2code');
+    var genJS = require("raml2code-js-client-mulesoft");
+    var lastJS;
+    gulp.src(defaultAssets.server.raml)  
+        .pipe(raml2code({generator: genJS, extra: {}}))
+        .pipe(plugins.rename(function (path) {
+            if (path.extname === '.js') {
+                lastJS = path.basename;
+            } 
+            else {
+                path.basename = lastJS + path.basename; 
+            }
+		}))
+        .pipe(gulp.dest('config/dist/'));
+});
+
 // Mocha tests task
 gulp.task('mocha', function (done) {
 	// Open mongoose connections
 	var mongoose = require('./config/lib/mongoose.js');
-	var error;
+	var already;
 
 	// Connect mongoose
 	mongoose.connect(function() {
@@ -180,55 +156,49 @@ gulp.task('mocha', function (done) {
 			}))
 			.on('error', function (err) {
 				// If an error occurs, save it
-				error = err;
+				already = true;
+				done(err);
 			})
-			.on('end', function() {
+			.on('end', function (err) {
 				// When the tests are done, disconnect mongoose and pass the error state back to gulp
 				mongoose.disconnect(function() {
-					done(error);
+					if (!already) {
+					    done(err);
+					}
 				});
 			});
 	});
 
 });
 
-// Karma test runner task
+// Running karma from a docker container as we do on drone
 gulp.task('karma', function (done) {
-	return gulp.src([])
-		.pipe(plugins.karma({
-			configFile: 'karma.conf.js',
-			action: 'run',
-			singleRun: true
-		}));
-});
+    var spawn = require('child_process').spawn;
 
-// Selenium standalone WebDriver update task
-gulp.task('webdriver-update', plugins.protractor.webdriver_update);
-
-// Protractor test runner task
-gulp.task('protractor', function () {
-	gulp.src([])
-		.pipe(plugins.protractor.protractor({
-			configFile: 'protractor.conf.js'
-		}))
-		.on('error', function (e) {
-			throw e;
-		});
-});
+    return spawn('docker', [
+        'run', '--rm', '-v', __dirname + ':/home/src', 'newcrossfoodcoop/nxfc_karma', 
+        'gulp', 'karma', '--conf=/home/src/karma.conf.js'
+    ], {stdio: 'inherit'});
+})
 
 // Lint CSS and JavaScript files.
 gulp.task('lint', function(done) {
-	runSequence('less', 'sass', ['csslint', 'jshint'], done);
+	runSequence('less', ['csslint', 'jshint'], done);
 });
 
 // Lint project files and minify them into two production files.
 gulp.task('build', function(done) {
-	runSequence('env:dev' ,'lint', ['uglify', 'cssmin'], done);
+	runSequence('env:dev' ,'lint', ['uglify', 'cssmin'], 'generate-clients', done);
+});
+
+// Run the project tests
+gulp.task('drone:test', function(done) {
+	runSequence('env:test', 'lint', 'mocha', done);
 });
 
 // Run the project tests
 gulp.task('test', function(done) {
-	runSequence('env:test', 'lint', 'mocha', 'karma', done);
+	runSequence('drone:test', 'karma', done);
 });
 
 // Run the project in development mode
@@ -249,16 +219,6 @@ gulp.task('prod', function(done) {
 // Run the project in stage mode
 gulp.task('stage', function(done) {
 	runSequence('env:stage', 'node', done);
-});
-
-// Run the worker in development mode
-gulp.task('dev-worker', function(done) {
-	runSequence('env:dev', 'jshint', 'workermon', done);
-});
-
-// Run the worker in stage mode
-gulp.task('stage-worker', function(done) {
-	runSequence('env:stage', 'jshint', 'worker', done);
 });
 
 

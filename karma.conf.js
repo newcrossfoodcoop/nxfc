@@ -17,9 +17,8 @@ module.exports = function(karmaConfig) {
 		files: _.union(defaultAssets.client.lib.js, defaultAssets.client.lib.tests, defaultAssets.client.js, testAssets.tests.client),
 
 		// Test results reporter to use
-		// Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		//reporters: ['progress'],
-		reporters: ['progress'],
+		// Possible values: 'dots', 'progress', 'mocha', 'coverage'
+		reporters: ['mocha'],
 
 		// Web server port
 		port: 9876,
@@ -33,16 +32,11 @@ module.exports = function(karmaConfig) {
 		logLevel: karmaConfig.LOG_INFO,
 
 		// Enable / disable watching file and executing tests whenever any file changes
-		autoWatch: true,
+		//autoWatch: true,
 
 		// Start these browsers, currently available:
-		// - Chrome
-		// - ChromeCanary
 		// - Firefox
-		// - Opera
-		// - Safari (only Mac)
 		// - PhantomJS
-		// - IE (only Windows)
 		browsers: ['PhantomJS'],
 
 		// If browser does not capture in given timeout [ms], kill it

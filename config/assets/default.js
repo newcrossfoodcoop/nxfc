@@ -30,9 +30,6 @@ module.exports = {
 		less: [
 			'modules/*/client/less/*.less'
 		],
-		sass: [
-			'modules/*/client/scss/*.scss'
-		],
 		js: [
 			'modules/core/client/app/config.js',
 			'modules/core/client/app/init.js',
@@ -42,15 +39,13 @@ module.exports = {
 		views: ['modules/*/client/views/**/*.html']
 	},
 	server: {
-		allJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'modules/*/server/**/*.js', 'modules/*/worker/**/*.js'],
+		allJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'modules/*/server/**/*.js', '!config/dist/**/*.js'],
 		models: 'modules/*/server/models/**/*.js',
 		routes: ['modules/!(core)/server/routes/**/*.js', 'modules/core/server/routes/**/*.js'],
 		sockets: 'modules/*/server/sockets/**/*.js',
 		config: 'modules/*/server/config/*.js',
 		policies: 'modules/*/server/policies/*.js',
-		views: 'modules/*/server/views/*.html'
-	},
-	worker: {
-	    actions: 'modules/*/worker/actions/**/*.js',
+		views: 'modules/*/server/views/*.html',
+		raml: 'config/apis/**/*.raml'
 	}
 };

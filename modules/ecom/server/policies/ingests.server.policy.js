@@ -18,37 +18,31 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/ingests',
 			permissions: '*'
 		}, {
-			resources: '/api/ingests/:ingestId',
+			resources: '/api/ingests/{ingestId}',
 			permissions: '*'
 		}, {
-			resources: '/api/ingests/:ingestId/run',
+			resources: '/api/ingests/{ingestId}/start-run',
 			permissions: '*'
+		}]
+	}, {
+		roles: ['manager'],
+		allows: [{
+			resources: '/api/ingests',
+			permissions: ['get']
+		}, {
+			resources: '/api/ingests/{ingestId}',
+			permissions: ['get']
 		}]
 	}, {
 		roles: ['manager', 'admin'],
 		allows: [{
-			resources: '/api/ingests',
+			resources: '/api/ingests/{ingestId}/runs',
 			permissions: ['get']
 		}, {
-			resources: '/api/ingests/:ingestId',
+			resources: '/api/ingests/runs/{runId}',
 			permissions: ['get']
 		}, {
-			resources: '/api/ingests/:ingestId/logs',
-			permissions: ['get']
-		}, {
-			resources: '/api/ingest-logs/:ingestLogId',
-			permissions: ['get']
-		}, {
-			resources: '/api/ingest-logs/:ingestLogId/entries',
-			permissions: ['get']
-		}]
-	}, {
-		roles: ['guest', 'user'],
-		allows: [{
-			resources: '/api/ingests',
-			permissions: ['get']
-		}, {
-			resources: '/api/ingests/:ingestId',
+			resources: '/api/ingests/runs/{runId}/log',
 			permissions: ['get']
 		}]
 	}]);
@@ -59,9 +53,10 @@ exports.invokeRolesPolicies = function() {
  */
 exports.isAllowed = function(req, res, next) {
 	var roles = (req.user) ? req.user.roles : ['guest'];
+	var resource = req.baseUrl + req.route.path;
 
 	// Check for user roles
-	acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function(err, isAllowed) {
+	acl.areAnyRolesAllowed(roles, resource, req.method.toLowerCase(), function(err, isAllowed) {
 		if (err) {
 			// An authorization error occurred.
 			return res.status(500).send('Unexpected authorization error');

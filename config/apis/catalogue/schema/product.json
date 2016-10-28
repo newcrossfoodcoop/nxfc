@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema#",
+    "type": "object",
+    "description": "Product",
+    "properties": {
+        "tags": { "type": "array" },
+        "annotation": { "type": "string" },
+        "description": { "type": "string" },
+        "name": {
+            "type": "string",
+            "example": "My Product"
+        }
+    }
+}

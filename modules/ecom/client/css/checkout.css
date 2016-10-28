@@ -7,10 +7,10 @@
 /*.co-form-container                { background:#2f2f2f; margin-bottom:20px; border-radius:5px; }*/
 /*.co-form-container .co-page-header   { background:#151515; margin:0; padding:30px; */
 .co-form-container > .page-header { 
-    margin:0; 
-    padding:30px; 
     border-top-left-radius:5px; 
-    border-top-right-radius:5px; 
+    border-top-right-radius:5px;
+    margin:0; 
+    padding:30px;  
 }
 
 /* numbered buttons */
@@ -29,16 +29,16 @@
 /* we will style the span as the circled number */
 .co-form-container > .page-header > .status-buttons span { 
     background:#080808; 
+    border-radius:50%; 
     display:block; 
     height:30px; 
     margin:0 auto 10px; 
     padding-top:5px; 
     width:30px; 
-    border-radius:50%; 
 }
 
 .co-form-container > .page-header > .status-buttons > .wizard-step {
-    padding-right:0; padding-left:0; 
+    padding-left:0; padding-right:0;
 }
 
 .co-form-container > .page-header > .status-buttons > .wizard-step .bs-wizard-stepnum {
@@ -50,17 +50,17 @@
 }
 
 .co-form-container > .page-header > .status-buttons > .wizard-step > .wizard-dot {
-    position: absolute; 
-    width: 30px; 
-    height: 30px; 
-    display: block; 
-    background: #fbe8aa; 
-    top: 45px; 
-    left: 50%; 
-    margin-top: -15px; 
-    margin-left: -15px; 
-    border-radius: 50%;
+    background: #fbe8aa;
     border: 0 solid transparent;
+    border-radius: 50%;
+    display: block;
+    height: 30px;
+    left: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    position: absolute;
+    top: 45px;  
+    width: 30px;
 }
 
 .co-form-container > .page-header > .status-buttons .wizard-step.active .wizard-dot {
@@ -68,29 +68,29 @@
 }
 
 .co-form-container > .page-header > .status-buttons > .wizard-step > .wizard-dot:after {
-    content: ' '; 
-    width: 14px; 
-    height: 14px; 
     background: #fbbd19;
     border-radius: 50px; 
-    position: absolute; 
-    top: 8px; 
+    content: ' ';
+    height: 14px;
     left: 8px; 
+    position: absolute; 
+    top: 8px;
+    width: 14px; 
 } 
 
 .co-form-container > .page-header > .status-buttons > .wizard-step > .progress {
-    position: relative; 
-    border-radius: 0; 
-    height: 8px; 
+    border-radius: 0;
     box-shadow: none; 
+    height: 8px;
     margin: 20px 0;
+    position: relative; 
 }
 
 .co-form-container > .page-header > .status-buttons > .wizard-step > .progress > .progress-bar {
-    width:0; 
-    box-shadow: none; 
     background: #fbe8aa;
+    box-shadow: none; 
     transition: none;
+    width:0; 
 }
 
 

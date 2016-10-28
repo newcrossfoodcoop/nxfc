@@ -7,14 +7,15 @@ var proxy = require('express-http-proxy');
 var url = require('url');
 var express = require('express');
 var finalhandler = require('finalhandler');
-var helmet = require('helmet');
+var debug = require('debug')('ecom');
 
 // Internal Modules
 var config = require(path.resolve('./config/config'));
 var apis = require(path.resolve('./config/lib/apis'));
 
 // ACL Policies
-var ghostPolicy = require('../policies/ghost.server.policy');
+var checkoutPolicy = require('../policies/checkout.server.policy');
+var ordersPolicy = require('../policies/orders.server.policy');
 
 function resplitUrl (baseParts) {
     baseParts++;
@@ -26,24 +27,13 @@ function resplitUrl (baseParts) {
     };
 }
 
-function ghostLogin(req,res,next) {
-    var user = req.user.toObject();
-    user.id = user._id;
-    apis.ghost.api.resources.api.ghost.login
-        .post(user)
-        .then(function(_res) {
-            res.status(_res.status);
-            res.jsonp(_res.body);
-        })
-        .catch(next);
-}
-
 module.exports = function(app) {
     var _middleware = function () { console.error('osprey not configured'); };
     
     var ramlMiddleware = function(req,res,next) {
         _middleware(req,res,function(err) {
             if (err) {
+                console.warn(err);
                 var done = finalhandler(req,res);
                 done(err);
             }
@@ -53,29 +43,32 @@ module.exports = function(app) {
         });
     };
     
-    var apiProxyMiddleware = proxy(config.ghost.uri);
-    
-    var router = express.Router()
-        .use(resplitUrl(0))
-        .get('/api/ghost/login', ghostPolicy.isAllowed, ghostLogin)
-        .use(ramlMiddleware, ghostPolicy.isAllowed, apiProxyMiddleware);
-    
-    app.use('/api/ghost', router);
-    
-    var cmsProxyMiddleware = proxy(config.ghost.uri, {
-        forwardPath: function(req, res) {
-            return '/cms' + url.parse(req.url).path;
+    var proxyMiddleware = proxy(
+        config.checkout.uri, {
+            forwardPath: function(req, res) {
+                return config.checkout.path + url.parse(req.url).path;
+            }
         }
-    });
-    
-    app.use(
-        '/cms',
-        helmet.xframe('sameorigin'),
-        ghostPolicy.isAllowed,
-        cmsProxyMiddleware
     );
+    
+    var populatePostUser = function(req,res,next) {
+        if (req.user) {
+            req.body.user = req.user._id.toString();
+        }
+        next();
+    };
+    
+    app.use('/api/checkout',
+        express.Router()
+            .post('*',populatePostUser)
+            .use(resplitUrl(1),ramlMiddleware, checkoutPolicy.isAllowed, proxyMiddleware)
+    );
+    
+    app.use('/api/orders',express.Router().use(
+        resplitUrl(1),ramlMiddleware, ordersPolicy.isAllowed, proxyMiddleware
+    ));
 
-    apis.ghost.raml
+    apis.checkout.raml
         .then(function(raml) {
             _middleware = osprey.server(raml);
         })

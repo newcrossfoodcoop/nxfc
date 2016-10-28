@@ -6,12 +6,16 @@ cache:
 
 build:
   main:
-    image: newcrossfoodcoop/nxfc-base:latest
+    image: newcrossfoodcoop/nxfc_base:v4.6.0
     commands:
       - npm install
-      - bower install --config.interactive=false --allow-root
-      - gulp test
-      - gulp build
+      - node_modules/.bin/gulp build
+      - node_modules/.bin/gulp drone:test
+  karma:
+    image: newcrossfoodcoop/nxfc_karma:v0.1.0
+    commands:
+      - cd /home/karma
+      - gulp karma --conf $DRONE_BUILD_DIR/karma.conf.js
     
 compose:
   mongo:
@@ -22,7 +26,7 @@ publish:
     username: bsimpson53
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
-    repo: bsimpson53/nxfc_web
+    repo: newcrossfoodcoop/nxfc
     tag: latest
     when:
       branch: master
@@ -31,7 +35,7 @@ publish:
     username: bsimpson53
     email: $$DOCKER_EMAIL
     password: $$DOCKER_PASSWORD
-    repo: bsimpson53/nxfc_web
+    repo: newcrossfoodcoop/nxfc
     tag: $$TAG
     when:
       event: tag

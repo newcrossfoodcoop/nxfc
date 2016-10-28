@@ -7,6 +7,8 @@ var config = require('./config/config'),
 	mongoose = require('./config/lib/mongoose'),
 	express = require('./config/lib/express');
 
+var apis = require('./config/lib/apis');
+
 // Initialize mongoose
 mongoose.connect(function (db) {
 	// Initialize express

@@ -7,14 +7,15 @@ var proxy = require('express-http-proxy');
 var url = require('url');
 var express = require('express');
 var finalhandler = require('finalhandler');
-var helmet = require('helmet');
 
 // Internal Modules
 var config = require(path.resolve('./config/config'));
 var apis = require(path.resolve('./config/lib/apis'));
 
 // ACL Policies
-var ghostPolicy = require('../policies/ghost.server.policy');
+var productsPolicy = require('../policies/products.server.policy');
+var suppliersPolicy = require('../policies/suppliers.server.policy');
+var ingestsPolicy = require('../policies/ingests.server.policy');
 
 function resplitUrl (baseParts) {
     baseParts++;
@@ -24,18 +25,6 @@ function resplitUrl (baseParts) {
         req.url = '/' + originalUrl.slice(baseParts).join('/');
         next();
     };
-}
-
-function ghostLogin(req,res,next) {
-    var user = req.user.toObject();
-    user.id = user._id;
-    apis.ghost.api.resources.api.ghost.login
-        .post(user)
-        .then(function(_res) {
-            res.status(_res.status);
-            res.jsonp(_res.body);
-        })
-        .catch(next);
 }
 
 module.exports = function(app) {
@@ -53,29 +42,27 @@ module.exports = function(app) {
         });
     };
     
-    var apiProxyMiddleware = proxy(config.ghost.uri);
-    
-    var router = express.Router()
-        .use(resplitUrl(0))
-        .get('/api/ghost/login', ghostPolicy.isAllowed, ghostLogin)
-        .use(ramlMiddleware, ghostPolicy.isAllowed, apiProxyMiddleware);
-    
-    app.use('/api/ghost', router);
-    
-    var cmsProxyMiddleware = proxy(config.ghost.uri, {
-        forwardPath: function(req, res) {
-            return '/cms' + url.parse(req.url).path;
+    var proxyMiddleware = proxy(
+        config.catalogue.uri, {
+            forwardPath: function(req, res) {
+                return config.catalogue.path + url.parse(req.url).path;
+            }
         }
-    });
-    
-    app.use(
-        '/cms',
-        helmet.xframe('sameorigin'),
-        ghostPolicy.isAllowed,
-        cmsProxyMiddleware
     );
+    
+    app.use('/api/products',express.Router().use(
+        resplitUrl(1),ramlMiddleware, productsPolicy.isAllowed, proxyMiddleware
+    ));
+    
+    app.use('/api/suppliers',express.Router().use(
+        resplitUrl(1),ramlMiddleware, suppliersPolicy.isAllowed, proxyMiddleware
+    ));
+    
+    app.use('/api/ingests',express.Router().use(
+        resplitUrl(1),ramlMiddleware, ingestsPolicy.isAllowed, proxyMiddleware
+    ));
 
-    apis.ghost.raml
+    apis.catalogue.raml
         .then(function(raml) {
             _middleware = osprey.server(raml);
         })
