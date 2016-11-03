@@ -34,4 +34,8 @@ What will need to be done before the collection day?
 
 * the report for splitting the order [issue](https://github.com/newcrossfoodcoop/nxfc/issues/58)
 
+# Update 03/11/2016
+
+The reality was that, as so often, I didn't make it, but it was really valuable as an exercise :)
+
 

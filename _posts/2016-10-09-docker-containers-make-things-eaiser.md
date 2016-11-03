@@ -3,6 +3,7 @@ layout: post
 title:  "Docker containers make things easier"
 date:   2016-10-09 23:12:27 +0100
 categories: update
+comments: true
 ---
 
 # What's a container?

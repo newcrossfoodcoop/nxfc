@@ -3,6 +3,7 @@ layout: post
 title:  "Using RAML to slice and dice a monolithic app"
 date:   2016-09-22 14:52:12 +0100
 categories: update
+comments: true
 ---
 
 # What's RAML?

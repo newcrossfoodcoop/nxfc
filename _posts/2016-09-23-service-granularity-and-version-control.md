@@ -3,6 +3,7 @@ layout: post
 title:  "Service Granularity and Version Control"
 date:   2016-09-23 23:37:19 +0100
 categories: update
+comments: true
 ---
 Deciding how to decompose the app has been tricky. There are some obvious parts
 like [ghost](https://ghost.org/) that should have been running separately from
