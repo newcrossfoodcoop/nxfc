@@ -1,5 +1,7 @@
 'use strict';
 
+var path = require('path');
+
 var config = {
     useHolding: !!(process.env.HOLDING_USERNAME && process.env.HOLDING_PASSWORD),
     holdingUsername: process.env.HOLDING_USERNAME || 'HOLDING_USERNAME',
@@ -13,7 +15,7 @@ module.exports = function(app, db) {
 
 	if (config.useHolding) {
 	    console.log('setting holding');
-        app.use(express.static('../views/holding'));
+        app.use(express.static(path.resolve(__dirname,'../views/holding')));
         app.use(core.renderHoldingPage);
 
         // Basic auth for holding
