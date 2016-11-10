@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var config = require('../config');
-var CatalogueApi = require('../dist/nxfcCatalogueClient');
+var CatalogueApi = require('../dist/0.1.0/nxfcCatalogueClient');
 var GhostApi = require('../dist/nxfcGhostClient');
 var CheckoutApi = require('../dist/nxfcCheckoutAndOrdersClient');
 var ramlParser = require('raml-parser');
