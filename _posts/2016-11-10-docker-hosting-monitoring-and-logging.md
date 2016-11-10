@@ -6,20 +6,23 @@ categories: update
 comments: true
 ---
 
+I've got two problems that I need to solve, one is keeping a lid on the hosting
+costs and the other is getting useful monitoring, logging and alerting...
+
 ## Context
 
 As a not for profit organisation, we very much need to keep a handle on our
 costs, often we're time rich and cash poor.
 
-At the moment our site is being hosted in containers on DockerCloud using 
-DigitalOcean droplets: 
+At the moment our site is being hosted in containers on [DockerCloud](https://www.docker.com/products/docker-cloud) using 
+[DigitalOcean](https://www.digitalocean.com/) droplets: 
 
-* DockerCloud
+* [DockerCloud](https://www.docker.com/products/docker-cloud)
   * $15 per host per month (first two hosts free)
-* DigitalOcean
+* [DigitalOcean](https://www.digitalocean.com/)
   * $5 - $10 per host per month
 
-I had been under the impression that my DockerCloud account was free, but it 
+I had been under the impression that my [DockerCloud](https://www.docker.com/products/docker-cloud) account was free, but it 
 appears not as I just got billed out of the blue :(
 
 Right now I've got 5 hosts, two of which are soley for this project, giving me
@@ -27,12 +30,12 @@ monthly cost of `2 x ($15 + $10) = $50` which is too high :(
 
 ## Problem: DockerCloud Costs
 
-I really need to limit the costs of DockerCloud or not use it at all. 
+I really need to limit the costs of [DockerCloud](https://www.docker.com/products/docker-cloud) or not use it at all. 
 
 ### Option 1 - Bigger Hosts
 
 To limit the costs I can use bigger machines and put all the services onto them,
-since DockerCloud's pricing is per host I could squeeze it all onto a free account.
+since [DockerCloud](https://www.docker.com/products/docker-cloud)'s pricing is per host I could squeeze it all onto a free account.
 
 pros:
 
@@ -50,7 +53,7 @@ I could run the services as a docker swarm...
 
 pros:
 
-* Free (only DigitalOcean costs)
+* Free (only [DigitalOcean](https://www.digitalocean.com/) costs)
 * Could use a free tool like shipyard to manage the swarm
 
 cons:
@@ -64,7 +67,7 @@ Switch to a more mature container technology like [Kubernetes](https://technolog
 
 pros:
 
-* Free (only DigitalOcean costs)
+* Free (only [DigitalOcean](https://www.digitalocean.com/) costs)
 * It uses docker containers
 
 cons:
@@ -73,37 +76,39 @@ cons:
 
 ## Problem 2: Monitoring and alerting not sufficient on DockerCloud
 
-DockerCloud doesn't provide centralised monitoring, alerting and logging. It does
-allow you to access the logs for each container but if you want memory/cpu usage
-you have to roll your own.
+[DockerCloud](https://www.docker.com/products/docker-cloud) doesn't provide 
+centralised monitoring, alerting and logging. It does allow you to access the 
+logs for each container but if you want memory/cpu usage you have to roll your 
+own.
 
 ### Option 1 - Cloud Services
 
 There are quite a lot of cloud based monitoring services availiable, I've tried
-a couple (logentries & sematext). From looking around a combination of Papertrail
-and DataDog might be the way to go.
+a couple ([Logentries](https://logentries.com/) & [sematext](https://sematext.com/)). 
+From looking around a combination of [Papertrail](https://papertrailapp.com/) and 
+[DataDog](https://datadoghq.com/) might be the way to go.
 
 pros:
 
 * quick and easy to set up
 * has a free tier
-  * DataDog - up to 5 hosts
-  * Papertrail - up to 100MB per month
-* Papertrail is $7 per month up to the first 1GB
+  * [DataDog](https://datadoghq.com/) - up to 5 hosts
+  * [Papertrail](https://papertrailapp.com/) - up to 100MB per month
+* [Papertrail](https://papertrailapp.com/) is $7 per month up to the first 1GB
 
 cons:
 
-* DataDog is $15 per host per month after you break 5 hosts
+* [DataDog](https://datadoghq.com/) is $15 per host per month after you break 5 hosts
 
 ### Option 2 - Self Hosted Services (Paid)
 
-I found a service called OpsDash which you host yourself and gives you monitoring
-dashboards out of the box for a bunch of services
+I found a service called [OpsDash](https://www.opsdash.com/) which you host 
+yourself and gives you monitoring dashboards out of the box for a bunch of services
 
 pros:
 
 * looks easy to set up
-* Free for the first 5 hosts, then $1 a month after that
+* Free for the first 5 hosts, then $1 a month per host after that
 
 cons:
 
@@ -116,24 +121,28 @@ cons:
 
 So far I've tried:
 
-* Prometheus - log collection & alerting
-* Grafana - visualisation
-* Influx - Time Series DB
+* [Prometheus](https://prometheus.io/) - log collection & alerting
+* [Grafana](https://grafana.net) - visualisation
+* [Influx](https://www.influxdata.com) - Time Series DB (part of the tick stack)
 
 Honestly I've found this bit frustrating, mostly because I'd have to write loads
 of querying to expose the data that I want, and there seem to be multiple query 
-languages.
+languages. Everything I've touched has had its own little foibles and I feel like
+I'm wasting a lot of time. To the point I almost want to write my own!
 
 #### Logging
 
-I haven't got as far as looking at logging, but for that greylog looks like just
-the thing (greylog, mongo & elastic search)
+I haven't got as far as looking at logging, but for that 
+[Greylog](https://www.graylog.org/) looks like just the thing (greylog, mongo & 
+elastic search)
 
 pros:
+
   * free
   * greylog looks good
   
 cons:
+
   * monitoring and alerts are really irritating!
   
 
