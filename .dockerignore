@@ -1,4 +1,3 @@
 .vagrant/
-node_modules/
 test/tmp/
 secrets.yml
