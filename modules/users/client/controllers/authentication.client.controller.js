@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', '$window', 'Authentication',
-	function($scope, $http, $location, $window, Authentication) {
+angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', '$window', 'Authentication', '$state',
+	function($scope, $http, $location, $window, Authentication, $state) {
 		$scope.authentication = Authentication;
 
 		// If user is signed in then redirect back home
@@ -13,7 +13,7 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/');
+				$state.go('home.home');
 //				$window.location.reload();
 			}).error(function(response) {
 				$scope.error = response.message;
@@ -26,8 +26,9 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 				$scope.authentication.user = response;
 
 				// And redirect to the index page
-				$location.path('/');
+//				$location.path('/');
 //				$window.location.reload();
+                $state.go('home.home');
 			}).error(function(response) {
 				$scope.error = response.message;
 			});

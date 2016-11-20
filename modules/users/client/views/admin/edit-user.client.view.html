@@ -28,7 +28,7 @@
 					<div class="controls">
 					    <ui-select name="roles" multiple id="roles" data-ng-model="user.roles">
 					        <ui-select-match placeholder="Select roles...">{{$item}}</ui-select-match>
-					        <ui-select-choices repeat="role in ['admin','user','disabled','ghost-admin','ghost-editor','ghost-author'] | filter:$select.search">
+					        <ui-select-choices repeat="role in ['admin','user', 'manager','disabled','ghost-admin','ghost-editor','ghost-author'] | filter:$select.search">
                                 {{role}}
                             </ui-select-choices>
                         </ui-select>

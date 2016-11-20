@@ -1,22 +1,24 @@
 <section data-ng-controller="SuppliersController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="supplier.name"></h1>
-	</div>
-	<div class="pull-right" data-ng-show="authorisation.isAllowed('suppliers', 'edit')">
-		<a class="btn btn-primary" data-ui-sref="suppliers.edit({supplierId: supplier._id})">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
+
+	<div class="row page-header">
+	    <div class="col-md-9">
+		    <h1 data-ng-bind="supplier.name"></h1>
+		</div>
+	    <div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('suppliers', 'edit')">
+	            <h1>
+		            <a class="btn btn-primary" data-ui-sref="suppliers.edit({supplierId: supplier._id})">
+			            <i class="glyphicon glyphicon-edit"></i>
+		            </a>
+		            <a class="btn btn-primary" data-ng-click="remove();">
+			            <i class="glyphicon glyphicon-trash"></i>
+		            </a>
+		        </h1>
+	        </div>
+	    </div>
 	</div>
 	
 	<div class="row">
-        <div class="col-sm-3 col-md-3">
-	        <div class="form-group text-left">
-		        <img data-ng-src="{{supplier.mainImageURL}}" alt="{{supplier.name}}" class="img-thumbnail supplier-picture">
-	        </div>
-	    </div>
 	    <div class="col-sm-3 col-md-3">
 	        <div class="form-group">
 	            <label>Description:</label>

@@ -91,6 +91,16 @@ var validateServiceConfigs = function(config) {
             console.error(chalk.red('Cannot resolve checkout configuration'));
         }
     }
+    
+    var stock = config.stock;
+    if(!stock.uri) {
+        if (stock.host) {
+            stock.uri = 'http://' + stock.host + ':' + stock.port + stock.path;
+        }
+        else {
+            console.error(chalk.red('Cannot resolve stock configuration'));
+        }
+    }
 };
 
 /**

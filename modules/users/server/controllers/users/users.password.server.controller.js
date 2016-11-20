@@ -43,7 +43,12 @@ exports.forgot = function(req, res, next) {
 						});
 					} else {
 						user.resetPasswordToken = token;
-						user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+						
+						if (req.user && _.intersection(req.user.roles, ['admin', 'manager']).length) {
+						    user.resetPasswordExpires = Date.now() + 3600000*72; // 72 hours
+						} else {
+						    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+						}
 
 						user.save(function(err) {
 							done(err, token, user);

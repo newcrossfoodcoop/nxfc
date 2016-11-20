@@ -22,6 +22,12 @@ exports.invokeRolesPolicies = function() {
 			permissions: '*'
 		}]
 	}, {
+		roles: ['manager'],
+		allows: [{
+			resources: '/api/users',
+			permissions: ['post']
+		}]
+	}, {
 		roles: ['user'],
 		allows: [{
 			resources: '/api/users',

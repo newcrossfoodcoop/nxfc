@@ -6,15 +6,12 @@ angular.module('users').controller('UsersController', ['$scope', '$stateParams',
 		var Users = Admin;
 
 		$scope.create = function() {
-			var user = new Users({
-				title: this.title,
-				content: this.content
-			});
+			var user = new Users($scope.user);
+			user.provider = 'local';
 			user.$save(function(response) {
 				$location.path('users/' + response._id);
 
-				$scope.title = '';
-				$scope.content = '';
+				$scope.user = {};
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

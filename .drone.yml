@@ -11,11 +11,11 @@ build:
       - npm install
       - node_modules/.bin/gulp build
       - node_modules/.bin/gulp drone:test
-  karma:
-    image: newcrossfoodcoop/nxfc_karma:v0.1.0
-    commands:
-      - cd /home/karma
-      - gulp karma --conf $DRONE_BUILD_DIR/karma.conf.js
+#  karma:
+#    image: newcrossfoodcoop/nxfc_karma:v0.1.0
+#    commands:
+#      - cd /home/karma
+#      - gulp karma --conf $DRONE_BUILD_DIR/karma.conf.js
     
 compose:
   mongo:

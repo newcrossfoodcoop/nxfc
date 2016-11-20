@@ -31,3 +31,39 @@ a:hover .header-profile-image {
 	padding-bottom: 11px !important;
 	padding-top: 11px !important;
 }
+
+@font-face {
+    font-family: 'BlockProReg';
+    src: 
+        url('/modules/core/img/brand/BlockProReg.eot?#iefix') format('embedded-opentype'),
+        url('/modules/core/img/brand/BlockProReg.otf') format('opentype');
+}
+
+body {
+    color: #704040;
+    font-family: BlockProReg, 'Kanit', sans-serif;
+}
+
+.navbar-custom {
+    background-color:#704040;
+    border-radius:0;
+    color:#00f;
+}
+
+.navbar-custom .navbar-nav > li > a {
+    color:#22999b;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    background-color:transparent;
+    color: #46a853;
+}
+.navbar-custom .navbar-nav a:hover, .navbar-custom .navbar-nav a:focus {
+    background-color:#704040;
+    color: #46a853;
+}
+.navbar-custom .navbar-brand {
+    color:#f18b26;
+}
+.navbar-custom .navbar-toggle .icon-bar {
+    background-color: #22999b; 
+}

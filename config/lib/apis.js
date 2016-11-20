@@ -7,6 +7,7 @@ var config = require('../config');
 var CatalogueApi = require('../dist/0.1.0/nxfcCatalogueClient');
 var GhostApi = require('../dist/nxfcGhostClient');
 var CheckoutApi = require('../dist/nxfcCheckoutAndOrdersClient');
+var StockApi = require('../dist/0.1.0/nxfcStockClient');
 var ramlParser = require('raml-parser');
 var path = require('path');
 
@@ -26,6 +27,10 @@ function initApis() {
             api: new CheckoutApi({baseUri: config.checkout.uri}),
             raml: ramlParser.loadFile(path.resolve('./config/apis/checkout/api.raml'))
         },
+        stock: {
+            api: new StockApi({baseUri: config.stock.uri}),
+            raml: ramlParser.loadFile(path.resolve('./config/apis/stock/api.raml'))
+        }
     };
 }
 

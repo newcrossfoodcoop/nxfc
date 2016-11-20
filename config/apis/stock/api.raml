@@ -1,0 +1,318 @@
+#%RAML 0.8
+
+title: NXFC Stock
+baseUri: http://localhost:3040/api
+version: 0.1.0
+
+schemas:
+  - Location: !include schema/location.json
+  - Pickup: !include schema/pickup.json
+  - Checkout: !include schema/checkout.json
+  - Order: !include schema/order.json
+  - Stock: !include schema/stock.json
+#  - Allocation: !include schema/allocation.json
+#  - Delivery: !include schema/delivery.json
+#  - Picklist: !include schema/picklist.json
+#  - Reservation: !include schema/reservation.json
+#  - Stock: !include schema/stock.json
+
+
+resourceTypes:
+  - base:
+      get?:
+        responses: &standardResponses
+          200:
+            description: OK
+      delete?:
+        responses: *standardResponses
+  - collection:
+      type: base
+      get:
+  - typedCollection:
+      type: collection
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<collectionSchema>>
+      post:
+        body:
+          application/json:
+            schema: <<schema>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<schema>>
+  - typedMemberCollection:
+      type: collection
+      get:
+        description: List <<schema>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-03/schema#", 
+                    "type": "array", 
+                    "properties": { "$ref": "<<schema>>" } 
+                  }
+      post:
+        description: Create <<schema>>
+        body:
+          application/json:
+            schema: <<schema>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<schema>>
+  - member:
+      type: base
+      get:
+      delete:
+  - typedMember:
+      type: member
+      get:
+        description: Read <<schema>>
+        responses:
+          200:
+            body:
+              application/json:
+                schema: <<schema>>
+      delete:
+        description: Delete <<schema>>
+
+/locations:
+  displayName: Location
+  type: { typedMemberCollection: { schema: Location } }
+  post:
+    body:
+      application/json:
+        schema: Location
+        example: |
+          {
+            "name": "Test Location",
+            "description": "This is a test Location",
+            "url": "http://maps.google.com/longurl"
+          }
+  /{locationId}:
+    type: { typedMember: { schema: Location } }
+
+/pickups:
+  displayName: Pickup
+  type: { typedMemberCollection: { schema: Pickup } }
+  post:
+    body:
+      application/json:
+        example: |
+          {
+            "description": "Pickup description",
+            "location": "1234567890abcdef123456a1",
+            "start": "2016-10-28T12:00:00.000Z",
+            "end": "2016-10-28T16:00:00.000Z",
+            "state": "open"
+          }
+  /{pickupId}:
+    type: { typedMember: { schema: Pickup } }
+    /close:
+      get:
+        description: "Close a pickup (prevent new orders)"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Pickup
+/checkouts:
+  displayName: Checkout
+  type: { typedMemberCollection: { schema: Checkout } }
+  post:
+    body:
+      application/json:
+        example: |
+          {
+            "orderId": "1234567890abcdef123456a2",
+            "pickup": "1234567890abcdef123456a4",
+            "items": [
+              { 
+                "productId": "1234567890abcdef123456a2", 
+                "supplierId": "1234567890abcdef123456a3",
+                "name": "Dummy Product",
+                "price": 3.03,
+                "cost": 3.03,
+                "quantity": 4
+              },
+              { 
+                "productId": "1234567890abcdef123456a2", 
+                "supplierId": "1234567890abcdef123456a3",
+                "name": "Dummy Product",
+                "price": 3.03,
+                "cost": 3.03,
+                "quantity": 4
+              }
+            ]
+          }
+  /{checkoutId}:
+    type: { typedMember: { schema: Checkout } }
+    /confirm:
+      get:
+        description: "Confirm a checkout (payment received)"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Checkout
+    /cancel:
+      get:
+        description: "Cancel a checkout (payment rejected)"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Checkout
+    /stock:
+      get:
+        description: "Return stock for this checkout"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: |
+                 {
+                    "$schema": "http://json-schema.org/draft-03/schema#", 
+                    "type": "array", 
+                    "properties": { "$ref": "Stock" } 
+                  }
+
+/pickups/{pickupId}/order:
+    get:
+      description: "Create supplier order(s) for this pickup"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Pickup
+              
+/pickups/{pickupId}/checkouts:
+    get:
+      description: "Checkouts for this pickup"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-03/schema#", 
+                  "type": "array", 
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "checkout": { "$ref": "Checkout" },
+                      "stock": { 
+                        "type": "array",
+                        "properties": { "$ref": "Stock" }
+                      } 
+                    }
+                  } 
+                }
+/orders:
+  get:
+    description: List Orders
+    responses:
+      200:
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-03/schema#", 
+                "type": "array", 
+                "properties": { "$ref": "Order" } 
+              }
+  /{orderId}:
+    /delivered:
+      put:
+        description: "All items delivered"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Order
+
+#/allocation:
+#  displayName: Allocation
+#  type: { typedMemberCollection: { schema: Allocation } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#
+#          }
+#  /{allocationId}:
+#    type: { typedMember: { schema: Allocation } }
+
+#/delivery:
+#  displayName: Delivery
+#  type: { typedMemberCollection: { schema: Delivery } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#          }
+#  /{deliveryId}:
+#    type: { typedMember: { schema: Delivery } }
+
+#/order:
+#  displayName: Order
+#  type: { typedMemberCollection: { schema: Order } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#
+#          }
+#  /{orderId}:
+#    type: { typedMember: { schema: Order } }
+
+#/picklist:
+#  displayName: Picklist
+#  type: { typedMemberCollection: { schema: Picklist } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#
+#          }
+#  /{picklistId}:
+#    type: { typedMember: { schema: Picklist } }
+
+#/reservation:
+#  displayName: Reservation
+#  type: { typedMemberCollection: { schema: Reservation } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#
+#          }
+#  /{reservationId}:
+#    type: { typedMember: { schema: Reservation } }
+
+#/stock:
+#  displayName: Stock
+#  type: { typedMemberCollection: { schema: Stock } }
+#  post:
+#    body:
+#      application/json:
+#        example: |
+#          {
+#
+#          }
+#  /{stockId}:
+#    type: { typedMember: { schema: Stock } }

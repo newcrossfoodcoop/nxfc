@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema#",
+    "type": "object",
+    "description": "Represents stock in a checkout process",
+    "properties": {
+        "orderId": { 
+            "type": "string",
+            "required": true,
+            "descripiton": "external order id, should be unique"
+        },
+        "state": { 
+            "type": "string",
+            "enum": ["new", "confirmed", "cancelled"] 
+        },
+        "items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "Checkout Items",
+                "properties": {
+                    "total": { "type": "number" },
+                    "price": { "type": "number" },
+                    "quantity": { "type": "integer", "required": true },
+                    "productId": { "type": "string", "required": true },
+                    "supplierId": { "type": "string", "required": true }
+                }
+            }
+        },
+        "pickup": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "description": "Pickup object id"
+                },
+                {
+                    "type": "object",
+                    "description": "Pickup object"
+                }
+            ]
+        }
+	}
+}

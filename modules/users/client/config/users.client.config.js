@@ -41,19 +41,28 @@ angular.module('users').run(['Authorisation', function(Authorisation) {
 // Configuring the Articles module
 angular.module('users').run(['Menus', 'Authorisation',
 	function(Menus, Authorisation) {
-	    if (!Authorisation.isAllowed('users', 'menu')) { return; }
+//	    if (!Authorisation.isAllowed('users', 'menu')) { return; }
 	
 		// Add the users dropdown item
 		Menus.addMenuItem('topbar', {
 			title: 'Users',
 			state: 'users',
+			roles: ['admin', 'manager'],
+//			state: 'users',
 			type: 'dropdown'
 		});
 
 		// Add the dropdown list item
 		Menus.addSubMenuItem('topbar', 'users', {
-			title: 'List Users',
-			state: 'users.list'
+			title: 'List',
+			state: 'users.list',
+			roles: ['admin']
+		});
+		
+		Menus.addSubMenuItem('topbar', 'users', {
+			title: 'Create',
+			state: 'users.create',
+			roles: ['admin', 'manager']
 		});
 	}
 ]);

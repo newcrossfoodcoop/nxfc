@@ -12,7 +12,7 @@
 }
 
 .magicbanner h1 {
-    font-size: 70px;
+    font-size: 4.5em;
     margin: 10px;
 }
 
@@ -29,4 +29,62 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .magicbanner {
+        display: none;
+    }
+    .fillimg {
+        display: none;
+    }
+    .ui-scrollfix.magicmenu {
+        width: 100vw;
+    }
+    .ui-scrollfix.magicmain {
+        padding-top: 75px;
+    }
+    .magicmenu {
+        position: fixed;
+        top: 50px;
+        width: 100vw;
+    }
+    .magicmain {
+        padding-top: 75px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px){
+    .magicbanner {
+        display: none;
+    }
+    .fillimg {
+        display: none;
+    }
+    .ui-scrollfix.magicmenu {
+        width: 748px;
+    }
+    .ui-scrollfix.magicmain {
+        padding-top: 75px;
+    }
+    .magicmenu {
+        position: fixed;
+        top: 50px;
+        width: 748px;
+    }
+    .magicmain {
+        padding-top: 75px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .ui-scrollfix.magicmenu {
+        width: 972px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ui-scrollfix.magicmenu {
+        width: 1170px;
+    }
 }

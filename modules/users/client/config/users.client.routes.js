@@ -76,7 +76,7 @@ angular.module('users').config(['$stateProvider',
 		    }).
 		    state('users.create', {
 			    url: '/create',
-			    templateUrl: 'modules/users/views/admin/create-article.client.view.html'
+			    templateUrl: 'modules/users/views/admin/create-user.client.view.html'
 		    }).
 		    state('users.view', {
 			    url: '/:userId',

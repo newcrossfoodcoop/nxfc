@@ -10,16 +10,20 @@ var config = {
 
 module.exports = function(app, db) {
 	// Root routing
-	var core = require('../controllers/home.server.controller'), 
+	var home = require('../controllers/home.server.controller'), 
 	    express = require('express');
 
 	if (config.useHolding) {
 	    console.log('setting holding');
         app.use(express.static(path.resolve(__dirname,'../views/holding')));
-        app.use(core.renderHoldingPage);
+        app.use(home.renderHoldingPage);
 
         // Basic auth for holding
-        app.use(core.checkBasicAuth);
+        app.use(home.checkBasicAuth);
+    }
+    else {
+        app.route('/register-interest')
+		    .post(home.registerInterest);
     }
 
     app.locals.home = config;

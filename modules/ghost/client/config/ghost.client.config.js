@@ -16,22 +16,24 @@ angular.module('ghost').run(['Menus', 'Authorisation',
 	
 		// Add the articles dropdown item
 		Menus.addMenuItem('topbar', {
-			title: 'Ghost',
-			state: 'ghost',
-			type: 'dropdown'
+			title: 'Content',
+			state: 'ghost.admin',
+			roles: ['admin', 'ghost-admin', 'ghost-editor', 'ghost-author']
+//			state: 'ghost',
+//			type: 'dropdown'
 		});
 
 		// Add the dropdown list item
-		Menus.addSubMenuItem('topbar', 'ghost', {
-			title: 'Preview',
-			state: 'ghost.preview'
-		});
+//		Menus.addSubMenuItem('topbar', 'ghost', {
+//			title: 'Preview',
+//			state: 'ghost.preview'
+//		});
 
 		// Add the dropdown create item
-		Menus.addSubMenuItem('topbar', 'ghost', {
-			title: 'Admin',
-			state: 'ghost.admin'
-		});
+//		Menus.addSubMenuItem('topbar', 'ghost', {
+//			title: 'Admin',
+//			state: 'ghost.admin'
+//		});
 	}
 ]).config( 
     function(localStorageServiceProvider) {

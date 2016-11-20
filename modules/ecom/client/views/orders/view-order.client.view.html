@@ -2,15 +2,6 @@
 	<div class="page-header">
 		<h1>
 		    <span data-ng-bind="order.totalItems()"></span> items @ £<span data-ng-bind="order.total"></span> [{{order.state}}]
-	
-	        <div class="pull-right" data-ng-show="authentication.user._id == order.user._id">
-		        <a class="btn btn-primary" data-ui-sref="orders.view({orderId: order._id})">
-			        <i class="glyphicon glyphicon-edit"></i>
-		        </a>
-		        <a class="btn btn-primary" data-ng-click="remove();">
-			        <i class="glyphicon glyphicon-trash"></i>
-		        </a>
-	        </div>
 	    </h1>
 	</div>
 

@@ -34,9 +34,17 @@ angular.module('home').config(['$stateProvider', '$urlRouterProvider',
 			url: '/shop',
 			templateUrl: 'modules/home/views/shop.client.view.html'
 		}).
+		state('home.preview', {
+			url: '/preview',
+			templateUrl: 'modules/home/views/preview.client.view.html'
+		}).
 		state('home.view-product', {
 		    url: '/shop/products/:productId',
 		    templateUrl: 'modules/products/views/products/view-product.client.view.html'
+		}).
+		state('home.signup', {
+			url: '/home/signup',
+			templateUrl: 'modules/home/views/signup.client.view.html'
 		});
 	}
 ]);

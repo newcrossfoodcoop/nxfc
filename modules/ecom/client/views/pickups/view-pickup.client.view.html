@@ -1,0 +1,52 @@
+<section data-ng-controller="PickupsController" data-ng-init="findOne()">
+
+	<div class="row page-header">
+	    <div class="col-md-9">
+		    <h1 data-ng-bind="pickup.name"></h1>
+		</div>
+	    <div class="col-md-3 text-right">
+	        <div data-ng-show="authorisation.isAllowed('pickups', 'edit')">
+	            <h1>
+		            <a class="btn btn-primary" data-ui-sref="pickups.edit({pickupId: pickup._id})">
+			            <i class="glyphicon glyphicon-edit"></i>
+		            </a>
+		            <a class="btn btn-primary" data-ng-click="remove();">
+			            <i class="glyphicon glyphicon-trash"></i>
+		            </a>
+		        </h1>
+	        </div>
+	    </div>
+	</div>
+	
+	<div class="row">
+	    <div class="col-sm-3 col-md-3">
+	        <div class="form-group">
+	            <label>Description:</label>
+	            <p data-ng-bind="pickup.description"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>Location:</label>
+	            <p data-ng-bind="pickup.location.name"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>State:</label>
+	            <p data-ng-bind="pickup.state"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>Start:</label>
+	            <p data-ng-bind="pickup.start"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>End:</label>
+	            <p data-ng-bind="pickup.end"></p>
+	        </div>
+	        <small>
+		        <em class="text-muted">
+			        Created on:
+			        <span data-ng-bind="pickup.created | date:'mediumDate'"></span>
+		        </em>
+	        </small>
+        </div>
+	</div>
+	
+</section>
