@@ -42,11 +42,13 @@ angular.module('ecom').factory('Checkout', ['$resource', 'lodash',
 		};
 		
 		return {
-		    start: function(items, method, callback) {
+		    start: function(items, method, pickup, total, callback) {
 		        var checkout = new Checkout({
-		            'items': items,
+		            items: items,
 		            state: 'new',
-		            'method': method, 
+		            method: method,
+		            pickupId: pickup._id,
+		            total: total 
 		        });
 		        
 		        if (checkout.items.length === 0) { return; }

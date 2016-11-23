@@ -7,13 +7,12 @@
 
 <body style="font-family: fantasy; font-weight: lighter; color: #704040;">
     <div style="width: 950px; margin: auto;">
-        <h1 style="text-align: center; font-weight: lighter;">Eat a Rainbow Launch Event</h1>
-        <h2 style="text-align: center; font-weight: lighter; color: #22999b">Sunday 20 November 12-4pm</h2>
-        <p style="text-align: center;">The Field, New Cross 385 Queens Road, SE14 5HD</p>
+        <h1 style="text-align: center; font-weight: lighter;">Eat a Rainbow</h1>
+        <h2 style="text-align: center; font-weight: lighter; color: #22999b">Holding Page</h2>
         
         <p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://s18.postimg.org/mt839tfvt/facebook_cover_low_quality.jpg" alt="Eat a Rainbow Illustration" width="500" height="289" /></p>
 
-        <p><span style="color: #704040;">Join us for our FREE official launch event for Eat a Rainbow, at 'The Field', New Cross. We will have pizza making, fruit &amp; veg kebabs, a vegetable carving competition, kids activities and more! We are a social enterprise that runs a low cost fruit and veg stall outside the Post Office on New Cross rd, supported by local people and run by volunteers. </span></p>
+        <p><span style="color: #704040;">We are a social enterprise that runs a low cost fruit and veg stall outside the Post Office on New Cross rd, supported by local people and run by volunteers. </span></p>
         <p><span style="color: #704040;">We want to provide all people with fair access to seasonal fresh fruit and vegetable that will improve the health and wellbeing of people and families living in deprived communities in South London.</span></p>
         <p><span style="color: #704040;">Please let us know you are coming by signing up to our <a style="color: #22999b;" title="Eat a Rainbow Launch Event" href="https://www.facebook.com/events/1695636304097998" target="_blank">Facebook Event</a> or emailing us at <a href="mailto:info@eatarainbow.org.uk" style="color: #22999b;">info@eatarainbow.org.uk</a></strong></span></p>
         <hr/>
@@ -25,11 +24,11 @@
         <div><p>Access this site <a href="/" style="color: #22999b;">>>here<<</a> (password protected)</p></div>
         {% endif %}
         {% if production %}
-        <h2 style="font-weight: lighter;">New Website Coming Soon!</h2>
-        <h3>Sign up to take part in our first online order!</h3>
+        <h2 style="font-weight: lighter;">Back Soon!</h2>
+        <h3>We're probably doing some work to improve our site!</h3>
         {% endif %}
     </center>
-    {% if production %}
+    {% if registerInterest %}
     <div style="width: 300px; margin: auto;">
         {% if !errors %}<p style="color: green;">{{message}}</p>{% endif %}
         {% if errors %}
@@ -47,17 +46,6 @@
                 <tr><td>&nbsp;</td><td><center><button type="submit">Submit</button></center></td></tr>
             </table>
         </form>
-    </div>
-    <div style="width: 950px; margin: auto;">
-        <p>Hi Everyone,
-
-        <p>At present, <b>Eat A Rainbow</b> runs a weekly fruit and veg stall in New Cross and a co-buying group with Suma (using spreadsheets etc).
-        The food co-op is undergoing a period of development and expansion, and the next thing on our agenda is to get tech working for us. We held a hackday and are frantically building a website to allow us to expand our ordering facilities. You can take a look at our progress on github <a href="http://github.com/newcrossfoodcoop/nxfc" style="color: #22999b;">here</a>
-
-        <p>We need you... We need technical people of all flavours, we need webby design people, we need organiser type people, we need people who can author interesting copy, we need people with knowledge of current issues around food, and with interesting ideas about food and how the web can help. We need everyone! If you're interested drop us an email: <b>info AT eatarainbow.org.uk</b>
-
-        <p>Ben, Minnie, Oli, Carlos and Keji
-        <div><p>Access the site <a href="/" style="color: #22999b;">>>here<<</a> (password protected)</p></div>
     </div>
     {% endif %}
 </body>

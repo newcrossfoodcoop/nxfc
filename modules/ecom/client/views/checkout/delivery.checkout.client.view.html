@@ -4,14 +4,36 @@
 </div>
 
 <div class="panel-body">
-    <div ng-bind-html="collectionInfo"></div>
+	<div class="col-xs-6 col-xs-offset-3">
+        <div class="form-group">
+            <label>Description:</label>
+            <p data-ng-bind="pickup.description"></p>
+        </div>
+        <div class="form-group">
+            <label>Location:</label>
+            <p data-ng-bind="pickup.location.name"></p>
+        </div>
+        <div class="form-group">
+            <label>Start:</label>
+            <p data-ng-bind="pickup.start"></p>
+        </div>
+        <div class="form-group">
+            <label>End:</label>
+            <p data-ng-bind="pickup.end"></p>
+        </div>
+    </div>
 </div>
 
 <div class="panel-footer">
     <div class="row">
+<!--        <div class="col-xs-4 col-xs-offset-2">-->
+<!--            <a ui-sref="basket.save" class="btn btn-block btn-warning">-->
+<!--            No, Save my order <span class="glyphicon glyphicon-floppy-disk"></span>-->
+<!--            </a>-->
+<!--        </div>-->
         <div class="col-xs-4 col-xs-offset-2">
-            <a ui-sref="basket.save" class="btn btn-block btn-warning">
-            No, Save my order <span class="glyphicon glyphicon-floppy-disk"></span>
+            <a ui-sref="basket" class="btn btn-block btn-warning">
+            No, Take me to my basket <span class="glyphicon glyphicon-floppy-disk"></span>
             </a>
         </div>
         <div class="col-xs-4">

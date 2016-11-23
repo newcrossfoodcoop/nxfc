@@ -26,7 +26,7 @@ angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash',
                 // TODO get current pickups and create a menu item for each one
 	            // Add the dropdown list item
 	            Menus.addSubMenuItem('topbar', 'spickups', {
-		            title: pickup.name || 'No Name',
+		            title: pickup.location.name +' - '+ pickup.start,
 		            state: 'spickups.view({spickupId: "'+pickup._id+'"})',
 		            roles: ['admin', 'manager']
 	            });

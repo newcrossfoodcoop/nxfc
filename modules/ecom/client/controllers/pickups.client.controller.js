@@ -9,9 +9,14 @@ angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams'
 
 		// Create new pickup
 		$scope.create = function() {
+		    console.log(this);
 			// Create new pickup object
 			var pickup = new Pickups ({
-				name: this.name
+				description: this.description,
+				start: this.start,
+				end: this.end,
+				location: this.location,
+				state: 'open'
 			});
 
 			// Redirect after save
@@ -20,9 +25,6 @@ angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams'
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
-
-			// Clear form fields
-			this.name = '';
 		};
 
 		// Remove existing pickup

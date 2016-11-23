@@ -12,18 +12,20 @@ services:
       - "./uploads:/home/app/uploads"
     depends_on:
       - mongo
-      - catalogue_api
-      - ghost_api
-      - checkout_api
+      - catalogue
+      - ghost
+      - checkout
+      - stock
     environment:
       - OWNER="admin"
       - MONGO_HOST=mongo
-      - CATALOGUE_HOST=catalogue_api
-      - GHOST_HOST=ghost_api
-      - CHECKOUT_HOST=checkout_api
+      - CATALOGUE_HOST=catalogue
+      - GHOST_HOST=ghost
+      - CHECKOUT_HOST=checkout
+      - STOCK_HOST=stock
       
   mongo:
-    image: "newcrossfoodcoop/nxfc-mongo"
+    image: mongo:3
     ports:
       - "27017:27017"
       
@@ -32,13 +34,13 @@ services:
     ports:
       - "6379:6379"
       
-  ghost_api:
+  ghost:
     image: newcrossfoodcoop/nxfc_ghost:latest
     ports:
       - "3020:3020"
     command: gulp api
       
-  catalogue_api:
+  catalogue:
     image: newcrossfoodcoop/nxfc_catalogue:latest
     ports:
       - "3010:3010"
@@ -62,14 +64,25 @@ services:
       - DEBUG=ingester
     command: gulp worker
     
-  checkout_api:
+  checkout:
     image: newcrossfoodcoop/nxfc_checkout:latest
     ports:
       - "3030:3030"
     depends_on:
       - mongo
-      - catalogue_api
+      - catalogue
+      - stock
     environment:
       - MONGO_HOSTNAME=mongo
-      - CATALOGUE_HOSTNAME=catalogue_api
+      - CATALOGUE_HOSTNAME=catalogue
+      - STOCK_HOSTNAME=stock
     command: gulp
+    
+  stock:
+    image: newcrossfoodcoop/nxfc_stock:latest
+    ports:
+      - "3040:3040"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_HOSTNAME=mongo

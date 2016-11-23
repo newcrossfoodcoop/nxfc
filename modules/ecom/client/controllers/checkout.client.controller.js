@@ -1,8 +1,8 @@
 'use strict';
 
 // Orders controller
-angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams', '$location', 'Authentication', '$state',  'usSpinnerService', 'Basket', 'Checkout', 'lodash', '$sce',
-	function($scope, $stateParams, $location, Authentication, $state, usSpinnerService, Basket, Checkout, lodash, $sce) {
+angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams', '$location', 'Authentication', '$state',  'usSpinnerService', 'Basket', 'Checkout', 'lodash', '$sce', 'Pickups',
+	function($scope, $stateParams, $location, Authentication, $state, usSpinnerService, Basket, Checkout, lodash, $sce, Pickups) {
 		$scope.authentication = Authentication;
 		
 		$scope.$state = $state;
@@ -10,16 +10,15 @@ angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams
 		
 		$scope.total = Basket.total;
 		
+		Pickups.query(function(pickups) { $scope.pickup = pickups[0]; });
+		
 		// we will store all of our form data in this object
 	    $scope.formData = {};
-	    
-	    // collection information to be confirmed by the user
-	    $scope.collectionInfo = $sce.trustAsHtml('<div class="text-center">There should be collection information html here</div>');
 	    
 	    function startCheckout(method) {
             usSpinnerService.spin('spinner-1');
             
-            Checkout.start(Basket.orderItems(), method, function(err, response) {
+            Checkout.start(Basket.orderItems(), method, $scope.pickup, Basket.total(), function(err, response) {
                 if (err) {
                     $scope.error = err.data.message;
                 }
