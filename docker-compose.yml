@@ -49,6 +49,7 @@ services:
       - catalogue_worker
     environment:
       - MONGO_HOST=mongo
+      - WORKER_HOST=catalogue_worker
     command: gulp api
 
   catalogue_worker:
