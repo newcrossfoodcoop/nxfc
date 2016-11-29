@@ -42,15 +42,13 @@
         width: 100vw;
     }
     .ui-scrollfix.magicmain {
-        padding-top: 75px;
+        padding-top: 0;
     }
     .magicmenu {
-        position: fixed;
-        top: 50px;
-        width: 100vw;
+        display: none;
     }
     .magicmain {
-        padding-top: 75px;
+        padding-top: 0;
     }
 }
 
@@ -65,15 +63,13 @@
         width: 748px;
     }
     .ui-scrollfix.magicmain {
-        padding-top: 75px;
+        padding-top: 0;
     }
     .magicmenu {
-        position: fixed;
-        top: 50px;
-        width: 748px;
+        display: none;
     }
     .magicmain {
-        padding-top: 75px;
+        padding-top: 0;
     }
 }
 
@@ -81,10 +77,16 @@
     .ui-scrollfix.magicmenu {
         width: 972px;
     }
+    .magicmove {
+        display: none !important;
+    }
 }
 
 @media (min-width: 1200px) {
     .ui-scrollfix.magicmenu {
         width: 1170px;
+    }
+    .magicmove {
+        display: none !important;
     }
 }

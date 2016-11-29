@@ -12,7 +12,7 @@ angular.module('ghost').run(['Authorisation', function(Authorisation) {
 // Configuring the Ghost module
 angular.module('ghost').run(['Menus', 'Authorisation',
 	function(Menus, Authorisation) {
-	    if (!Authorisation.isAllowed('ghost', 'menu')) { return; }
+//	    if (!Authorisation.isAllowed('ghost', 'menu')) { return; }
 	
 		// Add the articles dropdown item
 		Menus.addMenuItem('topbar', {

@@ -15,11 +15,6 @@ menus.run([ 'Menus', function( Menus ) {
 		state: 'home.home'
 	});
 
-//	Menus.addMenuItem('magicmenu', {
-//		title: 'How It Works',
-//		state: 'home.how'
-//	});
-
 	Menus.addMenuItem('magicmenu', {
 		title: 'Sign Up',
 		state: 'home.signup',
@@ -37,16 +32,6 @@ menus.run([ 'Menus', function( Menus ) {
 		state: 'home.about',
 	});
 
-//	Menus.addMenuItem('magicmenu', {
-//		title: 'Communities',
-//		state: 'home.communities',
-//	});
-
-//	Menus.addMenuItem('magicmenu', {
-//		title: 'Recipes',
-//		state: 'home.recipes',
-//	});
-
 	Menus.addMenuItem('magicmenu', {
 		title: 'Preview Products',
 		state: 'home.preview',
@@ -57,6 +42,30 @@ menus.run([ 'Menus', function( Menus ) {
 		title: 'Shop Now',
 		state: 'home.shop',
 		isPublic: false
+	});
+	
+	// Add to the main menu for small screens
+	Menus.addMenuItem('topbar', {
+		title: 'About',
+		state: 'home.about',
+		roles: ['!admin','!manager','guest','user'],
+		isPublic: true,
+		class: 'magicmove'
+	});
+
+	Menus.addMenuItem('topbar', {
+		title: 'Preview Products',
+		state: 'home.preview',
+		roles: ['guest'],
+		isPublic: true,
+		class: 'magicmove'
+	});
+	
+	Menus.addMenuItem('topbar', {
+		title: 'Shop Now',
+		state: 'home.shop',
+		isPublic: false,
+		class: 'magicmove'
 	});
 
 }]);
