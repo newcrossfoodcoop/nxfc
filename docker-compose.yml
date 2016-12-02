@@ -46,10 +46,10 @@ services:
       - "3010:3010"
     depends_on:
       - mongo
-      - catalogue_worker
+      - redis
     environment:
       - MONGO_HOST=mongo
-      - WORKER_HOST=catalogue_worker
+      - REDIS_HOST=redis
     command: gulp api
 
   catalogue_worker:

@@ -1,0 +1,40 @@
+<div data-ng-controller="SpickupsController" data-ng-init="findCheckouts()">
+    <div class="list-group">
+        <div data-ng-repeat="checkout in checkouts" class="list-group-item" ng-init="rows={}">
+            <div class="pull-right text-right">
+			    <a class="btn" data-ng-click="rows[$index] = !rows[$index]">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+            </div>
+			    <small class="list-group-item-text">
+				    Created on
+				    <span data-ng-bind="checkout._id.created | date:'mediumDate'"></span>
+				    by
+				    <span data-ng-bind="checkout._id.user"></span>
+			    </small>
+		        <h4 class="list-group-item-heading">Payment state: <span data-ng-bind="checkout._id.state"></span></h4>
+			    <p class="list-group-item-text" data-ng-bind="checkout.description"></p>
+			<table class="table" ng-show="rows[$index]">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in checkout._id.items">
+                        <td data-ng-bind="item.name"></td>
+                        <td data-ng-bind="item.price | currency:'£'"></td>
+                        <td data-ng-bind="item.quantity"></td>
+                        <td data-ng-bind="item.price * item.quantity | currency:'£'"></td>
+                    </tr>
+                </tbody>
+            </table>
+	    </div>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!checkouts.$resolved || checkouts.length">
+    	No Checkouts yet...
+    </div>
+</div>

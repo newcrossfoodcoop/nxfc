@@ -1,8 +1,12 @@
-<div data-ng-controller="SpickupController" data-ng-init="findOne()">
+<div data-ng-controller="SpickupsController" data-ng-init="findOne()">
     
     <div class="row page-header">
 	    <div class="col-md-9">
-		    <h1 data-ng-bind="pickup.name"></h1>
+		    <h1>
+		        Pickup @
+		        <span data-ng-bind="pickup.location.name"></span>
+		        (<span data-ng-bind="pickup.state"></span>)
+		    </h1>
 		</div>
 	    <div class="col-md-3 text-right">
 	        <div data-ng-show="authorisation.isAllowed('pickups', 'edit')">
@@ -19,9 +23,26 @@
 	</div>
     
     <div class="row">
-        <div class="spickupmenu" ui-scrollfix="100">
+	    <div>
+	        <div class="form-group col-xs-12">
+	            <label>Description:</label>
+	            <p data-ng-bind="pickup.description"></p>
+	        </div>
+	        <div class="form-group col-xs-6">
+	            <label>Start:</label>
+	            <p data-ng-bind="pickup.start | date:'medium'"></p>
+	        </div>
+	        <div class="form-group col-xs-6">
+	            <label>End:</label>
+	            <p data-ng-bind="pickup.end | date:'medium'"></p>
+	        </div>
+        </div>
+	</div>
+    
+    <div class="row">
+        <div class="pickupmenu" ui-scrollfix="100">
             <div class="container">
-            <header class="navbar navbar-inverse">
+            <header class="navbar navbar-custom">
                 <div class="navbar-header row">
 	                <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
 		                <span class="sr-only">Toggle navigation</span>
@@ -31,8 +52,8 @@
 	                </button>
                 </div>
                 <nav class="collapse navbar-collapse row" collapse="!isCollapsed" role="navigation">
-	                <ul class="nav navbar-nav" data-ng-if="spickupmenu.shouldRender(authentication.user);">
-		                <li data-ng-repeat="item in magicmenu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" data-ng-class="{active: $state.includes(item.state)}" class="{{item.class}}" dropdown="item.type === 'dropdown'">
+	                <ul class="nav navbar-nav" data-ng-if="pickupmenu.shouldRender(authentication.user);">
+		                <li data-ng-repeat="item in pickupmenu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" data-ng-class="{active: $state.includes(item.state)}" class="{{item.class}}" dropdown="item.type === 'dropdown'">
 			                <a ng-switch-when="dropdown" class="dropdown-toggle">
 				                <span data-ng-bind="item.title"></span>
 				                <b class="caret"></b>

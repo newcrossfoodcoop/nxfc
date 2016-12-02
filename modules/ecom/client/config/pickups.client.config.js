@@ -27,7 +27,8 @@ angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash',
 	            // Add the dropdown list item
 	            Menus.addSubMenuItem('topbar', 'spickups', {
 		            title: pickup.location.name +' - '+ pickup.start,
-		            state: 'spickups.view({spickupId: "'+pickup._id+'"})',
+		            state: 'vpickups.actions({spickupId: "'+pickup._id+'"})',
+//		            state: 'vpickups.view',
 		            roles: ['admin', 'manager']
 	            });
 	        }); 

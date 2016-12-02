@@ -34,22 +34,6 @@
         </form>
     </div>
     
-    <accordion close-others="true" class="row">
-	    <accordion-group ng-repeat="log in ingestLogs" ng-class="accordionClass(log);" is-open="$parent.viewLogs[log._id]">
-	        <accordion-heading>
-	            {{ log.created | date:"dd/MM/yyyy @ HH:mm:ss" }} status: {{log.status}}
-	        </accordion-heading>
-	        <div class="well">
-	        	<a ng-show="log.status === 'running' || log.status === 'new';" ng-click="reloadLog(log._id);" ng-disabled="disableReload">
-	                <i class="pull-right glyphicon glyphicon-refresh"></i>
-	            </a>
-	            <div ng-repeat="line in log.entries">
-                    {{line.date | date:"dd/MM/yyyy @ HH:mm:ss"}}: "{{line.message}}"
-                </div>
-            </div>
-        </accordion-group>
-	</accordion>
-    
     <div class="col-md-3">
         <accordion>
             <accordion-group>
@@ -84,7 +68,7 @@
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </a>
                         <span add-to-basket></span>
-                        <h5>
+                        <h5 ng-show="product.externalUrl">
                             <a href="{{product.externalUrl}}" target="_blank">
 			                    {{product.supplier.name}}'s page
 			                    <i class="glyphicon glyphicon-new-window"></i>

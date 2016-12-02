@@ -1,0 +1,13 @@
+<h2>Baskets with confirmed payments only</h2>
+
+<div class="list-group">
+    <div data-ng-repeat="order in pickup.orders" class="list-group-item">
+        <pre data-ng-bind="order |json"></pre>
+    </div>
+</div>
+<div data-ng-hide="pickup.orders.length">
+    <div data-ng-init="reduceCheckouts()">
+        <pre data-ng-bind="rcheckouts|json"></pre>
+    <div>
+</div>
+

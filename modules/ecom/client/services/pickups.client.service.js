@@ -7,6 +7,11 @@ angular.module('ecom').factory('Pickups', ['$resource',
 		}, {
 			update: {
 				method: 'PUT'
+			},
+			checkouts: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/checkouts',
+			    isArray: true
 			}
 		});
 	}

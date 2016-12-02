@@ -8,6 +8,10 @@
             "required": true,
             "descripiton": "external order id, should be unique"
         },
+        "user": {
+            "type": "object",
+            "description": "User object"
+        },
         "state": { 
             "type": "string",
             "enum": ["new", "confirmed", "cancelled"] 
