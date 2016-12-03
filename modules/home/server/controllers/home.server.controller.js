@@ -175,7 +175,7 @@ exports.sendActivation = function(req, res, next) {
 		var mailOptions = {
 			to: user.email,
 			from: config.mailer.from,
-			subject: 'Password Reset',
+			subject: 'Account Activation',
 			html: emailHTML
 		};
 		return thenify(smtpTransport.sendMail).call(smtpTransport,mailOptions);
