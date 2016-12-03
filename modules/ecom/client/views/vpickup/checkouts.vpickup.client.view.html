@@ -10,7 +10,7 @@
 				    Created on
 				    <span data-ng-bind="checkout._id.created | date:'mediumDate'"></span>
 				    by
-				    <span data-ng-bind="checkout._id.user"></span>
+				    <span data-ng-bind="checkout._id.user.displayName"></span>
 			    </small>
 		        <h4 class="list-group-item-heading">Payment state: <span data-ng-bind="checkout._id.state"></span></h4>
 			    <p class="list-group-item-text" data-ng-bind="checkout.description"></p>

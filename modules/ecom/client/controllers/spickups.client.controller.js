@@ -45,29 +45,26 @@ angular.module('ecom').controller('SpickupsController', [
 			}).$promise.then(function(checkouts) {
 			    var s = $scope.rcheckouts = {};
 			    lodash(checkouts)
-//			$scope.rcheckouts = lodash(Pickups.checkouts({ 
-//			    pickupId: $stateParams.spickupId
-//		    }))
-	            .map(function(checkout) {
-	                console.log(checkout);
-	                if (checkout._id.state === 'confirmed') {
-	                    return checkout.stock;
-	                }
-	            })
-	            .filter()
-	            .flatten()
-	            .reduce(function(summary, entry) {
-                    var supplier = summary[entry.supplierId];
-                    if (!supplier) {
-                        summary[entry.supplierId] = supplier = {};
-                    }
-                    if (supplier[entry.productId]) {
-                        supplier[entry.productId].quantity += entry.quantity;
-                    }
-                    else {
-                        supplier[entry.productId] = lodash.pick(entry, ['name','quantity','price','cost']);
-                    }
-	            },s);
+	                .map(function(checkout) {
+	                    if (checkout._id.state === 'confirmed') {
+	                        return checkout.stock;
+	                    }
+	                })
+	                .filter()
+	                .flatten()
+	                .reduce(function(summary, entry) {
+                        var supplier = summary[entry.supplierId];
+                        if (!supplier) {
+                            summary[entry.supplierId] = supplier = {};
+                        }
+                        if (supplier[entry.productId]) {
+                            supplier[entry.productId].quantity += entry.quantity;
+                        }
+                        else {
+                            supplier[entry.productId] = lodash.pick(entry, ['name','quantity','price','cost']);
+                        }
+                        return summary;
+	                },s);
 		    });
 		};
 	}

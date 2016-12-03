@@ -8,6 +8,7 @@ var url = require('url');
 var express = require('express');
 var finalhandler = require('finalhandler');
 var debug = require('debug')('ecom');
+var _ = require('lodash');
 
 // Internal Modules
 var config = require(path.resolve('./config/config'));
@@ -53,7 +54,10 @@ module.exports = function(app) {
     
     var populatePostUser = function(req,res,next) {
         if (req.user) {
-            req.body.user = req.user._id.toString();
+            req.body.user = _.pick(req.user, [
+                '_id', 'username', 'displayName', 'email'
+            ]);
+            req.body.user._id = req.body.user._id.toString();
         }
         next();
     };

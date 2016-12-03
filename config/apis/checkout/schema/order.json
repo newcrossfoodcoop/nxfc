@@ -74,8 +74,14 @@
 	        "required": true
 	    },
 	    "user": {
-	        "type": "string",
-	        "required": true
+	        "type": "object",
+            "description": "User object",
+            "properties": {
+                "_id": { "type": "string", "required": true },
+                "username": { "type": "string", "required": true },
+                "displayName": { "type": "string", "required": true },
+                "email": { "type": "string", "required": true }
+            }
 	    },
 	    "orderType": {
 	        "type": "string",
