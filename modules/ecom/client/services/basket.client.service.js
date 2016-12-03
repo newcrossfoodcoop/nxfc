@@ -83,9 +83,10 @@ angular.module('ecom').factory('Basket', [ 'localStorageService', 'Authenticatio
 			},
 			total: function() {
 			    var items = localStorageService.get('basketItems');
-			    return lodash.reduce(items, function(total, item) { 
-			        return item.price ? total + parseInt(item.price) * item.quantity : total;
+			    var final = lodash.reduce(items, function(total, item) { 
+			        return item.price ? total + item.price * item.quantity : total;
 			    }, 0);
+			    return final.toFixed(2);
 			}
 		};
 	}

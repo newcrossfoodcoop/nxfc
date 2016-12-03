@@ -22,16 +22,23 @@
                         </ui-select>
                     </div>
                 </div>
-                <div class="form-group col-md-6">
+                
+                <div class="form-group">
 					<label class="control-label" for="start">Start</label>
 					<div class="controls">
-                        <input type="date" class="form-control" uib-datepicker-popup ng-model="pickup.start" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                        <input type="date" class="form-control" uib-datepicker-popup ng-model="startDate" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                        <timepicker ng-model="pickup.start" hour-step="1"
+							minute-step="15" ng-required="true"></timepicker>
 					</div>
 				</div>
-				<div class="form-group col-md-6">
+
+                <div class="form-group">
 					<label class="control-label" for="end">End</label>
 					<div class="controls">
-                        <input type="date" class="form-control" uib-datepicker-popup ng-model="pickup.end" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                        <input type="date" class="form-control" uib-datepicker-popup ng-model="endDate" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-change="dateChange();" />
+
+                        <timepicker ng-model="pickup.end" hour-step="1"
+							minute-step="15" ng-required="true"></timepicker>
 					</div>
 				</div>
                

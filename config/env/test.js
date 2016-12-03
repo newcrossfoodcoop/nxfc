@@ -6,6 +6,6 @@ module.exports = {
 	},
 	port: 3001,
 	app: {
-		title: 'NXFC - Test Environment'
+		title: 'EAR - Test Environment'
 	}
 };

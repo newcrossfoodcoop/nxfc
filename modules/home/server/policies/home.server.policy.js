@@ -15,32 +15,20 @@ exports.invokeRolesPolicies = function() {
 	acl.allow([{
 		roles: ['admin'],
 		allows: [{
-			resources: '/api/users',
-			permissions: '*'
-		}, {
-			resources: '/api/users/:userId',
-			permissions: '*'
+			resources: '/api/activate/:token',
+			permissions: 'put'
 		}]
 	}, {
-		roles: ['manager'],
+		roles: ['guest'],
 		allows: [{
-			resources: '/api/users',
-			permissions: ['post', 'get']
-		}, {
-			resources: '/api/users/:userId',
-			permissions: 'get'
-		}]
-	}, {
-		roles: ['user'],
-		allows: [{
-			resources: '/api/users',
-			permissions: ['put']
+			resources: '/api/activate/:token',
+			permissions: ['post','get']
 		}]
 	}]);
 };
 
 /**
- * Check If Articles Policy Allows
+ * Check If Home Policy Allows
  */
 exports.isAllowed = function(req, res, next) {
 	var roles = (req.user) ? req.user.roles : ['guest'];

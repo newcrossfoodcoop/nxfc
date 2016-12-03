@@ -5,6 +5,6 @@ module.exports = {
 	    db: 'mean',
 	},
     app: {
-		title: 'NXFC'
+		title: 'Eat A Rainbow'
 	}
 };

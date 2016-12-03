@@ -45,6 +45,23 @@ angular.module('home').config(['$stateProvider', '$urlRouterProvider',
 		state('home.signup', {
 			url: '/home/signup',
 			templateUrl: 'modules/home/views/signup.client.view.html'
+		}).
+		state('activate', {
+			abstract: true,
+			url: '/activate',
+			template: '<ui-view/>'
+		}).
+		state('activate.invalid', {
+			url: '/invalid',
+			templateUrl: 'modules/home/views/activate/activate-invalid.client.view.html'
+		}).
+		state('activate.success', {
+			url: '/success',
+			templateUrl: 'modules/home/views/activate/activate-success.client.view.html'
+		}).
+		state('activate.form', {
+			url: '/:token',
+			templateUrl: 'modules/home/views/activate/activate.client.view.html'
 		});
 	}
 ]);

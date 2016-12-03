@@ -34,11 +34,11 @@
 	        </div>
 	        <div class="form-group">
 	            <label>Start:</label>
-	            <p data-ng-bind="pickup.start"></p>
+	            <p data-ng-bind="pickup.start | date:'medium'"></p>
 	        </div>
 	        <div class="form-group">
 	            <label>End:</label>
-	            <p data-ng-bind="pickup.end"></p>
+	            <p data-ng-bind="pickup.end | date:'medium'"></p>
 	        </div>
 	        <small>
 		        <em class="text-muted">

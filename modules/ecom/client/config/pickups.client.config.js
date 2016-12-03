@@ -10,8 +10,8 @@ angular.module('ecom').run(['Authorisation', function(Authorisation) {
 }]);
 
 // Configuring the Orders module
-angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash', 
-	function(Menus, Authorisation, Pickups, lodash) {
+angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash', '$filter', 
+	function(Menus, Authorisation, Pickups, lodash, $filter) {
 	    
 	    // Add the orders dropdown item
 	    Menus.addMenuItem('topbar', {
@@ -26,7 +26,7 @@ angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash',
                 // TODO get current pickups and create a menu item for each one
 	            // Add the dropdown list item
 	            Menus.addSubMenuItem('topbar', 'spickups', {
-		            title: pickup.location.name +' - '+ pickup.start,
+		            title: pickup.location.name +' - '+ $filter('date')(pickup.start, 'medium'),
 		            state: 'vpickups.actions({spickupId: "'+pickup._id+'"})',
 //		            state: 'vpickups.view',
 		            roles: ['admin', 'manager']

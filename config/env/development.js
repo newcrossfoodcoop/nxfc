@@ -5,6 +5,6 @@ module.exports = {
 	    db: 'mean-dev',
 	},
 	app: {
-		title: 'NXFC - Development Environment'
+		title: 'EAR - Development Environment'
 	}
 };

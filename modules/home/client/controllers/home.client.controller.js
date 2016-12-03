@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('home').controller('HomeModuleController', ['$scope', '$state', 'Authentication', 'Menus', '$http',
-	function($scope, $state, Authentication, Menus, $http) {
+angular.module('home').controller('HomeModuleController', ['$scope', '$state', 'Authentication', 'Menus', '$http', '$stateParams', '$location',
+	function($scope, $state, Authentication, Menus, $http, $stateParams, $location) {
 		// Expose view variables
 		$scope.$state = $state;
 		$scope.authentication = Authentication;
@@ -26,5 +26,26 @@ angular.module('home').controller('HomeModuleController', ['$scope', '$state', '
 				$scope.error = response.message;
 			});
 		};
+		
+		// Activate user 
+		$scope.activateUser = function() {
+			$scope.success = $scope.error = null;
+
+			$http.post('/api/activate/' + $stateParams.token, $scope.activationDetails).success(function(response) {
+				// If successful show success message and clear form
+				$scope.activationDetails = null;
+				$scope.success = 'Account Activated!';
+
+				// Attach user profile
+				Authentication.user = response;
+
+				// And redirect to the index page
+				$location.path('/activate/success');
+			}).error(function(response) {
+				$scope.error = response.message;
+			});
+		};
+		
+		
 	}
 ]);

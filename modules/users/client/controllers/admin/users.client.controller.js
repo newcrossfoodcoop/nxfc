@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('users').controller('UsersController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Admin',
-	function($scope, $stateParams, $location, Authorisation, Admin) {
+angular.module('users').controller('UsersController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Admin', '$http',
+	function($scope, $stateParams, $location, Authorisation, Admin, $http) {
 		$scope.authorisation = Authorisation;
 		var Users = Admin;
 
@@ -50,6 +50,19 @@ angular.module('users').controller('UsersController', ['$scope', '$stateParams',
 		$scope.findOne = function() {
 			$scope.user = Users.get({
 				userId: $stateParams.userId
+			});
+		};
+		
+		// Send activation 
+		$scope.sendActivation = function() {
+			$scope.success = $scope.error = null;
+			var user = $scope.user;
+			$scope.disableActivation = true;
+
+			$http.put('/api/activate/' + user.username, {}).success(function(response) {
+			    $scope.success = 'Activation email sent';
+			}).error(function(response) {
+				$scope.error = response.message;
 			});
 		};
 	}

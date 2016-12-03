@@ -5,6 +5,6 @@ module.exports = {
 	    db: 'mean-stage',
 	},
     app: {
-		title: 'NXFC - Stage Environment'
+		title: 'EAR - Stage Environment'
 	}
 };

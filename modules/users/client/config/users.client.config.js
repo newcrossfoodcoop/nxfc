@@ -35,6 +35,10 @@ angular.module('users').run(['Authorisation', function(Authorisation) {
         roles: ['admin'],
         resources: ['users'],
         permissions: ['*']
+    }, {
+        roles: ['manager'],
+        resources: ['users'],
+        permissions: ['list','activate','view']
     }]);
 }]);
 
@@ -56,7 +60,7 @@ angular.module('users').run(['Menus', 'Authorisation',
 		Menus.addSubMenuItem('topbar', 'users', {
 			title: 'List',
 			state: 'users.list',
-			roles: ['admin']
+			roles: ['admin', 'manager']
 		});
 		
 		Menus.addSubMenuItem('topbar', 'users', {

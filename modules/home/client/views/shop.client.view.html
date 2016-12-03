@@ -80,9 +80,14 @@
 		                    <img data-ng-src="{{product.thumbImageUrl}}" alt="{{product.name}}" class="img-thumbnail">
 		                </a>
 	                </div>
-	                <a data-ui-sref="products.view({productId: product._id})">
-		                <h4 class="list-group-item-heading">{{product.name}} ({{product.caseSize}})</h4>
-		            </a>
+	                <div class="col-md-5">
+	                    <a data-ui-sref="products.view({productId: product._id})">
+		                    <h4 class="list-group-item-heading">{{product.name}} ({{product.caseSize}})</h4>
+		                </a>
+		            </div>
+		            <div class="col-md-2 text-right">
+		                <h4 class="list-group-item-heading" data-ng-bind="product.price | currency:'£'"></h4>
+		            </div>
 			        <div class="col-md-7" data-ng-bind="product.description"></div>
 			    </div>
 	        </div>

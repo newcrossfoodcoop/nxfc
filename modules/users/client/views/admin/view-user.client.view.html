@@ -2,13 +2,18 @@
 	<div class="page-header">
 		<h1 data-ng-bind="user.displayName"></h1>
 	</div>
-	<div class="pull-right" data-ng-show="authorisation.isAllowed('users', 'edit')">
-		<a class="btn btn-primary" data-ui-sref="users.edit({userId: user._id})">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
+	<div class="pull-right">
+	    <span data-ng-show="authorisation.isAllowed('users', 'activate')">
+	        <a class="btn btn-primary" data-ng-click="sendActivation();" data-ng-show="user.state === 'interested';" ng-disabled="disableActivation">Send Activation</a>
+	    </span>
+	    <span data-ng-show="authorisation.isAllowed('users', 'edit')">
+		    <a class="btn btn-primary" data-ui-sref="users.edit({userId: user._id})">
+			    <i class="glyphicon glyphicon-edit"></i>
+		    </a>
+		    <a class="btn btn-primary" data-ng-click="remove();">
+			    <i class="glyphicon glyphicon-trash"></i>
+		    </a>
+		</span>
 	</div>
 
 	<div class="row">
@@ -19,12 +24,24 @@
 	    </div>
 	    <div class="col-sm-3 col-md-3">
 	        <div class="form-group">
+	            <label>Username:</label>
+	            <p data-ng-bind="user.username"></p>
+	        </div>
+	        <div class="form-group">
 	            <label>Email:</label>
 	            <p data-ng-bind="user.email"></p>
 	        </div>
 	        <div class="form-group">
 	            <label>Roles:</label>
 	            <p data-ng-bind="user.roles"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>State:</label>
+	            <p data-ng-bind="user.state"></p>
+	        </div>
+	        <div class="form-group">
+	            <label>Postcode:</label>
+	            <p data-ng-bind="user.postcode"></p>
 	        </div>
 	        <small>
 		        <em class="text-muted">

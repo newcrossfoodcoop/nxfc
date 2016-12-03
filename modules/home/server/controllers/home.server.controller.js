@@ -1,11 +1,19 @@
 'use strict';
 
+/**
+ * Module dependencies.
+ */
+var path = require('path'),
+ 	config = require(path.resolve('./config/config')),
+	nodemailer = require('nodemailer');
+
 var mongoose = require('mongoose'),
     _ = require('lodash'),
     crypto = require('crypto'),
 	User = mongoose.model('User');
 
 var util = require('util');
+var thenify = require('thenify');
 
 /**
  * Get the error message from error object
@@ -17,7 +25,7 @@ var getErrorMessage = function(err) {
 		switch (err.code) {
 			case 11000:
 			case 11001:
-				message = 'Pickup already exists';
+				message = 'Username already exists';
 				break;
 			default:
 				message = 'Something went wrong';
@@ -28,7 +36,7 @@ var getErrorMessage = function(err) {
 			if (err.errors[errName].message) message = err.errors[errName].message;
 		}
 	} else {
-	    console.error(err);
+	    console.error(err.stack);
 	    message = 'Internal Error';
 	}
 
@@ -56,7 +64,8 @@ function registerInterest(req, callback) {
             state: 'interested',
             provider: 'local',
             username: token,
-            password: token
+            password: token,
+            postcode: req.body.postcode
         });
         user.save(callback);
     });
@@ -135,4 +144,135 @@ exports.checkBasicAuth = function(req, res, next) {
         // continue with processing, user was authenticated
         next();
     }
+};
+
+/**
+ * Send activation email (activate GET)
+ */
+exports.sendActivation = function(req, res, next) {
+    
+    var user = null;
+	User.findOne({
+		username: req.params.token,
+		state: 'interested'
+	}, '-salt -password')
+	.then((_user) => {
+	    user = _user;
+	    if (!user) { throw new Error('User not found'); }
+	    
+	    var token = user.username;
+	    
+	    var opts = {
+			name: user.displayName,
+			appName: config.app.title,
+			url: 'http://' + req.headers.host + '/api/activate/' + token
+		};
+		
+		return thenify(res.render).call(res,path.resolve('modules/home/server/templates/activate-email'), opts);
+	})
+	.then((emailHTML) => {
+	    var smtpTransport = nodemailer.createTransport(config.mailer.options);
+		var mailOptions = {
+			to: user.email,
+			from: config.mailer.from,
+			subject: 'Password Reset',
+			html: emailHTML
+		};
+		return thenify(smtpTransport.sendMail).call(smtpTransport,mailOptions);
+	})
+	.then(() => {
+	    res.send({
+			message: 'An email has been sent to ' + user.email + ' with further instructions.'
+		});
+	})
+	.catch((err) => {
+	    res.status(400).send({ message: getErrorMessage(err) });
+	});
+	
+};
+
+/**
+ * Activation GET from email token
+ */
+exports.validateActivationToken = function(req, res) {
+	User.findOne({
+		username: req.params.token,
+		state: 'interested'
+	}, function(err, user) {
+		if (!user) {
+			return res.redirect('/#!/activate/invalid');
+		}
+		
+		if (!user.authenticate(req.params.token)) {
+		    return res.redirect('/#!/activate/invalid');
+		}
+
+		res.redirect('/#!/activate/' + req.params.token);
+	});
+};
+
+/**
+ * Activation POST from email token
+ */
+exports.activate = function(req, res, next) {
+	// Init Variables
+	var activationDetails = req.body;
+	var message = null;
+	var user = null;
+
+	User.findOne({
+		username: req.params.token,
+		state: 'interested'
+	}, '-salt -password')
+	.then((_user) => {
+	    user = _user;
+		if (!user) { 
+		    throw new Error('Activation token invalid'); 
+		}
+		
+		if (activationDetails.newPassword !== activationDetails.verifyPassword) {
+		    throw new Error('Passwords do not match');
+		}
+		
+		user.password = activationDetails.newPassword;
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpires = undefined;
+		user.postcode = activationDetails.postcode;
+		user.username = activationDetails.username;
+		user.state = 'active';
+
+        return user.save();
+    })
+    .then((doc) => {
+        user = doc;
+        return thenify(req.login).call(req,user);
+    })
+    .then(() => {
+        // Return authenticated user
+        return res.json(user);
+    })
+    .then(() => {
+        return thenify(res.render).call(res,
+            'modules/home/server/templates/activate-confirm-email', {
+			    name: user.displayName,
+			    appName: config.app.title
+		});
+	})
+	.then((emailHTML) => {
+	    var smtpTransport = nodemailer.createTransport(config.mailer.options);
+		var mailOptions = {
+			to: user.email,
+			from: config.mailer.from,
+			subject: 'Your account has been activated',
+			html: emailHTML
+		};
+		
+		return thenify(smtpTransport.sendMail).call(smtpTransport,mailOptions);
+	})	
+    .catch((err) => {
+        return res.status(400).send({
+			message: getErrorMessage(err)
+		});
+    });
+
 };

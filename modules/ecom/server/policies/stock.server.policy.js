@@ -67,6 +67,27 @@ exports.invokeRolesPolicies = function() {
 	        ]
 	    },
 	    {
+	        roles: ['manager'],
+	        allows: [
+	            {
+			        resources: '/api/40/pickups/{pickupId}',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/close',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/order',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/checkouts',
+			        permissions: 'get'
+		        },
+	        ]
+	    },
+	    {
 		    roles: ['user', 'guest'],
 		    allows: [
 		        {

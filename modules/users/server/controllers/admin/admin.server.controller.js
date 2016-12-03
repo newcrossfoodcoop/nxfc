@@ -9,7 +9,7 @@ var _ = require('lodash'),
 	User = mongoose.model('User'),
 	errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 	
-var select = 'firstName lastName displayName email username profileImageURL roles updated created';
+var select = 'firstName lastName displayName email username profileImageURL roles updated created state postcode';
 
 /**
  * Create a user
@@ -47,6 +47,7 @@ exports.update = function(req, res) {
 	user.username = req.body.username;
 	user.email = req.body.email;
 	user.roles = req.body.roles;
+	user.postcode = req.body.postcode;
 
 	user.save(function(err) {
 		if (err) {

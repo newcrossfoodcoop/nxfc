@@ -1,8 +1,8 @@
 'use strict';
 
 // pickups controller
-angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Pickups', 'Locations',
-	function($scope, $stateParams, $location, Authorisation, Pickups, Locations ) {
+angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Pickups', 'Locations', '$filter',
+	function($scope, $stateParams, $location, Authorisation, Pickups, Locations, $filter ) {
 		$scope.authorisation = Authorisation;
 
         $scope.locations = Locations.query();
@@ -61,9 +61,31 @@ angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams'
 
 		// Find existing pickup
 		$scope.findOne = function() {
-			$scope.pickup = Pickups.get({ 
+			Pickups.get({ 
 				pickupId: $stateParams.pickupId || $stateParams.spickupId
+			}).$promise.then(function(pickup) {
+			   $scope.pickup = pickup;
+			   $scope.pickup.end = new Date(pickup.end);
+			   $scope.pickup.start = new Date(pickup.start);
+			   $scope.endDate = $filter('date')(pickup.end,'yyyy-MM-dd');
+			   $scope.startDate = $filter('date')(pickup.start,'yyyy-MM-dd');
 			});
 		};
+		
+//		$scope.timeChange = function() {
+//		    var selectedDate = new Date($scope.endTime);
+//		};
+		
+		$scope.dateChange = function() {
+            var eDate = new Date($scope.endDate);
+            eDate.setHours($scope.pickup.end.getHours());
+            eDate.setMinutes($scope.pickup.end.getMinutes());
+            $scope.pickup.end = eDate;
+            
+            var sDate = new Date($scope.startDate);
+            sDate.setHours($scope.pickup.start.getHours());
+            sDate.setMinutes($scope.pickup.start.getMinutes());
+            $scope.pickup.start = sDate;
+        };
 	}
 ]);
