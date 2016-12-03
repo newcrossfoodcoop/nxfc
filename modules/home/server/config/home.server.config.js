@@ -21,9 +21,6 @@ module.exports = function(app, db) {
         // Basic auth for holding
         app.use(home.checkBasicAuth);
     }
-    else {
-        app.route('/register-interest').post(home.registerInterest);
-    }
 
     app.locals.home = config;
 };

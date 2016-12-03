@@ -14,4 +14,6 @@ module.exports = function(app) {
         .put(home.sendActivation)
         .get(home.validateActivationToken)
         .post(home.activate);
+        
+    app.route('/register-interest').post(home.registerInterest);
 };
