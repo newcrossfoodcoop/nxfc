@@ -15,6 +15,8 @@ var mongoose = require('mongoose'),
 var util = require('util');
 var thenify = require('thenify');
 
+class UserError extends Error {}
+
 /**
  * Get the error message from error object
  */
@@ -35,6 +37,8 @@ var getErrorMessage = function(err) {
 		for (var errName in err.errors) {
 			if (err.errors[errName].message) message = err.errors[errName].message;
 		}
+	} else if (err instanceof UserError) {
+	    message = err.message;
 	} else {
 	    console.error(err.stack);
 	    message = 'Internal Error';
@@ -158,7 +162,7 @@ exports.sendActivation = function(req, res, next) {
 	}, '-salt -password')
 	.then((_user) => {
 	    user = _user;
-	    if (!user) { throw new Error('User not found'); }
+	    if (!user) { throw new UserError('User not found'); }
 	    
 	    var token = user.username;
 	    
@@ -227,11 +231,11 @@ exports.activate = function(req, res, next) {
 	.then((_user) => {
 	    user = _user;
 		if (!user) { 
-		    throw new Error('Activation token invalid'); 
+		    throw new UserError('Activation token invalid'); 
 		}
 		
 		if (activationDetails.newPassword !== activationDetails.verifyPassword) {
-		    throw new Error('Passwords do not match');
+		    throw new UserError('Passwords do not match');
 		}
 		
 		user.password = activationDetails.newPassword;

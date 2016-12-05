@@ -77,6 +77,7 @@ services:
       - MONGO_HOSTNAME=mongo
       - CATALOGUE_HOSTNAME=catalogue
       - STOCK_HOSTNAME=stock
+      - DEBUG=provides:*,depends:*
     command: gulp
     
   stock:
