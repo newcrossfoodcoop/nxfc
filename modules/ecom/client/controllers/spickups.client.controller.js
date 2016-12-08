@@ -4,8 +4,10 @@
 angular.module('ecom').controller('SpickupsController', [
             '$scope', '$stateParams', '$location', 'Authorisation', 'Pickups', 
             'Locations', '$state', 'Menus', 'Authentication', 'lodash',
+            'catalogueOrders',
 	function($scope, $stateParams, $location, Authorisation, Pickups,
-	         Locations, $state, Menus, Authentication, lodash) {
+	         Locations, $state, Menus, Authentication, lodash,
+	         catalogueOrders) {
 	         
 		$scope.authorisation = Authorisation;
 
@@ -27,7 +29,7 @@ angular.module('ecom').controller('SpickupsController', [
 
 		// Find existing pickup
 		$scope.findOne = function() {
-			$scope.pickup = Pickups.get({ 
+			$scope.pickup = Pickups.orders({ 
 				pickupId: $stateParams.spickupId
 			});
 		};
@@ -37,6 +39,43 @@ angular.module('ecom').controller('SpickupsController', [
 			$scope.checkouts = Pickups.checkouts({ 
 				pickupId: $stateParams.spickupId
 			});
+		};
+		
+		// Find actions
+		$scope.findActions = function() {
+		    Pickups.orders({ 
+				pickupId: $stateParams.spickupId
+			})
+			.$promise
+			.then(function(pickup) {
+			    $scope.pickup = pickup;
+			    if (pickup.orders.length) {
+			        $scope.csvOrderId = pickup.orders[0].supplierOrderId;
+			    }
+			});
+			
+			$scope.close = function() {
+			    Pickups.close({ 
+				    pickupId: $stateParams.spickupId
+			    })
+			    .$promise
+			    .then(function(pickup) { $scope.pickup.state = pickup.state; })
+			    .catch(function(err) { $scope.error = err.data.message; });
+			};
+			
+		    $scope.order = function() {
+		        Pickups.order({ 
+				    pickupId: $stateParams.spickupId
+			    })
+			    .$promise
+			    .then(function(pickup) { 
+			        $scope.pickup = pickup;
+			        if (pickup.orders.length) {
+			            $scope.csvOrderId = pickup.orders[0].supplierOrderId;
+			        } 
+			    })
+			    .catch(function(err) { $scope.error = err.data.message; });
+			};
 		};
 		
 		$scope.reduceCheckouts = function() {

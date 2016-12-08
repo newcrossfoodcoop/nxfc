@@ -13,19 +13,7 @@ var config = require(path.resolve('./config/config'));
 var apis = require(path.resolve('./config/lib/apis'));
 
 // ACL Policies
-var productsPolicy = require('../policies/products.server.policy');
-var suppliersPolicy = require('../policies/suppliers.server.policy');
-var ingestsPolicy = require('../policies/ingests.server.policy');
-
-function resplitUrl (baseParts) {
-    baseParts++;
-    return function (req,res,next) {
-        var originalUrl = req.originalUrl.split('/');
-        req.baseUrl = originalUrl.slice(0,baseParts).join('/');
-        req.url = '/' + originalUrl.slice(baseParts).join('/');
-        next();
-    };
-}
+var cataloguePolicy = require('../policies/catalogue.server.policy');
 
 module.exports = function(app) {
     var _middleware = function () { console.error('osprey not configured'); };
@@ -50,16 +38,8 @@ module.exports = function(app) {
         }
     );
     
-    app.use('/api/products',express.Router().use(
-        resplitUrl(1),ramlMiddleware, productsPolicy.isAllowed, proxyMiddleware
-    ));
-    
-    app.use('/api/suppliers',express.Router().use(
-        resplitUrl(1),ramlMiddleware, suppliersPolicy.isAllowed, proxyMiddleware
-    ));
-    
-    app.use('/api/ingests',express.Router().use(
-        resplitUrl(1),ramlMiddleware, ingestsPolicy.isAllowed, proxyMiddleware
+    app.use('/api/10',express.Router().use(
+        ramlMiddleware, cataloguePolicy.isAllowed, proxyMiddleware
     ));
 
     apis.catalogue.raml

@@ -12,6 +12,18 @@ angular.module('ecom').factory('Pickups', ['$resource',
 			    method: 'GET',
 			    url: '/api/40/pickups/:pickupId/checkouts',
 			    isArray: true
+			},
+			close: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/close'
+			},
+			order: {
+			    method: 'PUT',
+			    url: '/api/40/pickups/:pickupId/orders'
+			},
+			orders: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/orders'
 			}
 		});
 	}

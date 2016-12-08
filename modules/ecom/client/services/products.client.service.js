@@ -3,28 +3,28 @@
 //Products service used to communicate Products REST endpoints
 angular.module('ecom').factory('Products', ['$resource',
 	function($resource) {
-		return $resource('/api/products/:productId', { productId: '@_id'
+		return $resource('/api/10/products/:productId', { productId: '@_id'
 		}, {
 			update: {
 				method: 'PUT'
 			},
 			count: {
 			    method: 'GET',
-			    url: '/api/products/count'
+			    url: '/api/10/products/count'
 			},
 			tags: {
 			    method: 'GET',
-			    url: '/api/products/tags',
+			    url: '/api/10/products/tags',
 			    isArray: true
 			},
 			brands: {
 			    method: 'GET',
-			    url: '/api/products/brands',
+			    url: '/api/10/products/brands',
 			    isArray: true
 			},
 			supplierCodes: {
 			    method: 'GET',
-			    url: '/api/products/supplierCodes',
+			    url: '/api/10/products/supplierCodes',
 			    isArray: true
 			}
 		});

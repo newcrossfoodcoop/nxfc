@@ -11,6 +11,19 @@
                         <input type="text" data-ng-model="pickup.description" id="description" class="form-control" placeholder="Description" required>
                     </div>
                 </div>
+                
+                <div class="form-group">
+					<label class="control-label" for="state">State</label>
+					<div class="controls">
+					    <ui-select id="state" ng-model="pickup.state" theme="bootstrap">
+					        <ui-select-match placeholder="Select state...">{{$select.selected}}</ui-select-match>
+					        <ui-select-choices repeat="state in ['open','closed','ordered'] | filter:$select.search">
+                                {{state}}
+                            </ui-select-choices>
+                        </ui-select>
+					</div>
+				</div>
+                
                 <div class="form-group">
                     <label class="control-label" for="location">Location</label>
                     <div class="controls"> 

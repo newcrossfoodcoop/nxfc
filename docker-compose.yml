@@ -86,5 +86,7 @@ services:
       - "3040:3040"
     depends_on:
       - mongo
+      - catalogue
     environment:
       - MONGO_HOSTNAME=mongo
+      - CATALOGUE_HOSTNAME=catalogue

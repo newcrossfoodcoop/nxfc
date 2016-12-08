@@ -9,7 +9,10 @@ angular.module('ecom').controller('LocationsController', ['$scope', '$stateParam
 		$scope.create = function() {
 			// Create new location object
 			var location = new Locations ({
-				name: this.name
+				name: this.name,
+				url: this.url,
+				address: this.address,
+				description: this.description
 			});
 
 			// Redirect after save

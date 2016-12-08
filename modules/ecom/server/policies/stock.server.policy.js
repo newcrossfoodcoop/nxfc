@@ -37,8 +37,8 @@ exports.invokeRolesPolicies = function() {
 			        permissions: 'get'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/order',
-			        permissions: 'get'
+			        resources: '/api/40/pickups/{pickupId}/orders',
+			        permissions: ['get','put']
 		        },
 		        {
 			        resources: '/api/40/pickups/{pickupId}/checkouts',
@@ -78,8 +78,8 @@ exports.invokeRolesPolicies = function() {
 			        permissions: 'get'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/order',
-			        permissions: 'get'
+			        resources: '/api/40/pickups/{pickupId}/orders',
+			        permissions: ['get','put']
 		        },
 		        {
 			        resources: '/api/40/pickups/{pickupId}/checkouts',
