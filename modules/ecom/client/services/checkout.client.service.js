@@ -43,6 +43,10 @@ angular.module('ecom').factory('Checkout', ['$resource', 'lodash',
 		
 		return {
 		    start: function(items, method, pickup, total, callback) {
+		        if (!pickup || pickup.state !== 'open') {
+		            return callback(new Error('There is no open collection window to order against, notification will be sent by email when a new one opens'));
+		        }
+		    
 		        var checkout = new Checkout({
 		            items: items,
 		            state: 'new',

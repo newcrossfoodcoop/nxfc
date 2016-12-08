@@ -1,42 +1,42 @@
 <div data-ng-controller="SpickupsController" data-ng-init="findActions()">
-    <h2 class="col-xs-10">These buttons do stuff!</h2>
+    <h2 class="col-xs-12">These buttons do stuff!</h2>
 
 	<div data-ng-show="error" class="text-danger col-xs-10">
 	    <strong data-ng-bind="error"></strong>
     </div>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Current state</h4>
-    <h4 class="col-xs-2 text-center" data-ng-bind="pickup.state"></h4>
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Current state</h4>
+    <h4 class="col-xs-4 text-center col-md-2" data-ng-bind="pickup.state"></h4>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Close pickup for new orders</h4>
-    <a class="btn btn-primary col-xs-2" data-ng-click="close()" ng-disabled="pickup.state !== 'open'">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Close pickup for new orders</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="close()" ng-disabled="pickup.state !== 'open'">
         Close
     </a>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Create supplier orders for pickup</h4>
-    <a class="btn btn-primary col-xs-2" data-ng-click="order()" ng-disabled="pickup.state !== 'closed'">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Create supplier orders for pickup</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="order()" ng-disabled="pickup.state !== 'closed'">
         Order
     </a>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Download Order CSV (needs to be emailed to sales@suma.coop)</h4>
-    <a class="btn btn-primary col-xs-2" ng-href="/api/10/orders/{{csvOrderId}}/csv" target="_blank" ng-disabled="!csvOrderId">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Download Order CSV (needs to be emailed to sales@suma.coop)</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" ng-href="/api/10/orders/{{csvOrderId}}/csv" target="_blank" ng-disabled="!csvOrderId">
         Download CSV
     </a>
 
-    <h2 class="col-xs-10">None of these buttons work yet!</h2>
+    <h2 class="col-xs-12">None of these buttons work yet!</h2>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Check-in supplier deliveries</h4>
-    <a class="btn btn-primary col-xs-2" data-ng-click="checkin();">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Check-in supplier deliveries</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="checkin();">
         Check-in
     </a>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">Pick items for users</h4>
-    <a class="btn btn-primary col-xs-2" data-ng-click="pick();">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Pick items for users</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="pick();">
         Pick
     </a>
 
-    <h4 class="col-xs-9 col-md-8 col-md-offset-1">User collection</h4>
-    <a class="btn btn-primary col-xs-2" data-ng-click="collect();">
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">User collection</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="collect();">
         Collect
     </a>
 
