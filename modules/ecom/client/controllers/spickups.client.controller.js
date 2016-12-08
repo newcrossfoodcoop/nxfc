@@ -64,8 +64,10 @@ angular.module('ecom').controller('SpickupsController', [
 			};
 			
 		    $scope.order = function() {
-		        Pickups.order({ 
-				    pickupId: $stateParams.spickupId
+		        console.log($stateParams.spickupId);
+		        Pickups.createOrders({ 
+				    pickupId: $stateParams.spickupId,
+				    _id: $stateParams.spickupId
 			    })
 			    .$promise
 			    .then(function(pickup) { 

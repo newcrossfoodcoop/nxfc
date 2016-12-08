@@ -19,7 +19,7 @@
     </a>
 
     <h4 class="col-xs-9 col-md-8 col-md-offset-1">Download Order CSV (needs to be emailed to sales@suma.coop)</h4>
-    <a class="btn btn-primary col-xs-2" ng-href="/api/10/orders/{{csvOrderId}}/csv" target="_blank">
+    <a class="btn btn-primary col-xs-2" ng-href="/api/10/orders/{{csvOrderId}}/csv" target="_blank" ng-disabled="!csvOrderId">
         Download CSV
     </a>
 
