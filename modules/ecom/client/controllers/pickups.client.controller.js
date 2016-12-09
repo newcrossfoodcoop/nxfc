@@ -9,7 +9,7 @@ angular.module('ecom').controller('PickupsController', ['$scope', '$stateParams'
 
 		// Create new pickup
 		$scope.create = function() {
-		    console.log(this);
+
 			// Create new pickup object
 			var pickup = new Pickups ({
 				description: this.description,

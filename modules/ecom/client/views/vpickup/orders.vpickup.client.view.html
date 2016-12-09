@@ -1,13 +1,26 @@
-<h2>Baskets with confirmed payments only</h2>
-
-<div class="list-group">
-    <div data-ng-repeat="order in pickup.orders" class="list-group-item">
-        <pre data-ng-bind="order |json"></pre>
+<div data-ng-init="reduceCheckouts()">
+    <h2>Baskets with confirmed payments only</h2>    
+    <button class="btn btn-primary" ng-print print-element-id="printThisElement"><i class="fa fa-print"></i> Print</button>
+    <div id="printThisElement">
+        <div class="col-md-12" ng-repeat="supplier in suppliers" class="list-group" ng-show="supplier.stock">
+            <h4 data-ng-bind="supplier.name"></h4>
+		    <div data-ng-show="error" class="text-center text-danger">
+			    <strong data-ng-bind="error"></strong>
+		    </div>
+            <div ng-repeat="entry in supplier.stock | orderBy:['name','-created']" class="list-group-item row">
+                <span class="col-xs-1" data-ng-bind="entry.quantity"></span>
+                <span class="col-xs-3" data-ng-bind="entry.name"></span>
+                <span class="col-xs-2" data-ng-bind="entry.user.displayName"></span>
+                <span class="col-xs-1" data-ng-bind="entry.state"></span>
+                <div class="btn-group col-xs-5">
+                    <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.reserved" ng-click="checked('reserved',entry)" btn-checkbox ng-disabled=true>Reserved</label>
+                    <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.ordered" ng-click="checked('ordered',entry)" btn-checkbox>Ordered</label>
+                    <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.delivered" ng-click="checked('delivered',entry)" btn-checkbox>Delivered</label>
+                    <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.picked" ng-click="checked('picked',entry)" btn-checkbox>Picked</label>
+                    <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.collected" ng-click="checked('collected',entry)" btn-checkbox>Collected</label>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div data-ng-hide="pickup.orders.length">
-    <div data-ng-init="reduceCheckouts()">
-        <pre data-ng-bind="rcheckouts|json"></pre>
-    <div>
-</div>
+<div>
 

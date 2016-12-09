@@ -85,6 +85,10 @@ exports.invokeRolesPolicies = function() {
 			        resources: '/api/40/pickups/{pickupId}/checkouts',
 			        permissions: 'get'
 		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/stocks/{stockId}',
+			        permissions: 'put'
+		        }
 	        ]
 	    },
 	    {

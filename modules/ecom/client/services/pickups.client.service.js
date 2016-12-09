@@ -4,7 +4,8 @@
 angular.module('ecom').factory('Pickups', ['$resource',
 	function($resource) {
 		return $resource('/api/40/pickups/:pickupId', { 
-		    pickupId: '@_id'
+		    pickupId: '@_id',
+		    stockId: '@stockId'
 		}, {
 			update: {
 				method: 'PUT'
@@ -25,6 +26,10 @@ angular.module('ecom').factory('Pickups', ['$resource',
 			orders: {
 			    method: 'GET',
 			    url: '/api/40/pickups/:pickupId/orders'
+			},
+			updateStock: {
+			    method: 'PUT',
+			    url: '/api/40/pickups/:pickupId/stocks/:stockId'
 			}
 		});
 	}

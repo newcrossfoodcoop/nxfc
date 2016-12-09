@@ -6,12 +6,12 @@
         "state": { "type": "string" },
         "productId": { 
             "type": "string", 
-            "pattern": "^[a-f][0-9]{24}$",
+            "pattern": "^[a-f0-9]{24}$",
             "required": true
         },
         "supplierId": { 
             "type": "string", 
-            "pattern": "^[a-f][0-9]{24}$",
+            "pattern": "^[a-f0-9]{24}$",
             "required": true
         }
     }

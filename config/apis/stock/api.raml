@@ -254,6 +254,33 @@ resourceTypes:
                     }
                   } 
                 }
+                
+/pickups/{pickupId}/stocks/{stockId}:
+    put:
+        description: "Update stock state"
+        body:
+            application/json:
+                schema: |
+                    {
+                        "$schema": "http://json-schema.org/draft-03/schema#",
+                        "type": "object",
+                        "properties": {
+                            "state": {
+                                "type": "string",
+                                "enum": ["reserved", "ordered", "delivered", "picked", "collected"]
+                            }
+                        }
+                    }
+                example: |
+                    {
+                        "state": "delivered"
+                    }
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: Stock
+
 /orders:
   get:
     description: List Orders
