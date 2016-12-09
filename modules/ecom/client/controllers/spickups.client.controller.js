@@ -108,7 +108,7 @@ angular.module('ecom').controller('SpickupsController', [
 //		    });
 //		};
 		
-		var states = ['reserved', 'ordered', 'delivered', 'picked', 'collected'];
+		var states = ['reserved', 'ordered', 'delivered', 'picked', 'pickedup'];
 		
 		function setCheckboxes(entry, skip) {
 		    var found = false;
@@ -136,7 +136,7 @@ angular.module('ecom').controller('SpickupsController', [
 		    }
 		    
 		    Pickups.updateStock({ 
-			    _id: $stateParams.spickupId,
+//			    _id: $stateParams.spickupId,
 			    pickupId: $stateParams.spickupId,
 			    stockId: entry._id
 		    }, { state: newState })
