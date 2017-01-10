@@ -21,17 +21,17 @@ angular.module('ecom').run(['Menus', 'Authorisation', 'Pickups', 'lodash', '$fil
 		    roles: ['admin', 'manager']
 	    });
 
-        var pickups = Pickups.query({}, function(pickups) {
-            lodash.each(pickups, function(pickup) {
-                // TODO get current pickups and create a menu item for each one
-	            // Add the dropdown list item
-	            Menus.addSubMenuItem('topbar', 'spickups', {
-		            title: pickup.location.name +' - '+ $filter('date')(pickup.start, 'medium'),
-		            state: 'vpickups.actions({spickupId: "'+pickup._id+'"})',
-//		            state: 'vpickups.view',
-		            roles: ['admin', 'manager']
-	            });
-	        }); 
-        });
+        var pickups = Pickups.active().$promise
+            .then(function(pickups) {
+                lodash.each(pickups, function(pickup) {
+                    // TODO get current pickups and create a menu item for each one
+	                // Add the dropdown list item
+	                Menus.addSubMenuItem('topbar', 'spickups', {
+		                title: pickup.location.name +' - '+ $filter('date')(pickup.start, 'medium'),
+		                state: 'vpickups.actions({spickupId: "'+pickup._id+'"})',
+		                roles: ['admin', 'manager']
+	                });
+	            }); 
+            });
     }
 ]);

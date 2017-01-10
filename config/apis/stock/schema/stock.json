@@ -13,6 +13,10 @@
             "type": "string", 
             "pattern": "^[a-f0-9]{24}$",
             "required": true
+        },
+        "name": {
+            "type": "string",
+             "required": true
         }
     }
 }

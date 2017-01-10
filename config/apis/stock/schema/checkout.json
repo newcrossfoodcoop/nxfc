@@ -20,7 +20,7 @@
         },
         "state": { 
             "type": "string",
-            "enum": ["new", "confirmed", "cancelled"] 
+            "enum": ["new", "confirmed", "cancelled", "finalised"] 
         },
         "items": {
             "type": "array",

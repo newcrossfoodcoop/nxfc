@@ -5,7 +5,8 @@ angular.module('ecom').factory('Pickups', ['$resource',
 	function($resource) {
 		return $resource('/api/40/pickups/:pickupId', { 
 		    pickupId: '@_id',
-		    stockId: '@stockId'
+		    stockId: '@stockId',
+		    checkoutId: '@checkoutId'
 		}, {
 			update: {
 				method: 'PUT'
@@ -30,6 +31,24 @@ angular.module('ecom').factory('Pickups', ['$resource',
 			updateStock: {
 			    method: 'PUT',
 			    url: '/api/40/pickups/:pickupId/stocks/:stockId'
+			},
+			finaliseCheckout: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/checkouts/:checkoutId/finalise'
+			},
+			archive: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/archive'
+			},
+			open: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/open',
+			    isArray: true
+			},
+			active: {
+			    method: 'GET',
+			    url: '/api/40/pickups/:pickupId/active',
+			    isArray: true
 			}
 		});
 	}

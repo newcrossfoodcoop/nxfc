@@ -10,12 +10,6 @@ schemas:
   - Checkout: !include schema/checkout.json
   - Order: !include schema/order.json
   - Stock: !include schema/stock.json
-#  - Allocation: !include schema/allocation.json
-#  - Delivery: !include schema/delivery.json
-#  - Picklist: !include schema/picklist.json
-#  - Reservation: !include schema/reservation.json
-#  - Stock: !include schema/stock.json
-
 
 resourceTypes:
   - base:
@@ -154,6 +148,33 @@ resourceTypes:
             body:
               application/json:
                 schema: Pickup
+  /open:
+    description: List open pickups
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-03/schema#", 
+                    "type": "array", 
+                    "properties": { "$ref": "Pickup" } 
+                  }
+  /active:
+    description: List active pickups
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-03/schema#", 
+                    "type": "array", 
+                    "properties": { "$ref": "Pickup" } 
+                  }
+
 
 /checkouts:
   displayName: Checkout
@@ -210,51 +231,68 @@ resourceTypes:
             body:
               application/json:
                 schema: |
-                 {
+                  {
                     "$schema": "http://json-schema.org/draft-03/schema#", 
                     "type": "array", 
                     "properties": { "$ref": "Stock" } 
                   }
+#    /finalise:
+#      get:
+#        description: "Finalise this checkout"
+#        responses:
+#          200:
+#            body:
+#              application/json:
+#                schema: Checkout
+
+/pickups/{pickupId}/checkouts:
+    get:
+        description: "Checkouts for this pickup"
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: |
+                            {
+                                "$schema": "http://json-schema.org/draft-03/schema#", 
+                                "type": "array", 
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "checkout": { "$ref": "Checkout" },
+                                        "stock": { 
+                                            "type": "array",
+                                            "properties": { "$ref": "Stock" }
+                                        } 
+                                    }
+                                } 
+                            }
 
 /pickups/{pickupId}/orders:
     put:
-      description: "Create supplier order(s) for this pickup"
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Pickup
+        description: "Create supplier order(s) for this pickup"
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: Pickup
     get:
-      description: "Return the pickup with populated orders"
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Pickup
-              
-/pickups/{pickupId}/checkouts:
+        description: "Return the pickup with populated orders"
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: Pickup
+                            
+/pickups/{pickupId}/checkouts/{checkoutId}/finalise:
     get:
-      description: "Checkouts for this pickup"
-      responses:
-        200:
-          body:
-            application/json:
-              schema: |
-                {
-                  "$schema": "http://json-schema.org/draft-03/schema#", 
-                  "type": "array", 
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "checkout": { "$ref": "Checkout" },
-                      "stock": { 
-                        "type": "array",
-                        "properties": { "$ref": "Stock" }
-                      } 
-                    }
-                  } 
-                }
-                
+        description: "Finalise this checkout"
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: Checkout
+
 /pickups/{pickupId}/stocks/{stockId}:
     put:
         description: "Update stock state"
@@ -267,7 +305,7 @@ resourceTypes:
                         "properties": {
                             "state": {
                                 "type": "string",
-                                "enum": ["reserved", "ordered", "delivered", "picked", "pickedup"]
+                                "enum": ["reserved", "ordered", "delivered", "picked", "pickedup", "cancelled"]
                             }
                         }
                     }
@@ -280,6 +318,26 @@ resourceTypes:
                 body:
                     application/json:
                         schema: Stock
+
+/pickups/{pickupId}/archive:
+    get:
+        description: "Archive this pickup"
+        responses:
+            200:
+                body:
+                    application/json:
+                        schema: Pickup
+            400:
+                body:
+                    application/json:
+                        schema: |
+                            {
+                                "$schema": "http://json-schema.org/draft-03/schema#",
+                                "type": "object",
+                                "properties": {
+                                    "message": { "type": "string" }
+                                }
+                            }
 
 /orders:
   get:
@@ -304,79 +362,3 @@ resourceTypes:
               application/json:
                 schema: Order
 
-#/allocation:
-#  displayName: Allocation
-#  type: { typedMemberCollection: { schema: Allocation } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#
-#          }
-#  /{allocationId}:
-#    type: { typedMember: { schema: Allocation } }
-
-#/delivery:
-#  displayName: Delivery
-#  type: { typedMemberCollection: { schema: Delivery } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#          }
-#  /{deliveryId}:
-#    type: { typedMember: { schema: Delivery } }
-
-#/order:
-#  displayName: Order
-#  type: { typedMemberCollection: { schema: Order } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#
-#          }
-#  /{orderId}:
-#    type: { typedMember: { schema: Order } }
-
-#/picklist:
-#  displayName: Picklist
-#  type: { typedMemberCollection: { schema: Picklist } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#
-#          }
-#  /{picklistId}:
-#    type: { typedMember: { schema: Picklist } }
-
-#/reservation:
-#  displayName: Reservation
-#  type: { typedMemberCollection: { schema: Reservation } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#
-#          }
-#  /{reservationId}:
-#    type: { typedMember: { schema: Reservation } }
-
-#/stock:
-#  displayName: Stock
-#  type: { typedMemberCollection: { schema: Stock } }
-#  post:
-#    body:
-#      application/json:
-#        example: |
-#          {
-#
-#          }
-#  /{stockId}:
-#    type: { typedMember: { schema: Stock } }

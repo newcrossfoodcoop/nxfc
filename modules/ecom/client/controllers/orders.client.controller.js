@@ -1,8 +1,9 @@
 'use strict';
 
 // Orders controller
-angular.module('ecom').controller('OrdersController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Orders', '$state',
-	function($scope, $stateParams, $location, Authorisation, Orders, $state) {
+angular.module('ecom').controller('OrdersController', [
+    '$scope', '$stateParams', '$location', 'Authorisation', 'Orders', '$state', 'Checkout', 'Authentication',
+	function($scope, $stateParams, $location, Authorisation, Orders, $state, Checkout, Authentication) {
 		$scope.Authorisation = Authorisation;
 
 		// Remove existing Order
@@ -42,6 +43,48 @@ angular.module('ecom').controller('OrdersController', ['$scope', '$stateParams',
 			$scope.order = Orders.get({ 
 				orderId: $stateParams.orderId
 			});
+		};
+		
+		$scope.getOrderHistory = function() {
+			$scope.history = Orders.history({ 
+				userId: Authentication.user._id
+			})
+			.$promise
+			.then(function(history) { 
+			    $scope.history = history;
+			    if (history.length > 0) {
+			        $scope.active = history[0].id;
+			    } 
+			})
+			.catch(function(err) { $scope.error = err.data.message; });
+		};
+		
+		$scope.recalculate = function() {
+		    var order = $scope.order;
+		    
+		    order
+		        .$recalculate()
+		        .then(function(doc) { $scope.order = doc; })
+		        .catch(function(err) { $scope.error = err.data.message; });
+		};
+		
+		$scope.recalculateWithLookup = function() {
+		    var order = $scope.order;
+		    
+		    order
+		        .$recalculateWithLookup()
+		        .then(function(doc) { $scope.order = doc; })
+		        .catch(function(err) { $scope.error = err.data.message; });
+		};
+		
+		$scope.close = function() {
+		    var order = $scope.order;
+		    
+		    Checkout
+		        .close({ orderId: order._id, method: order.payments[0].method })
+		        .$promise
+		        .then(function(doc) { $scope.order = doc; })
+		        .catch(function(err) { $scope.error = err.data.message; });
 		};
 		
 	}

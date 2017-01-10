@@ -1,5 +1,4 @@
-<div data-ng-init="reduceCheckouts()">
-    <h2>Baskets with confirmed payments only</h2>    
+<div data-ng-init="reduceCheckouts()">  
     <button class="btn btn-primary" ng-print print-element-id="printThisElement"><i class="fa fa-print"></i> Print</button>
     <div id="printThisElement">
         <div class="col-md-12" ng-repeat="supplier in suppliers" class="list-group" ng-show="supplier.stock">
@@ -8,16 +7,19 @@
 			    <strong data-ng-bind="error"></strong>
 		    </div>
             <div ng-repeat="entry in supplier.stock | orderBy:['name','-created']" class="list-group-item row">
-                <span class="col-xs-1" data-ng-bind="entry.quantity"></span>
-                <span class="col-xs-3" data-ng-bind="entry.name"></span>
+                <span class="col-xs-3">
+                    <span data-ng-bind="entry.quantity"></span>&nbsp;&nbsp;
+                    <span data-ng-bind="entry.name"></span>
+                </span>
                 <span class="col-xs-2" data-ng-bind="entry.user.displayName"></span>
                 <span class="col-xs-1" data-ng-bind="entry.state"></span>
-                <div class="btn-group col-xs-5">
+                <div class="btn-group col-xs-6">
                     <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.reserved" ng-click="checked('reserved',entry)" btn-checkbox ng-disabled=true>Reserved</label>
                     <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.ordered" ng-click="checked('ordered',entry)" btn-checkbox>Ordered</label>
                     <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.delivered" ng-click="checked('delivered',entry)" btn-checkbox>Delivered</label>
                     <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.picked" ng-click="checked('picked',entry)" btn-checkbox>Picked</label>
                     <label class="btn btn-primary btn-stock" ng-model="entry.checkboxes.pickedup" ng-click="checked('pickedup',entry)" btn-checkbox>Picked Up</label>
+                    <label class="btn btn-primary btn-stock btn-warning" ng-model="entry.checkboxes.cancelled" ng-click="cancel(entry)" btn-checkbox>Cancelled</label>
                 </div>
             </div>
         </div>

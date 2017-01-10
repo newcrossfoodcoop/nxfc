@@ -7,6 +7,7 @@
 	    <div class="col-md-3 text-right">
 	        <div data-ng-show="authorisation.isAllowed('pickups', 'edit')">
 	            <h1>
+	                <a class="btn btn-primary" data-ui-sref="vpickups.actions({spickupId: pickup._id})">Manage Pickup</a>
 		            <a class="btn btn-primary" data-ui-sref="pickups.edit({pickupId: pickup._id})">
 			            <i class="glyphicon glyphicon-edit"></i>
 		            </a>

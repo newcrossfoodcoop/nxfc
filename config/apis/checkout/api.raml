@@ -2,6 +2,7 @@
 
 title: NXFC Checkout and Orders
 baseUri: http://localhost:3030/api
+version: 0.1.0
 
 schemas:
   - Order: !include schema/order.json
@@ -162,9 +163,83 @@ resourceTypes:
                 application/json:
                   schema: Order
             400:
-              description: Order can no longer cancelled via the checkout.
+              description: Order can no longer be cancelled via the checkout.
 /orders:
   displayName: Orders
   type: { typedMemberCollection: { schema: Order } }
+  /history/{orderUserId}:
+    get:
+      description: Get a user's order history
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-03/schema#", 
+                  "type": "array", 
+                  "properties": { "$ref": "Order" } 
+                }
   /{orderId}:
     type: { typedMember: { schema: Order } }
+    /recalculate:
+      get:
+        description: Recalculate this order without looking up products
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Order 
+      put:
+        description: Recalculate this order, looks up CURRENT product details
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Order
+    /finalise:
+      put:
+        description: Finalise an order, 
+        body:
+          application/json:
+            schema: |
+              {
+                "$schema": "http://json-schema.org/draft-03/schema#", 
+                "type": "array",
+                "properties": {
+                  "productId": { "type": "string", "required": true, "pattern": "^[a-f0-9]{24}$" },
+                  "quantity": { "type": "integer", "required": true },
+                  "action": { 
+                    "type": "string", 
+                    "required": true,
+                    "enum": [ "cancel", "finalise" ]
+                  }
+                }
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Order
+          400:
+            body:
+              application/json:
+                schema: |
+                  {
+                    "$schema": "http://json-schema.org/draft-03/schema#", 
+                    "type": "object",
+                    "properties": {
+                      "message": { "type": "string", "required": true }
+                    }
+                  }
+                example: |
+                  {
+                    "message": "Can only finalised confirmed orders"
+                  }
+/checkout/{method}/{checkoutOrderId}/close:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            schema: Order

@@ -9,7 +9,7 @@ var Acl = require('acl');
 var acl = new Acl(new Acl.memoryBackend());
 
 /**
- * Invoke Products Permissions
+ * Invoke Order Permissions
  */
 exports.invokeRolesPolicies = function() {
 	acl.allow([{
@@ -23,6 +23,9 @@ exports.invokeRolesPolicies = function() {
 		}, {
 			resources: '/api/orders/history',
 			permissions: '*'
+		}, {
+		    resources: '/api/orders/{orderId}/recalculate',
+		    permissions: ['get', 'put']
 		}]
 	}, {
 		roles: ['manager'],
@@ -33,19 +36,7 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/orders/{orderId}',
 			permissions: ['get']
 		}, {
-			resources: '/api/orders/history',
-			permissions: ['get']
-		}]
-	}, {
-		roles: ['guest', 'user'],
-		allows: [{
-			resources: '/api/orders',
-			permissions: ['get']
-		}, {
-			resources: '/api/orders/{orderId}',
-			permissions: ['get']
-		}, {
-			resources: '/api/orders/history',
+			resources: '/api/orders/history/{orderUserId}',
 			permissions: ['get']
 		}]
 	}]);

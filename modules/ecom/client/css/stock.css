@@ -1,3 +1,15 @@
 .btn-primary.btn-stock.active {
     background-color: green;
 }
+
+.btn-primary.btn-stock.btn-warning.active {
+    background-color: red;
+}
+
+@media print {
+    .btn-primary.btn-stock.active {
+        background-color: black !important;
+        color: white !important;
+        text-decoration: line-through;
+    }
+}

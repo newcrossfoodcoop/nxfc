@@ -1,24 +1,57 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Code</th>
             <th>Product</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
+            <th>State</th>
+            <th class="text-right">Price</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-right">Cost</th>
+            <th class="text-right">Margin</th>
+            <th class="text-right">VAT</th>
+            <th class="text-right">Total</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="item in order.items">
+            <td data-ng-bind="item.code"></td>
             <td data-ng-bind="item.name"></td>
-            <td data-ng-bind="item.price | currency:'£'"></td>
-            <td data-ng-bind="item.quantity"></td>
-            <td data-ng-bind="item.price * item.quantity | currency:'£'"></td>
+            <td data-ng-bind="item.state"></td>
+            <td class="text-right" data-ng-bind="item.price | currency:'£'"></td>
+            <td class="text-center" data-ng-bind="item.quantity"></td>
+            <td class="text-right" data-ng-bind="item.totals.cost | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="item.totals.margin | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="item.totals.vat | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="item.total | currency:'£'"></td>
         </tr>
     </tbody>
     <tfoot class="panel-footer">
         <tr>
-            <td colspan=3 class="text-right">Total:</td>
-            <td  data-ng-bind="order.total | currency:'£'"></td>
+            <td colspan=5 class="text-right">Totals:</td>
+            <td class="text-right" data-ng-bind="order.totals.cost | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="order.totals.margin | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="order.totals.vat | currency:'£'"></td>
+            <td class="text-right" data-ng-bind="order.total | currency:'£'"></td>
+        </tr>
+        <tr>
+            <td colspan=8 class="text-right">Paypal:</td>
+            <td class="text-right" data-ng-bind="order.transactionFee | currency:'£'"></td>
+        </tr>
+        <tr>
+            <td colspan=8 class="text-right">EAR:</td>
+            <td class="text-right" data-ng-bind="order.totals.margin - order.transactionFee | currency:'£'"></td>
+        </tr>
+        <tr>
+            <td colspan=8 class="text-right">Paid:</td>
+            <td class="text-right" data-ng-bind="order.paid | currency:'£'"></td>
+        </tr>
+        <tr>
+            <td colspan=8 class="text-right">Refunded:</td>
+            <td class="text-right" data-ng-bind="order.refund | currency:'£'"></td>
+        </tr>
+        <tr>
+            <td colspan=8 class="text-right">Balance:</td>
+            <td class="text-right" data-ng-bind="order.due | currency:'£'"></td>
         </tr>
     </tfoot>
 </table>

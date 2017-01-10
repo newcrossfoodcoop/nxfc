@@ -29,6 +29,10 @@ angular.module('ecom').factory('Checkout', ['$resource', 'lodash',
 		        config: {
 		            method: 'GET',
 		            url: '/api/checkout/config'
+		        },
+		        close: {
+		            method: 'GET',
+		            url: '/api/checkout/:method/:orderId/close'
 		        }
 		    }
 		);
@@ -66,7 +70,8 @@ angular.module('ecom').factory('Checkout', ['$resource', 'lodash',
 		    get: Checkout.get,
 		    cancelled: Checkout.cancelled,
 		    redirected: Checkout.redirected,
-		    config: Checkout.config
+		    config: Checkout.config,
+		    close: Checkout.close
 		};
 	}
 ]);

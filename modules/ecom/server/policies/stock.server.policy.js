@@ -33,14 +33,6 @@ exports.invokeRolesPolicies = function() {
 			        permissions: '*'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/close',
-			        permissions: 'get'
-		        },
-		        {
-			        resources: '/api/40/pickups/{pickupId}/orders',
-			        permissions: ['get','put']
-		        },
-		        {
 			        resources: '/api/40/pickups/{pickupId}/checkouts',
 			        permissions: 'get'
 		        },
@@ -63,11 +55,15 @@ exports.invokeRolesPolicies = function() {
 		        {
 			        resources: '/api/40/orders/{orderId}/delivered',
 			        permissions: 'put'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/archive',
+			        permissions: 'get'
 		        }
 	        ]
 	    },
 	    {
-	        roles: ['manager'],
+	        roles: ['admin', 'manager'],
 	        allows: [
 	            {
 			        resources: '/api/40/pickups/{pickupId}',
@@ -88,6 +84,22 @@ exports.invokeRolesPolicies = function() {
 		        {
 			        resources: '/api/40/pickups/{pickupId}/stocks/{stockId}',
 			        permissions: 'put'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/checkouts/{checkoutId}/finalise',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/open',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/active',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups',
+			        permissions: 'get'
 		        }
 	        ]
 	    },
@@ -95,7 +107,11 @@ exports.invokeRolesPolicies = function() {
 		    roles: ['user', 'guest'],
 		    allows: [
 		        {
-		            resources: '/api/40/pickups',
+			        resources: '/api/40/pickups/{pickupId}/open',
+			        permissions: 'get'
+		        },
+		        {
+			        resources: '/api/40/pickups/{pickupId}/active',
 			        permissions: 'get'
 		        }
 		    ]

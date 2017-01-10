@@ -16,13 +16,13 @@ menus.run([ 'Menus', function( Menus ) {
 	});
 	
 	Menus.addMenuItem('pickupmenu', {
-		title: 'Baskets By User',
+		title: 'Stock By Checkout',
 		state: 'vpickups.checkouts',
 		roles: ['manager']
 	});
 	
 	Menus.addMenuItem('pickupmenu', {
-		title: 'Items By Supplier',
+		title: 'Stock By Supplier',
 		state: 'vpickups.orders',
 		roles: ['manager']
 	});

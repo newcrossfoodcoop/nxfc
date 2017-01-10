@@ -13,6 +13,12 @@ var acl = new Acl(new Acl.memoryBackend());
  */
 exports.invokeRolesPolicies = function() {
 	acl.allow([{
+	    roles: ['admin'],
+		allows: [{
+			resources: '/api/checkout/{method}/{checkoutOrderId}/close',
+			permissions: 'get'
+		}]
+	},{
 		roles: ['admin','user'],
 		allows: [{
 			resources: [

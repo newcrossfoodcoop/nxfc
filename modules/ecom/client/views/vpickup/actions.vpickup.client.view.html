@@ -1,6 +1,22 @@
 <div data-ng-controller="SpickupsController" data-ng-init="findActions()">
-    <h2 class="col-xs-12">These buttons do stuff!</h2>
+    <h2>Pickup progress:</h2>
+    <div class="co-form-container">
+    <div class="row page-header text-center">
+	
+	    <!-- the links to our nested states using relative paths -->
+	    <!-- add the active class if the state matches our ui-sref -->
 
+	    <div class="status-buttons text-center" ng-init="states = ['open', 'close', 'ordered', 'archived']; current = states.indexOf(pickup.state)">
+	        <div class="col-xs-3 wizard-step" ng-repeat="state in states" ng-class="(state === pickup.state ? 'active' : (states.indexOf(state) < states.indexOf(pickup.state) ? 'complete' : 'disabled'))">
+                <div class="text-center bs-wizard-stepnum">{{state}}</div>
+                <div class="progress"><div class="progress-bar"></div></div>
+                <span class="wizard-dot"></span>
+            </div>
+	    </div>
+    </div>
+    </div>
+
+    <h2>Pickup actions:</h2>
 	<div data-ng-show="error" class="text-danger col-xs-10">
 	    <strong data-ng-bind="error"></strong>
     </div>
@@ -22,22 +38,15 @@
     <a class="btn btn-primary col-xs-4 col-md-2" ng-href="/api/10/orders/{{csvOrderId}}/csv" target="_blank" ng-disabled="!csvOrderId">
         Download CSV
     </a>
-
-    <h2 class="col-xs-12">None of these buttons work yet!</h2>
-
-    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Check-in supplier deliveries</h4>
-    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="checkin();">
-        Check-in
+    
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Send Cancellations (needs to be emailed to claims@suma.coop)</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="error = 'not implemented'" ng-disabled="true">
+        Cancellations
     </a>
 
-    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Pick items for users</h4>
-    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="pick();">
-        Pick
-    </a>
-
-    <h4 class="col-xs-8 col-md-8 col-md-offset-1">User collection</h4>
-    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="collect();">
-        Collect
+    <h4 class="col-xs-8 col-md-8 col-md-offset-1">Archive</h4>
+    <a class="btn btn-primary col-xs-4 col-md-2" data-ng-click="archive()" ng-disabled="pickup.state !== 'ordered'">
+        Archive
     </a>
 
 </div>

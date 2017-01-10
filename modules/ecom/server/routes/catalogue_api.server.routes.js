@@ -21,6 +21,7 @@ module.exports = function(app) {
     var ramlMiddleware = function(req,res,next) {
         _middleware(req,res,function(err) {
             if (err) {
+                console.warn(err);
                 var done = finalhandler(req,res);
                 done(err);
             }

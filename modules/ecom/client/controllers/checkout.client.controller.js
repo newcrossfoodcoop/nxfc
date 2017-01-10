@@ -10,7 +10,7 @@ angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams
 		
 		$scope.total = Basket.total;
 		
-		Pickups.query(function(pickups) { $scope.pickup = pickups[0]; });
+		Pickups.open().$promise.then(function(pickups) { $scope.pickup = pickups[0]; });
 		
 		// we will store all of our form data in this object
 	    $scope.formData = {};

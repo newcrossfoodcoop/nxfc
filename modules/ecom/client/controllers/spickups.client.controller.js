@@ -34,12 +34,78 @@ angular.module('ecom').controller('SpickupsController', [
 			});
 		};
 		
+		var states = ['reserved', 'ordered', 'delivered', 'picked', 'pickedup'];
+		
+		function setCheckboxes(entry, skip) {
+		    var found = false;
+		    if (entry.state === 'cancelled') {
+		        lodash.each(states, function(state) {
+		            entry.checkboxes[state] = false;
+		        });
+		        entry.checkboxes.cancelled = true;
+		    }
+		    else {
+		        lodash.each(states, function(state) {
+		            if (state !== skip) {
+		                entry.checkboxes[state] = !found;
+		            } 
+		            if (state === entry.state) {
+		                found = true;
+		            }  
+		        });
+		        entry.checkboxes.cancelled = false;
+		    }
+		} 
+		
+		$scope.currentCheckout = 1;
+		
 		// Find checkouts
 		$scope.findCheckouts = function() {
-			$scope.checkouts = Pickups.checkouts({ 
+			return Pickups.checkouts({ 
 				pickupId: $stateParams.spickupId
-			});
+			})
+			.$promise
+			.then(function(checkouts) {
+		        return lodash.each(checkouts,function(checkout) {
+//                    if (checkout._id.state === 'confirmed') {
+                        lodash.each(checkout.stock, function(entry) {
+                            entry.user = checkout._id.user;
+                            entry.created = new Date(entry.created);
+                            entry.checkboxes = {};
+                            setCheckboxes(entry);
+//                            var supplier = suppliers[entry.supplierId];
+//                            if (supplier.stock) { supplier.stock.push(entry); }
+//                            else { supplier.stock = [entry]; }
+                        });
+//                    }
+                });
+		    })
+		    .then(function(checkouts) {
+		        $scope.totalCheckouts = checkouts.length;
+		        $scope.checkouts = checkouts;
+		    })
+		    .catch(function(err) { $scope.error = err.data.message; });
 		};
+		
+        $scope.finaliseCheckout = function(checkout) {
+            Pickups.finaliseCheckout({
+                pickupId: checkout._id.pickup,
+                checkoutId: checkout._id._id
+            })
+            .$promise
+            .then(function(res) {
+                checkout._id.state = res.state;
+            })
+            .catch(function(err) { $scope.error = err.data.message; });
+        };
+        
+        $scope.archive = function() {
+            var pickup = $scope.pickup;
+            pickup
+                .$archive()
+                .then(function(_pickup) { $scope.pickup = _pickup; })
+                .catch(function(err) { $scope.error = err.data.message; });
+        };
 		
 		// Find actions
 		$scope.findActions = function() {
@@ -108,20 +174,6 @@ angular.module('ecom').controller('SpickupsController', [
 //		    });
 //		};
 		
-		var states = ['reserved', 'ordered', 'delivered', 'picked', 'pickedup'];
-		
-		function setCheckboxes(entry, skip) {
-		    var found = false;
-		    lodash.each(states, function(state) {
-		        if (state !== skip) {
-		            entry.checkboxes[state] = !found;
-		        } 
-		        if (state === entry.state) {
-		            found = true;
-		        }  
-		    });
-		} 
-		
 		$scope.checked = function checked(clicked,entry) {
 		    
 		    var newState = null;
@@ -149,6 +201,23 @@ angular.module('ecom').controller('SpickupsController', [
 
 		};
 		
+		$scope.cancel = function cancel(entry) {
+		    Pickups.updateStock({ 
+//			    _id: $stateParams.spickupId,
+			    pickupId: $stateParams.spickupId,
+			    stockId: entry._id
+		    }, { state: 'cancelled' })
+		    .$promise
+		    .then(function() {
+		        entry.state = 'cancelled';
+		        lodash.each(states, function(state) {
+		            entry.checkboxes[state] = false;
+		        });
+		        setCheckboxes(entry); 
+		    })
+		    .catch(function(err) { $scope.error = err.data.message; });
+		};
+		
 		$scope.reduceCheckouts = function() {
 		    var suppliers = {};
 		    var rval = [];
@@ -166,7 +235,7 @@ angular.module('ecom').controller('SpickupsController', [
 			    .then(function(checkouts) {
 			       
 			        return lodash.each(checkouts,function(checkout) {
-                        if (checkout._id.state === 'confirmed') {
+//                        if (checkout._id.state === 'confirmed') {
                             lodash.each(checkout.stock, function(entry) {
                                 entry.user = checkout._id.user;
                                 entry.created = new Date(entry.created);
@@ -176,10 +245,11 @@ angular.module('ecom').controller('SpickupsController', [
                                 if (supplier.stock) { supplier.stock.push(entry); }
                                 else { supplier.stock = [entry]; }
                             });
-                        }
+//                        }
                     });
 		        })
-		        .then(function() { $scope.suppliers = rval; });
+		        .then(function() { $scope.suppliers = rval; })
+		        .catch(function(err) { $scope.error = err.data.message; });
 		};
 	}
 ]);

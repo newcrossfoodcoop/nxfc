@@ -90,3 +90,4 @@ services:
     environment:
       - MONGO_HOSTNAME=mongo
       - CATALOGUE_HOSTNAME=catalogue
+      - CHECKOUT_HOSTNAME=checkout

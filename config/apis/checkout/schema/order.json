@@ -5,7 +5,7 @@
     "properties": {        
 	    "state": {
 	        "type": "string",
-	        "enum": ["new", "submitted", "redirected", "gotdetails","confirmed", "cancelled", "deleted"],
+	        "enum": ["new", "submitted", "redirected", "gotdetails","confirmed", "cancelled", "deleted", "finalised", "closed"],
 	        "required": true
 	    },
 	    "items": {
@@ -62,7 +62,8 @@
 	                            "info": { "type": "object" }, 
 	                            "details": { "anyOf": [{"type": "object" },{"type": "null"}] }, 
 	                            "confirmation": { "type": "object" }, 
-	                            "cancelled": { "type": "object" }
+	                            "cancelled": { "type": "object" },
+	                            "refund": { "type": "object" }
 	                        }
 	                    }
 	                }
@@ -74,20 +75,26 @@
 	        "required": true
 	    },
 	    "user": {
-	        "type": "object",
-            "description": "User object",
-            "properties": {
-                "_id": { "type": "string", "required": true },
-                "username": { "type": "string", "required": true },
-                "displayName": { "type": "string", "required": true },
-                "email": { "type": "string", "required": true }
-            }
+	        "oneOf": [{
+	            "type": "string",
+	            "required": true
+	        },{
+	            "type": "object",
+	            "properties": {
+	                "_id": { "type": "string", "required": true },
+                    "username": { "type": "string", "required": true },
+                    "displayName": { "type": "string", "required": true },
+                    "email": { "type": "string", "required": true }
+	            }
+	        }]
 	    },
 	    "orderType": {
 	        "type": "string",
 	        "enum": ["supplier", "customer"],
 	        "default": "customer"
 	    },
-	    "pickup": { "type": "string" }
+	    "pickup": {
+	        "type": "string"
+	    }
 	}
 }

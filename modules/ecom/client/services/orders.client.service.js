@@ -10,6 +10,19 @@ angular.module('ecom').factory('Orders', ['$resource', 'lodash',
 		    {
 			    update: {
 				    method: 'PUT'
+			    },
+			    recalculate: {
+				    method: 'GET',
+				    url: '/api/orders/:orderId/recalculate'
+			    },
+			    recalculateWithLookup: {
+				    method: 'PUT',
+				    url: '/api/orders/:orderId/recalculate'
+			    },
+			    history: {
+			        method: 'GET',
+			        url: '/api/orders/history/:userId',
+			        isArray: true
 			    }
 		    }
 		);

@@ -5,7 +5,20 @@
 	    </h1>
 	</div>
 
+    <div class="row">
+        <h2 class="col-xs-12">Order Detail</h2>
+    </div>
 	<div order-items></div>
+
+    <div class="row">
+        <h2 class="col-xs-12">Actions</h2>
+        <h4 class="col-xs-10 col-md-7">Recalculate order with current data</h4>
+        <a class="btn btn-primary col-xs-2 col-md-1" data-ng-click="recalculate()" ng-disabled="order.state!=='confirmed'">Recalculate</a>
+        <h4 class="col-xs-10 col-md-7">Recalculate order with a fresh lookup of products</h4>
+        <a class="btn btn-primary col-xs-2 col-md-1" data-ng-click="recalculateWithLookup()" ng-disabled="order.state!=='confirmed'">Recalculate</a>
+        <h4 class="col-xs-10 col-md-7">Refund money due and close</h4>
+        <a class="btn btn-primary col-xs-2 col-md-1" data-ng-click="close()" ng-disabled="order.state!=='finalised'">Close</a>
+    </div>
 
     <div data-ng-repeat="payment in order.payments" ng-init="rows={}">
         <hr>

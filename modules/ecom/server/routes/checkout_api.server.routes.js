@@ -68,9 +68,15 @@ module.exports = function(app) {
             .use(resplitUrl(1),ramlMiddleware, checkoutPolicy.isAllowed, proxyMiddleware)
     );
     
-    app.use('/api/orders',express.Router().use(
-        resplitUrl(1),ramlMiddleware, ordersPolicy.isAllowed, proxyMiddleware
-    ));
+    app.use('/api/orders',express.Router()
+        // Extra order history check
+        .get('/history/:orderUserId', (req,res,next) => { next(); })
+        .param('orderUserId', function(req,res,next,id) {
+            if (req.user.id === id) { return next(); }
+            next(new Error('Logged in user history only'));
+        })
+        .use(resplitUrl(1),ramlMiddleware, ordersPolicy.isAllowed, proxyMiddleware)
+    );
 
     apis.checkout.raml
         .then(function(raml) {

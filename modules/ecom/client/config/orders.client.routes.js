@@ -14,6 +14,10 @@ angular.module('ecom').config(['$stateProvider',
 			url: '',
 			templateUrl: 'modules/ecom/views/orders/list-orders.client.view.html'
 		}).
+		state('orders.history', {
+			url: '/history',
+			templateUrl: 'modules/ecom/views/orders/order-history.client.view.html'
+		}).
 		state('orders.view', {
 			url: '/:orderId',
 			templateUrl: 'modules/ecom/views/orders/view-order.client.view.html'
