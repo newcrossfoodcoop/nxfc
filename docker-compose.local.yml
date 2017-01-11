@@ -1,0 +1,99 @@
+version: '2'
+services:
+
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+      - "5858:5858"
+    volumes:
+      - "./modules:/home/app/modules" 
+      - "./uploads:/home/app/uploads"
+    depends_on:
+      - mongo
+      - catalogue
+      - ghost
+      - checkout
+      - stock
+    environment:
+      - OWNER="admin"
+      - MONGO_HOST=mongo
+      - CATALOGUE_HOST=catalogue
+      - GHOST_HOST=ghost
+      - CHECKOUT_HOST=checkout
+      - STOCK_HOST=stock
+      
+  mongo:
+    image: mongo:3
+    ports:
+      - "27017:27017"
+      
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+      
+  ghost:
+    image: newcrossfoodcoop/nxfc_ghost:latest
+    ports:
+      - "3020:3020"
+    command: gulp api
+      
+  catalogue:
+    image: newcrossfoodcoop/nxfc_catalogue:latest
+    ports:
+      - "3010:3010"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
+    command: gulp api
+
+  catalogue_worker:
+    image: newcrossfoodcoop/nxfc_catalogue:latest
+    ports:
+      - "3014:3014"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - MONGO_HOST=mongo
+      - REDIS_HOST=redis
+      - DEBUG=ingester
+    command: gulp worker
+    
+  checkout:
+    build: ../nxfc_checkout
+    volumes:
+      - "../nxfc_checkout/depends:/home/app/depends"
+      - "../nxfc_checkout/provides:/home/app/provides"
+    ports:
+      - "3030:3030"
+    depends_on:
+      - mongo
+      - catalogue
+      - stock
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - CATALOGUE_HOSTNAME=catalogue
+      - STOCK_HOSTNAME=stock
+      - DEBUG=provides:*,depends:*
+    command: gulp
+    
+  stock:
+    build: ../nxfc_stock
+    volumes:
+      - "../nxfc_stock/depends:/home/app/depends"
+      - "../nxfc_stock/provides:/home/app/provides"
+    ports:
+      - "3040:3040"
+    depends_on:
+      - mongo
+      - catalogue
+    environment:
+      - MONGO_HOSTNAME=mongo
+      - CATALOGUE_HOSTNAME=catalogue
+      - CHECKOUT_HOSTNAME=checkout

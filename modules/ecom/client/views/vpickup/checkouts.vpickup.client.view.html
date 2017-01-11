@@ -28,10 +28,14 @@
             </div>
             <div class="col-xs-6">
                 <h4>Actions:</h4>
-                <p class="col-xs-4">Finalise this checkout:</p>
-                <p class="col-xs-8">
-                    <a class="btn btn-primary" ng-click="finaliseCheckout(checkout)" ng-disabled="checkout._id.state !== 'confirmed'">Finalise</a>
-                </p>
+                <div>
+                    <span class="col-xs-8">Finalise this checkout:</span>
+                    <a class="btn btn-primary col-xs-4" ng-click="finaliseCheckout(checkout)" ng-disabled="checkout._id.state !== 'confirmed'">Finalise</a>
+                </div>
+                <div data-ng-show="authorisation.isAllowed('orders', 'view')">
+                    <span class="col-xs-8">View this order:</span>
+                    <a class="btn btn-primary col-xs-4" data-ui-sref="orders.view({orderId: checkout._id.orderId})">View Order</a>
+                </div>
             </div>
         </div>
         
