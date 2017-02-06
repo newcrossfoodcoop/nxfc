@@ -88,5 +88,10 @@ module.exports = {
 	sessionSecret: 'MEAN',
 	sessionCollection: 'sessions',
 	ownerUsername: process.env.OWNER || 'OWNER',
-	externalAddress: process.env.EXTERNAL_ADDRESS || 'localhost:' + (process.env.PORT || 3000)
+	externalAddress: process.env.EXTERNAL_ADDRESS || 'localhost:' + (process.env.PORT || 3000),
+	mailchimp: {
+	    list: process.env.MAILCHIMP_LIST || 'MAILCHIMP_LIST',
+	    key: process.env.MAILCHIMP_KEY || 'MAILCHIMP_KEY',
+	    apiKey: process.env.MAILCHIMP_API_KEY || 'MAILCHIMP_API_KEY'
+	}
 };
