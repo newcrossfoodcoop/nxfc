@@ -41,10 +41,10 @@ exports.getErrorMessage = function(err) {
 	}
 
     if (message) {
-        console.log(message);
+        console.error(message);
     }
     else {
-        console.log(err);
+        console.error(err);
     }
 
 	return message;

@@ -27,7 +27,10 @@ module.exports = function(app) {
 	app.route('/api/users/:userId').all(usersPolicy.isAllowed)
 		.get(admin.read)
 		.put(admin.update)
-		.delete(admin.delete);    
+		.delete(admin.delete);
+		
+	// Webhook for mailchimp subscribes/unsubscribes
+	app.route('/api/webhooks/mailchimp').post(admin.mailchimp);
 
 	// Finish by binding the user middleware
 	app.param('userId', admin.userByID);

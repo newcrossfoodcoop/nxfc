@@ -61,6 +61,7 @@
 			var sampleArticles = [sampleArticle];
 
 			// Set GET response
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectGET('api/articles').respond(sampleArticles);
 
 			// Run controller functionality
@@ -82,6 +83,7 @@
 			$stateParams.articleId = '525a8422f6d0f87f0e407a33';
 
 			// Set GET response
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectGET(/api\/articles\/([0-9a-fA-F]{24})$/).respond(sampleArticle);
 
 			// Run controller functionality
@@ -111,6 +113,7 @@
 			scope.content = 'MEAN rocks!';
 
 			// Set POST response
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectPOST('api/articles', sampleArticlePostData).respond(sampleArticleResponse);
 
 			// Run controller functionality
@@ -137,6 +140,7 @@
 			scope.article = sampleArticlePutData;
 
 			// Set PUT response
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectPUT(/api\/articles\/([0-9a-fA-F]{24})$/).respond();
 
 			// Run controller functionality
@@ -157,6 +161,7 @@
 			scope.articles = [sampleArticle];
 
 			// Set expected DELETE response
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectDELETE(/api\/articles\/([0-9a-fA-F]{24})$/).respond(204);
 
 			// Run controller functionality

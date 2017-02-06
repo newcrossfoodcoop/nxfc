@@ -10,6 +10,8 @@ var _ = require('lodash'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
 	User = mongoose.model('User');
+	
+var mailchimp = require(path.resolve('./config/lib/mailchimp'));
 
 /**
  * Update user details
@@ -17,36 +19,41 @@ var _ = require('lodash'),
 exports.update = function (req, res) {
 	// Init Variables
 	var user = req.user;
-
-	// For security measurement we remove the roles from the req.body object
-	delete req.body.roles;
-
-	if (user) {
-		// Merge existing user
-		user = _.extend(user, req.body);
-		user.updated = Date.now();
-		user.displayName = user.firstName + ' ' + user.lastName;
-
-		user.save(function (err) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			} else {
-				req.login(user, function (err) {
-					if (err) {
-						res.status(400).send(err);
-					} else {
-						res.json(user);
-					}
-				});
-			}
-		});
-	} else {
-		res.status(400).send({
+	
+	if (!user) {
+        return res.status(400).send({
 			message: 'User is not signed in'
 		});
 	}
+	
+	// For security measurement we remove the roles from the req.body object
+	delete req.body.roles;
+
+    //TODO: new emails need to be validated
+    var original_email = user.email;
+    
+    user = _.extend(user, req.body);
+    user.updated = Date.now();
+    user.displayName = user.firstName + ' ' + user.lastName;
+    
+    user.save()
+        .then(() => {
+            return mailchimp.put(user, original_email);
+        })
+	    .then(() => {
+	        req.login(user, function (err) {
+				if (err) {
+					res.status(400).send(err);
+				} else {
+					res.json(user);
+				}
+			});
+	    })
+	    .catch((err) => {
+	        return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+	    });
 };
 
 /**

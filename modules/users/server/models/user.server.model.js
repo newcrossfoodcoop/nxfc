@@ -103,6 +103,10 @@ var UserSchema = new Schema({
 	},
   	resetPasswordExpires: {
   		type: Date
+  	},
+  	newsletter: {
+  	    type: Boolean,
+  	    default: false
   	}
 });
 

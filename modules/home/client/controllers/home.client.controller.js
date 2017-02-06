@@ -6,6 +6,7 @@ angular.module('home').controller('HomeModuleController', ['$scope', '$state', '
 		$scope.$state = $state;
 		$scope.authentication = Authentication;
 		$scope.magicmenu = Menus.getMenu('magicmenu');
+		$scope.activationDetails = {newsletter: true};
 
 		// Toggle the menu items
 		$scope.isCollapsed = false;
@@ -33,7 +34,7 @@ angular.module('home').controller('HomeModuleController', ['$scope', '$state', '
 
 			$http.post('/api/activate/' + $stateParams.token, $scope.activationDetails).success(function(response) {
 				// If successful show success message and clear form
-				$scope.activationDetails = null;
+				$scope.activationDetails = {newsletter: true};
 				$scope.success = 'Account Activated!';
 
 				// Attach user profile

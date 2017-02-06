@@ -15,5 +15,6 @@ module.exports = function(app) {
         .get(home.validateActivationToken)
         .post(home.activate);
         
-    app.route('/register-interest').post(home.registerInterest);
+    //app.route('/register-interest').post(home.registerInterest);
+    app.route('/register-interest').post(home.registerInterestAndSendActivation);
 };

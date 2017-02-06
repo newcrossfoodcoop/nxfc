@@ -4,8 +4,7 @@
  * Module dependencies.
  */
 var path = require('path'),
- 	config = require(path.resolve('./config/config')),
-	nodemailer = require('nodemailer');
+ 	config = require(path.resolve('./config/config'));
 
 var mongoose = require('mongoose'),
     _ = require('lodash'),
@@ -14,6 +13,8 @@ var mongoose = require('mongoose'),
 
 var util = require('util');
 var thenify = require('thenify');
+var mailer = require(path.resolve('./config/lib/mailer'));
+var mailchimp = require(path.resolve('./config/lib/mailchimp'));
 
 class UserError extends Error {}
 
@@ -57,37 +58,109 @@ exports.renderHoldingPage = function(req, res, next) {
     }
 };
 
-function registerInterest(req, callback) {
-    crypto.randomBytes(20, function(err, buffer) {
-	    var token = buffer.toString('hex');
-        var user = new User({
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            displayName: req.body.firstName + ' ' + req.body.lastName,
-            state: 'interested',
-            provider: 'local',
-            username: token,
-            password: token,
-            postcode: req.body.postcode
+function registerInterest(req) {
+    return thenify(crypto.randomBytes)(20)
+        .then((buffer) => {
+            var token = buffer.toString('hex');
+            var user = new User({
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                displayName: req.body.firstName + ' ' + req.body.lastName,
+                state: 'interested',
+                provider: 'local',
+                username: token,
+                password: token,
+                postcode: req.body.postcode
+            });
+            return user.save();
         });
-        user.save(callback);
-    });
 }
 
 exports.registerInterest = function(req, res) {
-    registerInterest(req, (err,user) => {
-        if (err) {
-            console.error(err);
-            res.status('400').send({ message: getErrorMessage(err) });
-        }
-        else {
+    registerInterest(req)
+        .then((user) => {
             res.jsonp({ 'message': util.format(
                 'Thanks %s! We have your details and will be in touch!', 
                 user.firstName 
             ) });
-        }
-    });
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status('400').send({ message: getErrorMessage(err) });
+        });
+};
+
+function sendActivation(req, res, user) {
+    return Promise.resolve(user)
+        .then(() => {
+	        if (!user) { throw new UserError('User not found'); }
+	        
+	        var token = user.username;
+	        
+	        var opts = {
+			    name: user.displayName,
+			    appName: config.app.title,
+			    url: 'http://' + req.headers.host + '/api/activate/' + token
+		    };
+		
+		    return thenify(res.render).call(res,path.resolve('modules/home/server/templates/activate-email'), opts);
+	    })
+	    .then((emailHTML) => {
+		    var mailOptions = {
+			    to: user.email,
+			    from: config.mailer.from,
+			    subject: 'Account Activation',
+			    html: emailHTML
+		    };
+		    return mailer.sendMail(mailOptions);
+	    });
+}
+
+/**
+ * Send activation email (activate GET)
+ */
+exports.sendActivation = function(req, res, next) {
+    
+    var user = null;
+	User.findOne({
+		username: req.params.token,
+		state: 'interested'
+	}, '-salt -password')
+	.then((_user) => {
+	    user = _user;
+	    return sendActivation(req,res,user);
+	})
+	.then(() => {
+	    res.send({
+			message: 'An email has been sent to ' + user.email + ' with further instructions.'
+		});
+	})
+	.catch((err) => {
+	    res.status(400).send({ message: getErrorMessage(err) });
+	});
+	
+};
+
+exports.registerInterestAndSendActivation = function(req, res) {
+
+    var user = null;
+    
+    registerInterest(req)
+        .then((_user) => {
+            user = _user;
+            return sendActivation(req,res,user);
+        })
+        .then(() => {
+            res.jsonp({ 'message': util.format(
+                'Thanks %s! We have sent and activation email to %s', 
+                user.firstName, user.email
+            ) });
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status('400').send({ message: getErrorMessage(err) });
+        });
 };
 
 exports.checkBasicAuth = function(req, res, next) {
@@ -114,14 +187,21 @@ exports.checkBasicAuth = function(req, res, next) {
     // * second value the expected password
     function returnUnAuthorized(res) {
         if (req.path === '/register-interest' && req.body.email) {
-            registerInterest(req, function(err) {
-                res.statusCode = err ? 400 : 200;
-                res.render('modules/home/server/views/holding', {
-                    errors: err ? _(err.errors).values().pluck('message').value() : undefined,
-                    message: 'Thanks ' + req.body.firstName + ', we\'ll be in touch!',
-                    production: process.env.NODE_ENV === 'production'
+            registerInterest(req)
+                .then((user) => {
+                    res.statusCode = 200;
+                    res.render('modules/home/server/views/holding', {
+                        message: 'Thanks ' + req.body.firstName + ', we\'ll be in touch!',
+                        production: process.env.NODE_ENV === 'production'
+                    });
+                })
+                .catch((err) => {
+                    res.statusCode = 400;
+                    res.render('modules/home/server/views/holding', {
+                        errors: err ? _(err.errors).values().pluck('message').value() : undefined,
+                        production: process.env.NODE_ENV === 'production'
+                    });
                 });
-            });
         } else {
             // any of the tests failed
             // send an Basic Auth request (HTTP Code: 401 Unauthorized)
@@ -148,51 +228,6 @@ exports.checkBasicAuth = function(req, res, next) {
         // continue with processing, user was authenticated
         next();
     }
-};
-
-/**
- * Send activation email (activate GET)
- */
-exports.sendActivation = function(req, res, next) {
-    
-    var user = null;
-	User.findOne({
-		username: req.params.token,
-		state: 'interested'
-	}, '-salt -password')
-	.then((_user) => {
-	    user = _user;
-	    if (!user) { throw new UserError('User not found'); }
-	    
-	    var token = user.username;
-	    
-	    var opts = {
-			name: user.displayName,
-			appName: config.app.title,
-			url: 'http://' + req.headers.host + '/api/activate/' + token
-		};
-		
-		return thenify(res.render).call(res,path.resolve('modules/home/server/templates/activate-email'), opts);
-	})
-	.then((emailHTML) => {
-	    var smtpTransport = nodemailer.createTransport(config.mailer.options);
-		var mailOptions = {
-			to: user.email,
-			from: config.mailer.from,
-			subject: 'Account Activation',
-			html: emailHTML
-		};
-		return thenify(smtpTransport.sendMail).call(smtpTransport,mailOptions);
-	})
-	.then(() => {
-	    res.send({
-			message: 'An email has been sent to ' + user.email + ' with further instructions.'
-		});
-	})
-	.catch((err) => {
-	    res.status(400).send({ message: getErrorMessage(err) });
-	});
-	
 };
 
 /**
@@ -243,6 +278,7 @@ exports.activate = function(req, res, next) {
 		user.resetPasswordExpires = undefined;
 		user.postcode = activationDetails.postcode;
 		user.username = activationDetails.username;
+		user.newsletter = activationDetails.newsletter;
 		user.state = 'active';
 
         return user.save();
@@ -263,16 +299,17 @@ exports.activate = function(req, res, next) {
 		});
 	})
 	.then((emailHTML) => {
-	    var smtpTransport = nodemailer.createTransport(config.mailer.options);
 		var mailOptions = {
 			to: user.email,
 			from: config.mailer.from,
 			subject: 'Your account has been activated',
 			html: emailHTML
 		};
-		
-		return thenify(smtpTransport.sendMail).call(smtpTransport,mailOptions);
-	})	
+		return mailer.sendMail(mailOptions);
+	})
+	.then(() => {
+	    return mailchimp.put(user, user.email);
+	})
     .catch((err) => {
         return res.status(400).send({
 			message: getErrorMessage(err)

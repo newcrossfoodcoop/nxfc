@@ -48,8 +48,11 @@
 
 		it('$scope.signin() should login with a correct user and password', function() {
 			// Test expected GET request
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
+			$httpBackend.expectGET('modules/home/views/menu.client.view.html').respond('');
 			$httpBackend.when('POST', '/api/auth/signin').respond(200, 'Fred');
-
+			$httpBackend.expectGET('modules/home/views/home.client.view.html').respond('');
+            
 			scope.signin();
 			$httpBackend.flush();
 
@@ -60,9 +63,12 @@
 
 		it('$scope.signin() should fail to log in with nothing', function() {
 			// Test expected POST request
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectPOST('/api/auth/signin').respond(400, {
 				'message': 'Missing credentials'
 			});
+            $httpBackend.expectGET('modules/home/views/menu.client.view.html').respond('');
+            $httpBackend.expectGET('modules/home/views/home.client.view.html').respond('');
 
 			scope.signin();
 			$httpBackend.flush();
@@ -77,9 +83,12 @@
 			scope.credentials = 'Bar';
 
 			// Test expected POST request
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.expectPOST('/api/auth/signin').respond(400, {
 				'message': 'Unknown user'
 			});
+			$httpBackend.expectGET('modules/home/views/menu.client.view.html').respond('');
+			$httpBackend.expectGET('modules/home/views/home.client.view.html').respond('');
 
 			scope.signin();
 			$httpBackend.flush();
@@ -91,7 +100,10 @@
 		it('$scope.signup() should register with correct data', function() {
 			// Test expected GET request
 			scope.authentication.user = 'Fred';
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.when('POST', '/api/auth/signup').respond(200, 'Fred');
+            $httpBackend.expectGET('modules/home/views/menu.client.view.html').respond('');
+			$httpBackend.expectGET('modules/home/views/home.client.view.html').respond('');
 
 			scope.signup();
 			$httpBackend.flush();
@@ -104,9 +116,12 @@
 
 		it('$scope.signup() should fail to register with duplicate Username', function() {
 			// Test expected POST request
+			$httpBackend.expectGET('/api/40/pickups/active').respond([]);
 			$httpBackend.when('POST', '/api/auth/signup').respond(400, {
 				'message': 'Username already exists'
 			});
+            $httpBackend.expectGET('modules/home/views/menu.client.view.html').respond('');
+			$httpBackend.expectGET('modules/home/views/home.client.view.html').respond('');
 
 			scope.signup();
 			$httpBackend.flush();

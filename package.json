@@ -36,6 +36,8 @@
     "glob": "^7.0.6",
     "helmet": "~0.4.0",
     "lodash": "^4.16.4",
+    "mailchimp-api-v3": "^1.7.0",
+    "md5": "^2.2.1",
     "method-override": "~2.3.0",
     "mongoose": "^4.6.3",
     "mongoose-version": "^1.0.0",
