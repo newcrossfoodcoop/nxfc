@@ -13,7 +13,7 @@ var acl = new Acl(new Acl.memoryBackend());
  */
 exports.invokeRolesPolicies = function() {
 	acl.allow([{
-		roles: ['admin'],
+		roles: ['admin','manager'],
 		allows: [{
 			resources: '/api/activate/:token',
 			permissions: 'put'
