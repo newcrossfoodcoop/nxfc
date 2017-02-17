@@ -10,6 +10,7 @@ services:
     volumes:
       - "./modules:/home/app/modules" 
       - "./uploads:/home/app/uploads"
+      - "./config:/home/app/config"
     depends_on:
       - mongo
       - catalogue
