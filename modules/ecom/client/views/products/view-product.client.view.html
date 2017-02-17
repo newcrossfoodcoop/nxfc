@@ -38,30 +38,42 @@
 	        </small>
 	    </div>
 	    <div class="col-sm-9 col-md-9">
-	        <div>
-                <div class="form-group">
+	        <div class="row">
+                <div class="form-group col-sm-6 col-md-6">
                     <label>Price:</label>
                     <p data-ng-bind="product.price | currency:'£'"></p>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6 col-md-6">
                     <label>Size:</label>
                     <p data-ng-bind="product.size"></p>
                 </div>
-        	    <div class="form-group">
+        	    <div class="form-group col-sm-6 col-md-6">
                     <label>VAT Code:</label>
                     <p data-ng-bind="product.VATcode"></p>
                 </div>	 
-                <div class="form-group">
-                    <label>Description:</label>
-                    <p data-ng-bind="product.description"></p>
-                </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6 col-md-6">
                     <label>Brand:</label>
                     <p data-ng-bind="product.brand"></p>
                 </div>
-                <div class="form-group">
+                <div class="form-group col-sm-6 col-md-6">
                     <label>Tags:</label>
                     <p data-ng-bind="product.tags"></p>
+                </div>
+                <div class="form-group col-sm-6 col-md-6">
+                    <label>Categories:</label>
+                    <p data-ng-bind="product.categories"></p>
+                </div>
+                <div class="form-group col-sm-6 col-md-6">
+                    <label>Published:</label>
+                    <p data-ng-bind="product.published"></p>
+                </div>
+                <div class="form-group col-sm-12 col-md-12">
+                    <label>Annotation:</label>
+                    <p data-ng-bind="product.annotation"></p>
+                </div>
+                <div class="form-group col-sm-12 col-md-12">
+                    <label>Description:</label>
+                    <p data-ng-bind="product.description"></p>
                 </div>
             </div>
             <div class="row">

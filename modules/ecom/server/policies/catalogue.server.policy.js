@@ -55,6 +55,9 @@ exports.invokeRolesPolicies = function() {
 		}, {
 			resources: '/api/10/products/{productId}',
 			permissions: '*'
+		}, {
+			resources: '/api/10/products/all',
+			permissions: '*'
 		}]
 	}, {
 		roles: ['manager'],
@@ -69,6 +72,9 @@ exports.invokeRolesPolicies = function() {
 			permissions: ['get']
 		}, {
 			resources: '/api/10/products/tags',
+			permissions: ['get']
+		}, {
+			resources: '/api/10/products/categories',
 			permissions: ['get']
 		}, {
 			resources: '/api/10/products/count',

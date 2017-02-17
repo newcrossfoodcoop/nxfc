@@ -42,7 +42,9 @@ services:
     command: gulp api
       
   catalogue:
-    image: newcrossfoodcoop/nxfc_catalogue:latest
+    build: ../nxfc_catalogue
+    volumes:
+      - "../nxfc_catalogue/api:/home/app/api"
     ports:
       - "3010:3010"
     depends_on:
@@ -54,7 +56,9 @@ services:
     command: gulp api
 
   catalogue_worker:
-    image: newcrossfoodcoop/nxfc_catalogue:latest
+    build: ../nxfc_catalogue
+    volumes:
+      - "../nxfc_catalogue/worker:/home/app/worker"
     ports:
       - "3014:3014"
     depends_on:

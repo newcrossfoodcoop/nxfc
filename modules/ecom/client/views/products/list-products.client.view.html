@@ -1,4 +1,4 @@
-<section data-ng-controller="ProductsController" data-ng-init="find()">
+<section data-ng-controller="ProductsController" data-ng-init="findAll()">
     
     <div class="row page-header">
 	    <div class="col-md-9">
@@ -57,8 +57,8 @@
 			<small class="list-group-item-text">
 				Created on
 				<span data-ng-bind="product.created | date:'mediumDate'"></span>
-				by
-				<span data-ng-bind="product.user.displayName"></span>
+				supplied by
+				<span data-ng-bind="product.supplier"></span>
 			</small>
 		    <h4 class="list-group-item-heading" data-ng-bind="product.name"></h4>
 			<p class="list-group-item-text" data-ng-bind="product.description"></p>

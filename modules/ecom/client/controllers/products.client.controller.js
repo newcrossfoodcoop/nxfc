@@ -1,8 +1,8 @@
 'use strict';
 
 // Products controller
-angular.module('ecom').controller('ProductsController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Products',
-	function($scope, $stateParams, $location, Authorisation, Products ) {
+angular.module('ecom').controller('ProductsController', ['$scope', '$stateParams', '$location', 'Authorisation', 'Products', 'lodash',
+	function($scope, $stateParams, $location, Authorisation, Products, lodash ) {
 		$scope.authorisation = Authorisation;
 
 		// Create new Product
@@ -50,35 +50,112 @@ angular.module('ecom').controller('ProductsController', ['$scope', '$stateParams
 			});
 		};
 
+		function makeQuery() {
+		    var query = {};
+		    
+		    if ($scope.searchTerms) {
+		        query.textsearch = $scope.searchTerms;
+		    }
+		    
+		    var tags = lodash($scope.tagset)
+		        .pairs()
+		        .map(function(pair) { return pair[1] ? pair[0] : null; })
+		        .filter()
+		        .valueOf();
+		        
+		    if (tags.length > 0) {
+		        query.tags = tags;
+		    }
+		    
+		    var categories = lodash($scope.categoryset)
+		        .pairs()
+		        .map(function(pair) { return pair[1] ? pair[0] : null; })
+		        .filter()
+		        .valueOf();
+		    
+		    if (categories.length > 0) {
+		        query.categories = categories;
+		    }
+		    
+		    return query;
+		}
+				
+		function pageChanged() {
+		    var query = makeQuery();
+		    
+		    Products.count(query).$promise
+		        .then(function(res) { 
+			        $scope.totalItems = res.count;
+			        query.pagenumber = $scope.currentPage;
+			        query.itemsperpage = $scope.itemsPerPage;
+			        return Products.query(query).$promise;
+			    })
+			    .then(function(products) {
+			        $scope.products = products;
+			    });
+		}
+		
+		function pageChangedAll() {
+		    var query = makeQuery();
+		    
+		    Products.count(query).$promise
+		        .then(function(res) { 
+			        $scope.totalItems = res.count;
+			        query.pagenumber = $scope.currentPage;
+			        query.itemsperpage = $scope.itemsPerPage;
+			        return Products.all(query).$promise;
+			    })
+			    .then(function(products) {
+			        $scope.products = products;
+			    });
+		}
+
 		// Find a list of Products
 		$scope.find = function() {
 		    $scope.currentPage = $scope.currentPage || 1;
 		    $scope.itemsPerPage = $scope.itemsPerPage || 20;
 		    $scope.maxSize = $scope.maxSize || 5;
+		    $scope.pageChanged = pageChanged;
+		    $scope.tagset = {};
+		    $scope.categoryset = {};
 			$scope.pageChanged();
-			Products.count(function(res) { $scope.totalItems = res.count; });
-			Products.tags(function(tags) {
-			    var aheads = tags;
-			    $scope.tags = tags; 
-			    Products.supplierCodes(function(supplierCodes) { 
-			        $scope.supplierCodes = supplierCodes;
-			        aheads = aheads.concat(supplierCodes);
-			        Products.brands(function(brands) { 
-			            $scope.brands = brands;
-			            aheads = aheads.concat(brands);
-			            $scope.aheads = aheads;
-			        });
-			    });
-			});
-
+			$scope.refreshTags();
 		};
 		
-		$scope.pageChanged = function() {
-		    $scope.products = Products.query({
-		        pagenumber: $scope.currentPage,
-		        textsearch: $scope.searchTerms,
-			    itemsperpage: $scope.itemsPerPage
-		    });
+		$scope.findAll = function() {
+		    $scope.currentPage = $scope.currentPage || 1;
+		    $scope.itemsPerPage = $scope.itemsPerPage || 20;
+		    $scope.maxSize = $scope.maxSize || 5;
+		    $scope.pageChanged = pageChangedAll;
+		    $scope.tagset = {};
+		    $scope.categoryset = {};
+			$scope.pageChanged();
+			$scope.refreshTags();
+		};
+		
+		$scope.refreshTags = function() { 
+			var aheads = null;
+			Products.tags().$promise
+			    .then(function(tags) {
+			        aheads = tags;
+			        $scope.tags = tags; 
+			        return Products.supplierCodes().$promise;
+			     })
+		        .then(function(supplierCodes) { 
+		            $scope.supplierCodes = supplierCodes;
+		            aheads = aheads.concat(supplierCodes);
+		            return Products.brands().$promise;
+		        })
+		        .then(function(brands) { 
+		            $scope.brands = brands;
+		            aheads = aheads.concat(brands);
+		            $scope.aheads = aheads;
+		        });
+		        
+		    Products.categories().$promise
+		        .then(function(categories) {
+		            $scope.categories = categories;
+		        });
 		};
 		
 		$scope.doSearch = function(searchTerms) {
@@ -86,12 +163,6 @@ angular.module('ecom').controller('ProductsController', ['$scope', '$stateParams
 		        $scope.searchTerms = searchTerms;
 		    }
 		    $scope.currentPage = 1;
-		    Products.count(
-		        {textsearch: $scope.searchTerms}, 
-		        function(res) { 
-		            $scope.totalItems = res.count; 
-		        }
-		    );
 		    $scope.pageChanged();
 		};
 		

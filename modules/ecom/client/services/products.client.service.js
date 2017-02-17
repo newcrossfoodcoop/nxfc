@@ -17,6 +17,16 @@ angular.module('ecom').factory('Products', ['$resource',
 			    url: '/api/10/products/tags',
 			    isArray: true
 			},
+			categories: {
+			    method: 'GET',
+			    url: '/api/10/products/categories',
+			    isArray: true
+			},
+			all: {
+			    method: 'GET',
+			    url: '/api/10/products/all',
+			    isArray: true
+			},
 			brands: {
 			    method: 'GET',
 			    url: '/api/10/products/brands',

@@ -159,8 +159,13 @@ resourceTypes:
         type: "string"
       tags:
         type: "string"
+        repeat: true
+      categories:
+        type: "string"
+        repeat: true
       id:
         type: "string"
+        repeat: true
       sort:
         type: "string"
         default: "name"
@@ -171,6 +176,10 @@ resourceTypes:
         tags: 
           description: comma delimited tag names
           type: string
+          repeat: true
+        categories: 
+          type: string
+          repeat: true
         textsearch:
           description: search string 
           type: string
@@ -219,6 +228,43 @@ resourceTypes:
                   "type": "array",
                   "properties": "string"
                 }
+  /all:
+    get:
+      description: search products, including unpublished products
+      queryParameters:
+        itemsperpage:
+          type: "integer"
+          default: 20
+        pagenumber:
+          type: "integer"
+          default: 1
+        textsearch:
+          type: "string"
+        tags:
+          type: "string"
+          repeat: true
+        categories:
+          type: "string"
+          repeat: true
+        id:
+          type: "string"
+          repeat: true
+        sort:
+          type: "string"
+          default: "name"
+        published:
+          type: "boolean"
+      responses:
+        200:
+          body:
+            application/json:
+              schema: |
+                {
+                  "$schema": "http://json-schema.org/draft-03/schema#", 
+                  "type": "array", 
+                  "properties": { "$ref": "Product" } 
+                }
+              example: "[]"
   /{productId}:
     type: { typedMember: { schema: Product } }
 
