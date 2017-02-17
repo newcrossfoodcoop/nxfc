@@ -90,11 +90,11 @@ exports.invokeRolesPolicies = function() {
 			        permissions: 'get'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/open',
+			        resources: '/api/40/pickups/open',
 			        permissions: 'get'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/active',
+			        resources: '/api/40/pickups/active',
 			        permissions: 'get'
 		        },
 		        {
@@ -107,11 +107,11 @@ exports.invokeRolesPolicies = function() {
 		    roles: ['user', 'guest'],
 		    allows: [
 		        {
-			        resources: '/api/40/pickups/{pickupId}/open',
+			        resources: '/api/40/pickups/open',
 			        permissions: 'get'
 		        },
 		        {
-			        resources: '/api/40/pickups/{pickupId}/active',
+			        resources: '/api/40/pickups/active',
 			        permissions: 'get'
 		        }
 		    ]
@@ -128,6 +128,7 @@ exports.isAllowed = function(req, res, next) {
 
 	// Check for user roles
 	acl.areAnyRolesAllowed(roles, resource, req.method.toLowerCase(), function(err, isAllowed) {
+	    
 		if (err) {
 			// An authorization error occurred.
 			return res.status(500).send('Unexpected authorization error');

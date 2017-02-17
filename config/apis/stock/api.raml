@@ -123,31 +123,6 @@ resourceTypes:
             "end": "2016-10-28T16:00:00.000Z",
             "state": "open"
           }
-
-  /{pickupId}:
-    type: { typedMember: { schema: Pickup } }
-    put:
-      description: Update Pickup
-      body:
-        application/json:
-          schema: Pickup
-          example: |
-            {
-              "description": "Updated description"
-            }
-      responses:
-        200:
-          body:
-            application/json:
-              schema: Pickup
-    /close:
-      get:
-        description: "Close a pickup (prevent new orders)"
-        responses:
-          200:
-            body:
-              application/json:
-                schema: Pickup
   /open:
     description: List open pickups
     get:
@@ -175,6 +150,30 @@ resourceTypes:
                     "properties": { "$ref": "Pickup" } 
                   }
 
+  /{pickupId}:
+    type: { typedMember: { schema: Pickup } }
+    put:
+      description: Update Pickup
+      body:
+        application/json:
+          schema: Pickup
+          example: |
+            {
+              "description": "Updated description"
+            }
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Pickup
+    /close:
+      get:
+        description: "Close a pickup (prevent new orders)"
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Pickup
 
 /checkouts:
   displayName: Checkout

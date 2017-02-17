@@ -48,9 +48,9 @@ module.exports = function(app) {
         next();
     };
     
-    app.use('/api/40', express.Router().use(
-        ramlMiddleware, stockPolicy.isAllowed, proxyMiddleware
-    ));
+    app.use('/api/40', express.Router()
+        .use(ramlMiddleware, stockPolicy.isAllowed, proxyMiddleware)
+    );
 
     apis.stock.raml
         .then(function(raml) { _middleware = osprey.server(raml); })
