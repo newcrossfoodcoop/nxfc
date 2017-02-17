@@ -7,6 +7,10 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 		//If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
 
+        if ($location.search().username) {
+            $scope.passwordDetails = { username: $location.search().username };
+        }
+
 		// Submit forgotten password account id
 		$scope.askForPasswordReset = function() {
 			$scope.success = $scope.error = null;

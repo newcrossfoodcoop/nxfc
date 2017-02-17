@@ -9,6 +9,8 @@ var config = require('../config'),
 	_ = require('lodash'),
 	mongoose = require('mongoose');
 
+mongoose.Promise = global.Promise;
+
 // Load the mongoose models
 module.exports.loadModels = function() {
 	// Globbing model files
