@@ -3,13 +3,18 @@
 		<h1>Order History</h1>
 	</div>
 	
+	<button class="btn btn-primary" ng-print print-element-id="printThisElement"><i class="fa fa-print"></i> Print</button>
+	
 	<tabset vertical="true" type="pills" class="col-md-3">
         <tab ng-repeat="order in history" heading="{{order.created|date:'d/M/yy HH:mm'}} {{order.state}}" active="order.active" disabled="order.disabled"></tab>
     </tabset>
     
+    <div id="printThisElement">
+    <h1 ng-show="ngPrinting">Eat A Rainbow CIC - Order Confirmation</h1>
     <div ng-repeat="order in history" class="col-md-9" ng-show="order.active">
         <h3>Created: {{order.created|date:'d/M/yy HH:mm'}}<br>State: {{order.state}}</h3>
         <div order-items></div>
+	</div>
 	</div>
 	
 </section>

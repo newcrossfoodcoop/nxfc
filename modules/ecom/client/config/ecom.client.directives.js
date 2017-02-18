@@ -41,7 +41,11 @@ angular.module('ecom').directive('ngPrint', function() {
         element.on('click', function () {
             var elemToPrint = document.getElementById(attrs.printElementId);
             if (elemToPrint) {
+                scope.ngPrinting = true;
+                scope.$apply();
                 printElement(elemToPrint);
+                scope.ngPrinting = false;
+                scope.$apply();
             }
         });
 

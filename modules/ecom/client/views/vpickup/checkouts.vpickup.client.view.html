@@ -1,5 +1,7 @@
 <div data-ng-controller="SpickupsController" data-ng-init="findCheckouts()">
 
+    <button class="btn btn-primary" ng-print print-element-id="printThisElement"><i class="fa fa-print"></i> Print</button>
+
     <tabset vertical="true" type="pills" class="col-md-3">
         <tab ng-repeat="checkout in checkouts" heading="{{checkout._id.user.username}} ({{checkout._id.created|date:'d/M/yy HH:mm'}}) {{checkout._id.state}}" active="checkout.active" disabled="checkout.disabled"></tab>
     </tabset>
@@ -8,7 +10,8 @@
 	    <strong data-ng-bind="error"></strong>
     </div>
     
-    <div ng-repeat="checkout in checkouts" class="col-md-9" ng-show="checkout.active">
+    <div id="printThisElement">
+    <div ng-repeat="checkout in checkouts" class="col-md-9 pageBreak" ng-show="ngPrinting || checkout.active">
         <h3>Checkout: {{checkout._id.user.username}} ({{checkout._id.created|date:'d/M/yy HH:mm'}}) {{checkout._id.state}}</h3>
         <div class="row">
             <div class="col-xs-6">
@@ -84,6 +87,7 @@
             </div>
         </div>
         
+	</div>
 	</div>
 
     <div class="alert alert-warning text-center" data-ng-hide="!checkouts.$resolved || checkouts.length">

@@ -10,11 +10,23 @@
         display:none;
     }
 
+    .pageBreak {
+        float: none;
+        page-break-after: always;
+        page-break-inside: avoid;
+        position: relative;
+    }
+    
+/*    #printThisElement {*/
+/*        position: relative;*/
+/*    }*/
+
     .printSection, .printSection * {
         display: inline;
     }
 
     .printSection {
+        float: none;
         left:0;
         position:absolute;
         top:0;
