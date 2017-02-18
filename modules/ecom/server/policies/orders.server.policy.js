@@ -21,9 +21,6 @@ exports.invokeRolesPolicies = function() {
 			resources: '/api/orders/{orderId}',
 			permissions: '*'
 		}, {
-			resources: '/api/orders/history',
-			permissions: '*'
-		}, {
 		    resources: '/api/orders/{orderId}/recalculate',
 		    permissions: ['get', 'put']
 		}]
@@ -35,7 +32,11 @@ exports.invokeRolesPolicies = function() {
 		}, {
 			resources: '/api/orders/{orderId}',
 			permissions: ['get']
-		}, {
+		}]
+	}, {
+		roles: ['user'],
+		allows: [{
+		    // Router validates that this is the current user
 			resources: '/api/orders/history/{orderUserId}',
 			permissions: ['get']
 		}]

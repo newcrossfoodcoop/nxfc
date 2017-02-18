@@ -48,21 +48,21 @@
             </accordion-group>
             <accordion-group>
                 <accordion-heading>
-                    <h4 class="text-center">Shop By Brand</h4>
-                </accordion-heading>
-                <ul class="nav nav-stacked nav-pill">
-                    <li data-ng-repeat="brand in brands">
-                        <a ng-click="doSearch(brand);" data-ng-bind="brand"></a>
-                    </li>
-                </ul>
-            </accordion-group>
-            <accordion-group>
-                <accordion-heading>
                     <h4 class="text-center">Shop By Category</h4>
                 </accordion-heading>
                 <ul class="nav nav-stacked nav-pill">
                     <li data-ng-repeat="category in categories">
                         <input type="checkbox" ng-change="doSearch();" ng-model="categoryset[category]">&nbsp;<label>{{category}}</label>
+                    </li>
+                </ul>
+            </accordion-group>
+            <accordion-group>
+                <accordion-heading>
+                    <h4 class="text-center">Shop By Brand</h4>
+                </accordion-heading>
+                <ul class="nav nav-stacked nav-pill">
+                    <li data-ng-repeat="brand in brands">
+                        <a ng-click="doSearch(brand);" data-ng-bind="brand"></a>
                     </li>
                 </ul>
             </accordion-group>
