@@ -52,6 +52,7 @@ angular.module('users').factory('Authorisation', ['Authentication', 'lodash',
 	}
 ]);
 
+// This is where state transitions are checked
 angular.module('users').run(['$rootScope', 'Authorisation', 'lodash',
     function($rootScope, Authorisation, lodash) {
         $rootScope.$on('$stateChangeStart', function(e, to) {

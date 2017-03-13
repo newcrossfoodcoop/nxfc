@@ -82,11 +82,14 @@ angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams
 	        return 'disabled';
 	    };
 		
-		// Find existing Order
+		// Find the current order
 		$scope.findOne = function() {
-			$scope.order = Checkout.get({ 
-				orderId: $stateParams.orderId
-			});
+		    if ($stateParams.order) {
+		        $scope.order = $stateParams.order;
+		    }
+		    else {
+		        $state.go('orders.history');
+		    }
 		};
 		
 		$scope.config = Checkout.config();
@@ -97,9 +100,9 @@ angular.module('ecom').controller('CheckoutController', ['$scope', '$stateParams
 		    var orderId = order._id;
 		    order.$confirm(
 		        { method: $stateParams.method, token: $stateParams.token },
-		        function() {
+		        function(rval) {
 		            Basket.clear();
-		            $state.go('confirmedOrder', { 'orderId': orderId }); 
+		            $state.go('confirmedOrder', { 'orderId': orderId, order: rval, method: $stateParams.method }); 
 		        },
 		        function(errorResponse) {
 		            $scope.error = errorResponse.data.message;

@@ -13,6 +13,10 @@ angular.module('ecom').run(['Authorisation', function(Authorisation) {
         roles: ['manager'],
         resources: ['pickups'],
         permissions: ['menu']
+    },{
+        roles: ['user'],
+        resources: ['orders'],
+        permissions: ['history']
     }]);
 }]);
 

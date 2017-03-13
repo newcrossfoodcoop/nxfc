@@ -3,7 +3,7 @@
 //Checkout service used to communicate Checkout REST endpoints
 angular.module('ecom').factory('Checkout', ['$resource', 'lodash',
 	function($resource, lodash) {
-		var Checkout = $resource('/api/orders/:orderId', 
+		var Checkout = $resource('/api/checkout', 
 		    { 
 		        orderId: '@_id',
 		        method: '@method',

@@ -25,7 +25,8 @@ angular.module('ecom').config(['$stateProvider', '$urlRouterProvider',
 		}).
 		state('confirmedOrder', {
 			url: '/checkout/:method/:orderId/confirm',
-			templateUrl: 'modules/ecom/views/checkout/confirmed-checkout.client.view.html'
+			templateUrl: 'modules/ecom/views/checkout/confirmed-checkout.client.view.html',
+			params: { order: null }
 		}).
 		state('redirectedOrder', {
 			url: '/checkout/:method/:orderId/redirected?token&PayerID',
